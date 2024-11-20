@@ -1,0 +1,55 @@
+{% trans_default_domain 'admin.products.product' %}
+
+<div class="card w-100 border-light mb-3">
+    <div class="card-header border-light bg-body">
+        <div class="card-title">
+            <h6>
+                Фото модификации множественного варианта
+            </h6>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div id="collection_{{ modification.vars.id }}" class="d-flex gap-5 flex-wrap">
+            {% for image in modification.image %}
+                {{ include(_self|replace({ "_collection.html.twig": "_image.html.twig" })) }}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card-footer border-light bg-body d-flex justify-content-between align-items-center">
+
+        <div class="text-muted fs-7 small">
+            {# Принимаются только файлы изображений .png, .jpg, .jpeg, .gif и .webp #}
+            {{ 'Принимаются только файлы изображений .png, .jpg, .jpeg, .gif и .webp'|trans }}
+        </div>
+
+        <button type="button"
+                class="btn btn-sm btn-outline-primary border-0 modification-image-add-collection"
+                data-prototype="prototype.modification.image"
+                data-offer="{{ offer.vars.name }}"
+                data-variation="{{ variation.vars.name }}"
+                data-modification="{{ modification.vars.name }}"
+                data-index="{{ modification.image.count }}"
+                data-id='{{ modification.vars.id }}'
+        >
+			<span class="svg-icon svg-icon-2">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+					<rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)"
+                          fill="currentColor">
+				</rect>
+					<rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor"></rect>
+				</svg>
+			</span>
+
+
+            Добавить фото модификации "{{ offer.variation.vars.prototype.modification.vars.prototype.value.vars.label }}
+            "
+        </button>
+
+    </div>
+
+</div>
+
+
+

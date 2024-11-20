@@ -1,0 +1,69 @@
+{% trans_default_domain 'admin.products.product' %}
+
+<div class="card w-100 border-light mb-3">
+    <div class="card-header border-light bg-body">
+        <div class="card-title">
+            <h6>
+                Фото модификации множественного варианта
+            </h6>
+        </div>
+    </div>
+
+
+    <div class="card-body">
+        <div id="collection_{{ form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.vars.id }}"
+             class="d-flex gap-5 flex-wrap">
+            {# {% for image in modification.image %} #}
+            <div id='item_{{ form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.image.vars.prototype.vars.id|replace({ '__modification_image__' : 0 }) }}'>
+                {# {{ include(_self|replace({ "prototype.collection.html.twig": "prototype.image.html.twig" }))|replace({ '__modification_image__' : 0 })|raw }} #}
+                {{ prototype_modification_image|replace({ '__modification_image__' : 0 })|raw }}
+            </div>
+            {# {% endfor %} #}
+        </div>
+    </div>
+
+
+    {# <div class="card-body">
+		<div id="offer_image_collection-{{ offer.vars.name }}" class="d-flex gap-5 flex-wrap">
+			
+			<div class="item-collection-offer-image-{{ offer.vars.name }}">
+    #}{# {% set image_prototype_name = offer.image.vars.prototype.vars.name %} #}{#
+    {{ include(_self|replace({ "prototype.collection.html.twig": "prototype.image.html.twig" }))|replace({ '__offer_image__' : 0 })|raw }}
+    </div>
+</div>
+</div> #}
+
+
+    <div class="card-footer border-light bg-body d-flex justify-content-between align-items-center">
+
+        <div class="text-muted fs-7 small">
+            {# Принимаются только файлы изображений .png, .jpg, .jpeg, .gif и .webp #}
+            {{ 'Принимаются только файлы изображений .png, .jpg, .jpeg, .gif и .webp'|trans }}
+        </div>
+
+
+        <button type="button"
+                class="btn btn-sm btn-outline-primary border-0 modification-image-add-collection"
+                data-prototype="prototype.modification.image"
+                data-offer="{{ form.offer.vars.prototype.vars.name }}"
+                data-variation="{{ form.offer.vars.prototype.variation.vars.prototype.vars.name }}"
+                data-modification="{{ form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.vars.name }}"
+                data-index="1"
+                data-id='{{ form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.vars.id }}'
+        >
+			<span class="svg-icon svg-icon-2">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+					<rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)"
+                          fill="currentColor">
+				</rect>
+					<rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor"></rect>
+				</svg>
+			</span>
+            Добавить фото модификации
+            "{{ form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.value.vars.label }}"
+        </button>
+
+    </div>
+
+</div>
+

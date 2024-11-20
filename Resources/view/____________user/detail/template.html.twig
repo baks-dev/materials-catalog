@@ -1,0 +1,168 @@
+{# ---- ШАБЛОН ------------------------------------------------------------ #}
+{% extends Template('/user/base.html.twig') %}
+
+{% if card.seo_title %}
+    {% set PRODUCT_NAME = card.seo_title|trans({
+        '%PRODUCT_NAME%' : card.product_name,
+        '%PRODUCT_OFFER%' : card.product_offer_value|call_twig_func(card.product_offer_reference),
+        '%PRODUCT_VARIATION%' : card.product_variation_value|call_twig_func(card.product_variation_reference),
+        '%PRODUCT_MOD%' : card.product_modification_value|call_twig_func(card.product_modification_reference),
+    }) %}
+{% else %}
+    {% set PRODUCT_NAME = card.product_name %}
+    {% set PRODUCT_NAME = PRODUCT_NAME ~ ' ' ~ card.product_offer_value|call_twig_func(card.product_offer_reference) %}
+    {% set PRODUCT_NAME = PRODUCT_NAME ~ ' ' ~ card.product_variation_value|call_twig_func(card.product_variation_reference)
+        ~ card.product_modification_value|call_twig_func(card.product_modification_reference) %}
+    {% set PRODUCT_NAME = PRODUCT_NAME ~ ' ' ~card.product_modification_postfix %}
+{% endif %}
+
+
+{% if card.seo_description %}
+    {% set PRODUCT_DESC = card.seo_description|trans({
+        '%PRODUCT_NAME%' : card.product_name,
+        '%PRODUCT_OFFER%' : card.product_offer_value|call_twig_func(card.product_offer_reference)|trim,
+        '%PRODUCT_VARIATION%' : card.product_variation_value|call_twig_func(card.product_variation_reference)|trim,
+        '%PRODUCT_MOD%' : card.product_modification_value|call_twig_func(card.product_modification_reference)|trim,
+    })|trim %}
+{% else %}
+    {% set PRODUCT_DESC = card.product_preview|striptags %}
+{% endif %}
+
+{% if card.seo_keywords %}
+    {% set PRODUCT_KEYWORDS = card.seo_keywords|trans({
+        '%PRODUCT_NAME%' : card.product_name,
+        '%PRODUCT_OFFER%' : card.product_offer_value|call_twig_func(card.product_offer_reference)|trim,
+        '%PRODUCT_VARIATION%' : card.product_variation_value|call_twig_func(card.product_variation_reference)|trim,
+        '%PRODUCT_MOD%' : card.product_modification_value|call_twig_func(card.product_modification_reference)|trim,
+    })|trim %}
+{% else %}
+    {% set PRODUCT_KEYWORDS = 'Купить ' ~ card.product_name ~ ' по выгодной цене' %}
+{% endif %}
+
+{% block title %}{{ PRODUCT_NAME }}{% endblock %}
+{% block description %}{{ PRODUCT_DESC }}{% endblock %}
+{% block keywords %}{{ PRODUCT_KEYWORDS }}{% endblock %}
+
+{% block meta %}
+
+    {% set product_modification_image = card.product_modification_image|json_decode %}
+    {% set product_variation_image = card.product_variation_image|json_decode %}
+    {% set product_offer_images = card.product_offer_images|json_decode %}
+    {% set product_photo = card.product_photo|json_decode %}
+    {% set root_image = null %}
+
+    {# Определяем главное фото #}
+    {% for modification_image in product_modification_image | filter(img =>  img.product_img_root is defined and img.product_img_root == true) %}
+        {% set root_image = modification_image %}
+    {% endfor %}
+
+    {% if root_image is null %}
+        {% for variation_image in product_variation_image | filter(img => img.product_img_root is defined and img.product_img_root == true) %}
+            {% set root_image = variation_image %}
+        {% endfor %}
+    {% endif %}
+
+    {% if root_image is null %}
+        {% for offer_images in product_offer_images | filter(img => img.product_img_root is defined and img.product_img_root == true) %}
+            {% set root_image = offer_images %}
+
+        {% endfor %}
+    {% endif %}
+
+    {% if root_image is null %}
+        {% for product_images in product_photo | filter(img => img.product_img_root is defined and img.product_img_root == true) %}
+            {% set root_image = product_images %}
+
+        {% endfor %}
+    {% endif %}
+
+    {# Обложка  #}
+    {% set image_path = '/logo.webp' %}
+
+    {% if root_image.product_img_ext is defined and root_image.product_img_ext is not null %}
+        {% set img_host = root_image.product_img_cdn == true  ? CDN_HOST : '' %}
+        {% set img_dir = root_image.product_img %}
+        {% set img_file = (img_host is empty ? '/image.' : '/small.') ~ root_image.product_img_ext %}
+        {% set image_path = img_host ~ img_dir ~ img_file %}
+    {% endif %}
+
+    <meta property="og:locale" content="{{ app.request.getLocale() }}_{{ app.request.getLocale()|upper }}">
+    <meta property="og:type" content="product">
+    <meta property="og:site_name" content="{{ app.request.host }}">
+    <meta property="og:title" content="{{ PRODUCT_NAME }}">
+    <meta property="og:description" content="{{ PRODUCT_DESC }}">
+    <meta property="og:url" content="{{ app.request.uri }}">
+    <meta property="og:image" content="{{ absolute_url( image_path ) }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@https://{{ app.request.host }}">
+    <meta name="twitter:title" content="{{ PRODUCT_NAME }}">
+    <meta name="twitter:description" content="{{ PRODUCT_DESC }}">
+    <meta name="twitter:image:src" content="{{ absolute_url( image_path ) }}">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": "{{ PRODUCT_NAME }}",
+			"image": "{{ absolute_url( image_path ) }}",
+			"description": "{{ PRODUCT_DESC }}",
+			"brand": {
+				"@type": "Brand",
+				"name": "{{ card.category_name }}"
+			},
+			"offers": {
+				"@type": "Offer",
+				"url": "{{ app.request.uri }}",
+				"priceCurrency": "{{ card.product_currency|upper }}",
+				"price": "{{ card.product_price / 100 }}",
+				"availability": "https://schema.org/InStock",
+				"itemCondition": "https://schema.org/NewCondition"
+			}
+		}
+    </script>
+
+
+{% endblock %}
+
+{# ---- КОНТЕНТ-БЛОК ------------------------------------------------------------ #}
+{% block content %}
+    {{ include(_self|replace({ "template.html.twig" : ( baks_settings.device ? : 'pc') ~"/content.html.twig" })) }}
+{% endblock %}
+
+
+{% block javascript %}
+
+<script nonce='{{ csp_nonce() }}' async  data-src="/assets/orders-order/orders_basket.min.js?v={{ version }}" class='lazy'></script>
+<script nonce='{{ csp_nonce() }}' async  data-src="/assets/orders-order/modal_basket.min.js?v={{ version }}" class='lazy'></script>
+
+<script nonce="{{ csp_nonce() }}">
+document.querySelectorAll('.img-product').forEach((el) => el.addEventListener('click', () => document.getElementById('img-product').style.backgroundImage = el.style.backgroundImage ));
+
+/* Счетчик */
+(document.getElementById('plus'))?.addEventListener('click', () => {
+
+    let price_total = document.getElementById('order_product_form_price_total');
+     let result = price_total.value * 1;
+     let max = price_total.dataset.max * 1;
+
+    if(result < max)
+    {
+        document.getElementById('order_product_form_price_total').value = result + 1;
+    }
+
+});
+
+(document.getElementById('minus'))?.addEventListener('click', () => {
+
+    let price_total = document.getElementById('order_product_form_price_total');
+    let result = price_total.value * 1;
+    if(result > 1)
+    {
+        document.getElementById('order_product_form_price_total').value = result - 1
+    }
+});
+
+</script>
+
+{% endblock %}

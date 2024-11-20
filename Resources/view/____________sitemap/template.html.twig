@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    {# Продукция #}
+    {% for url in urls %}
+
+        <url>
+            <loc>
+                {{ absolute_url(path('materials-catalog:user.detail', {
+                    category: url.category_url,
+                    url: url.url,
+                    offer: url.offer_value,
+                    variation: url.variation_value,
+                    modification: url.modification_value,
+                    postfix:  (url.modification_postfix ?: url.variation_postfix ?: url.offer_postfix ?: null )|replace({ '/': '-' })
+                } )) }}
+            </loc>
+            <lastmod>{{ url.modify|date('Y-m-d\\TH:i:sP') }}</lastmod>
+        </url>
+    {% endfor %}
+</urlset>

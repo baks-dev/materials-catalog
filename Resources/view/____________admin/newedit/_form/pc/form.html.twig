@@ -1,0 +1,273 @@
+{% trans_default_domain 'admin.products.product' %}
+
+{# ПРОТОТИПЫ ФОРМЫ #}
+{# {{ include(_self|replace({ "form.html.twig": "prototypes/prototype.category.html.twig" })|e('html_attr'))|e('html_attr') }} #}
+
+
+<div id="prototype.category"
+     data-prototype="{{ include(_self|replace({ "form.html.twig": "prototypes/prototype.category.html.twig" })) |e('html_attr') }}"></div>
+<div id="prototype.gallery.photo"
+     data-prototype="{{ include(_self|replace({ "form.html.twig": "prototypes/gallery/prototype.photo.html.twig" })) |e('html_attr') }}"></div>
+<div id="prototype.gallery.files"
+     data-prototype="{{ include(_self|replace({ "form.html.twig": "prototypes/gallery/prototype.files.html.twig" })) |e('html_attr') }}"></div>
+<div id="prototype.gallery.video"
+     data-prototype="{{ include(_self|replace({ "form.html.twig": "prototypes/gallery/prototype.video.html.twig" })) |e('html_attr') }}"></div>
+
+
+{# ПРОТОТИПЫ МОДИФИКАЦИИ МНОЖЕСТВЕННЫХ ВАРИАНТОВ ТОРГОВЫХ ПРЕДЛОЖЕНИЙ #}
+
+
+
+
+    {% set offer_first = false %}
+    {% set variation_first = false %}
+    {% set modification_first = false %}
+
+
+    {% if form.offer is defined %}
+
+        {% set offer_first = (form.offer.children|first) %}
+
+        {% if offer_first.variation is defined %}
+
+            {% set variation_first = offer_first.variation.children|first %}
+
+            {% if variation_first.modification is defined %}
+
+                {% set modification_first = variation_first.modification.children|first %}
+
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+
+
+
+
+    {% if modification_first %}
+
+
+
+        {% if modification_first.image is defined %}
+
+            {% set prototype_modification_image %}
+                {{ include(_self|replace({ "form.html.twig": "prototypes/modification/prototype.image.html.twig" })) }}
+            {% endset %}
+
+            {% set prototype_modification_collection %}
+                {{ include(_self|replace({ "form.html.twig": "prototypes/modification/prototype.collection.html.twig" })) }}
+            {% endset %}
+
+            <div id="prototype.modification.image"
+                 data-prototype="{{ prototype_modification_image|e('html_attr') }}"></div>
+
+        {% endif %}
+
+        {% set prototype_modification %}
+            {{ include(_self|replace({ "form.html.twig": "prototypes/modification/prototype.modification.html.twig" })) }}
+        {% endset %}
+
+
+        <div id="prototype.modification" data-prototype="{{ prototype_modification|e('html_attr') }}"></div>
+
+
+    {% endif %}
+
+
+
+
+    {# ПРОТОТИПЫ МНОЖЕСТВЕННЫХ ВАРИАНТОВ ТОРГОВЫХ ПРЕДЛОЖЕНИЙ #}
+
+    {% if variation_first %}
+
+
+
+        {% if variation_first.image is defined %}
+
+            {% set prototype_variation_image %}
+                {{ include(_self|replace({ "form.html.twig": "prototypes/variation/prototype.image.html.twig" })) }}
+            {% endset %}
+
+            {% set prototype_variation_collection %}
+                {{ include(_self|replace({ "form.html.twig": "prototypes/variation/prototype.collection.html.twig" })) }}
+            {% endset %}
+
+            <div id="prototype.variation.image" data-prototype="{{ prototype_variation_image|e('html_attr') }}"></div>
+
+        {% endif %}
+
+
+        {% set prototype_variation %}
+            {{ include(_self|replace({ "form.html.twig": "prototypes/variation/prototype.variation.html.twig" })) }}
+        {% endset %}
+
+        <div id="prototype.variation" data-prototype="{{ prototype_variation|e('html_attr') }}"></div>
+
+    {% endif %}
+
+
+
+    {# ПРОТОТИПЫ ТОРГОВЫХ ПРЕДЛОЖЕНИЙ #}
+
+    {% if offer_first %}
+
+        {% if offer_first.image is defined %}
+
+            {% set prototype_offer_image %}
+                {{ include(_self|replace({ "form.html.twig": "prototypes/offer/prototype.image.html.twig" })) }}
+            {% endset %}
+
+            {% set prototype_offer_collection %}
+                {{ include(_self|replace({ "form.html.twig": "prototypes/offer/prototype.collection.html.twig" })) }}
+            {% endset %}
+
+            <div id="prototype.offer.image" data-prototype="{{ prototype_offer_image|e('html_attr') }}"></div>
+
+        {% endif %}
+
+        {% set prototype_offer %}
+            {{ include(_self|replace({ "form.html.twig": "prototypes/offer/prototype.offer.html.twig" })) }}
+        {% endset %}
+
+        <div id="prototype.offer" data-prototype="{{ prototype_offer|e('html_attr') }}"></div>
+
+    {% endif %}
+
+
+<ul class="nav nav-pills gap-3 mb-3" id="nav-product">
+    <li class="nav-item" role="presentation">
+        <button class="btn fw-bolder nav-link active"
+                data-bs-toggle="tab"
+                type="button"
+                role="tab"
+                aria-selected="true"
+
+                id="tab_main-tab"
+                data-bs-target="#tab_main"
+                aria-controls="nav-product"
+        >
+            <small class="text-uppercase px-3">
+                {# Продукт #}
+                Продукт
+            </small>
+        </button>
+    </li>
+
+    <li class="nav-item">
+        <button class="btn fw-bolder nav-link"
+                data-bs-toggle="tab"
+                type="button"
+                role="tab"
+                aria-selected="true"
+
+                id="tab_description-tab"
+                data-bs-target="#tab_description"
+                aria-controls="nav-product"
+        >
+            <small class="text-uppercase px-3">
+                {# Описание #}
+                Описание
+            </small>
+        </button>
+    </li>
+
+    <li class="nav-item">
+        <button class="btn fw-bolder nav-link"
+                data-bs-toggle="tab"
+                type="button"
+                role="tab"
+                aria-selected="true"
+
+                id="tab_gallery-tab"
+                data-bs-target="#tab_gallery"
+                aria-controls="nav-product"
+        >
+            <small class="text-uppercase px-3">
+                {# Галерея #}
+                Галерея
+            </small>
+        </button>
+    </li>
+
+    {% if form.property.vars.data.count %}
+        <li class="nav-item">
+            <button class="btn fw-bolder nav-link"
+                    data-bs-toggle="tab"
+                    type="button"
+                    role="tab"
+                    aria-selected="true"
+
+                    id="tab_property-tab"
+                    data-bs-target="#tab_property"
+                    aria-controls="nav-product"
+            >
+                <small class="text-uppercase px-3">
+                    {# Свойства продукта  #}
+                    Свойства продукта
+                </small>
+            </button>
+        </li>
+
+    {% endif %}
+
+
+
+    {% if form.offer.vars.data.count %}
+        <li class="nav-item">
+            <button class="btn fw-bolder nav-link"
+                    data-bs-toggle="tab"
+                    type="button"
+                    role="tab"
+                    aria-selected="true"
+
+                    id="tab_offers-tab"
+                    data-bs-target="#tab_offers"
+                    aria-controls="nav-tab_offers"
+            >
+                <small class="text-uppercase px-3">
+                    {# Торговые предложения #}
+                    Торговые предложения
+                </small>
+            </button>
+        </li>
+    {% endif %}
+
+</ul>
+
+<div class="tab-content" id="product_tab_content">
+
+    {# ОСНОВНЫЕ НАСТРОЙКИ #}
+    <div class="tab-pane fade show active" id="tab_main" role="tabpanel">
+        {{ include(_self|replace({ "form.html.twig": "form.main.html.twig" })) }}
+    </div>
+
+    <div class="tab-pane fade" id="tab_description" role="tabpanel">
+        {{ include(_self|replace({ "form.html.twig": "form.description.html.twig" })) }}
+    </div>
+
+    {# ГАЛЕРЕЯ #}
+    <div class="tab-pane fade" id="tab_gallery" role="tabpanel">
+        {{ include(_self|replace({ "form.html.twig": "form.gallery.html.twig" })) }}
+    </div>
+
+    {% if form.property.vars.data.count != 0 %}
+        {# СВОЙСТВА ПРОДУКТА #}
+        <div class="tab-pane fade" id="tab_property" role="tabpanel">
+            {{ include(_self|replace({ "form.html.twig": "form.properties.html.twig" })) }}
+        </div>
+    {% endif %}
+
+    {% if form.offer.vars.data.count %}
+        {# ТОРГОВЫЕ ПРЕДЛОЖЕНИЯ #}
+        <div class="tab-pane fade" id="tab_offers" role="tabpanel">
+            {{ include(_self|replace({ "form.html.twig": "form.offers.html.twig" })) }}
+        </div>
+    {% endif %}
+
+    {# ПОСАДОЧНЫЕ БЛОКИ #}
+    {#    <div class="tab-pane fade" id="tab_landing" role="tabpanel">
+    #}{# {{ include(_self|replace({ "form.html.twig": "form.landing.html.twig" })) }} #}{#
+    </div> #}
+
+</div>
+

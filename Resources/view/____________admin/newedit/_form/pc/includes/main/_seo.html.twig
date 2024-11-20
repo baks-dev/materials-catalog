@@ -1,0 +1,54 @@
+{% trans_default_domain 'admin.products.category' %}
+
+{% set identifier = form.seo.vars.id %}
+
+{% if form.translate.count > 1 %}
+
+    <ul class="nav nav-pills gap-3 mb-3" id="nav-{{ identifier }}" role="tablist">
+
+        {% for translate in form.translate %}
+
+            <li class="nav-item" role="presentation">
+                <button class="btn fw-bolder nav-link{{ app.request.locale == translate.vars.value.local? ' active' : '' }}"
+                        data-bs-toggle="tab"
+                        type="button"
+                        role="tab"
+                        aria-selected="true"
+
+                        id="nav-{{ identifier }}-{{ translate.vars.value.local }}-tab"
+                        data-bs-target="#nav-{{ identifier }}-{{ translate.vars.value.local }}"
+                        aria-controls="nav-{{ identifier }}-{{ translate.vars.value.local }}"
+                >
+                    <small class="text-uppercase px-3">{{ translate.vars.value.local|trans({}, 'core') }}</small>
+                </button>
+            </li>
+
+        {% endfor %}
+    </ul>
+
+{% endif %}
+
+<div class="tab-content" id="nav-{{ identifier }}-content">
+
+    {% for seo in form.seo %}
+
+        <div class="tab-pane fade{{ app.request.locale == seo.vars.value.local? ' show active' : '' }}"
+             id="nav-{{ identifier }}-{{ seo.vars.value.local }}" role="tabpanel"
+             aria-labelledby="nav-{{ identifier }}-{{ seo.vars.value.local }}-tab">
+
+            {# Локаль #}
+            {{ form_row(seo.local) }}
+
+            {# TITLE #}
+            {{ form_row(seo.title, seo.title.vars.data ? { label : 'Title' } : { label : false, attr : { placeholder : 'Title', class: 'mb-3' }} ) }}
+
+            {# DESCRIPTION #}
+            {{ form_row(seo.description, seo.description.vars.data ? { label : 'Description' } : { label : false, attr : { placeholder : 'Description', class: 'mb-3' }} ) }}
+
+            {# KEYWORDS #}
+            {{ form_row(seo.keywords, seo.keywords.vars.data ? { label : 'Keywords' } : { label : false, attr : { placeholder : 'Keywords', class: 'mb-3' }} ) }}
+
+        </div>
+    {% endfor %}
+
+</div>

@@ -1,0 +1,86 @@
+{% trans_default_domain 'admin.products.product' %}
+
+<div class="d-flex gap-2">
+
+    <div class="d-flex flex-column gap-2 w-100 mb-2">
+        {# Описание продукта #}
+
+        <div class="card w-100 border-light">
+
+            <div class="card-header border-light bg-body">
+                <div class="card-title">
+                    <h4>
+                        {# Секции профиля #}
+                        Описание продукта
+                    </h4>
+                </div>
+            </div>
+
+            <div class="card-body pb-0">
+
+                {% set identifier = form.description.vars.id %}
+
+                {% if form.description.count > 1 %}
+
+                    <ul class="nav nav-pills gap-3 mb-3" id="navdesc-{{ identifier }}" role="tablist">
+
+                        {% for description in form.description %}
+
+                            <li class="nav-item" role="presentation">
+                                <button class="btn fw-bolder nav-link{{ app.request.locale == description.vars.value.local and  description.vars.value.device == 'pc'  ? ' active' : '' }}"
+                                        data-bs-toggle="tab"
+                                        type="button"
+                                        role="tab"
+                                        aria-selected="true"
+
+                                        id="navdesc-{{ identifier }}-{{ description.vars.value.local }}-{{ description.vars.value.device }}-tab"
+                                        data-bs-target="#navdesc-{{ identifier }}-{{ description.vars.value.local }}-{{ description.vars.value.device }}"
+                                        aria-controls="navdesc-{{ identifier }}-{{ description.vars.value.local }}-{{ description.vars.value.device }}"
+                                >
+                                    <small class="text-uppercase px-3">
+                                        {{ description.vars.value.local|trans({}, 'core', description.vars.value.local) }}
+                                        {{ description.vars.value.device|trans({}, 'device', description.vars.value.local) }}
+                                    </small>
+                                </button>
+                            </li>
+
+                        {% endfor %}
+                    </ul>
+
+                {% endif %}
+
+
+                <div class="tab-content" id="navdesc-{{ identifier }}-content">
+
+
+                    {% for description in form.description %}
+
+                        <div class="tab-pane fade{{ app.request.locale == description.vars.value.local and  description.vars.value.device == 'pc' ? ' show active' : '' }}"
+                             id="navdesc-{{ identifier }}-{{ description.vars.value.local }}-{{ description.vars.value.device }}"
+                             role="tabpanel"
+                             aria-labelledby="navdesc-{{ identifier }}-{{ description.vars.value.local }}-{{ description.vars.value.device }}-tab">
+
+                            {{ form_widget(description.local) }}
+                            {{ form_widget(description.device) }}
+
+                            {# Краткое опсиание #}
+                            {{ form_row(description.preview, {
+                                label : 'Краткое описание'|trans({}, 'core', description.vars.value.local),
+                                attr: { class: 'ckeditor' }
+                            }) }}
+
+                            {{ form_row(description.description, {
+                                label : 'Детальное описание'|trans,
+                                attr: { class: 'ckeditor h-25' }
+                            }) }}
+
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

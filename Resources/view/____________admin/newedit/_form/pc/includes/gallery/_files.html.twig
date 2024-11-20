@@ -1,0 +1,53 @@
+{% trans_default_domain 'admin.products.product' %}
+
+<div class="card w-100 border-light">
+    <div class="card-header border-light bg-body">
+        <div class="card-title">
+            <h4>
+                Файлы
+            </h4>
+        </div>
+    </div>
+
+    <div class="card-body pb-0">
+
+        <div id="file_collection">
+            {% for file in form.file %}
+
+                <div class="d-flex justify-content-between align-items-center gap-3 item-collection-file">
+                    <div class="flex-grow-1">
+                        {{ form_row(file.file) }}
+                    </div>
+                    {{ form_row(file.DeleteFile, {
+                        label: '<span class="svg-icon svg-icon-2">
+						<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+							<rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+							<rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+						</svg>
+					</span>',
+                        attr: { class: 'btn-outline-danger btn-sm del-item-section border-0 del-item-file' }
+                    }) }}
+
+                    {{ form_widget(file.name) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="card-footer border-light bg-body">
+        <button type="button" id="file_addCollection"
+                class="btn btn-sm btn-outline-primary border-0"
+                data-prototype="prototype.gallery.files"
+                data-index="{{ form.file.count }}"
+        >
+			<span class="svg-icon svg-icon-2">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+					<rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)"
+                          fill="currentColor"></rect>
+					<rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor"></rect>
+				</svg>
+			</span>
+            Добавить еще файл
+        </button>
+    </div>
+</div>
+

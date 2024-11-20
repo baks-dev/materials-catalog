@@ -1,0 +1,23 @@
+ROLE_MATERIAL:
+  name: 'Products'
+  desc: 'Product List'
+
+ROLE_MATERIAL_INDEX:
+  name: 'View'
+  desc: ''
+
+ROLE_MATERIAL_NEW:
+  name: 'Add'
+  desc: ''
+
+ROLE_MATERIAL_EDIT:
+  name: 'Edit'
+  desc: ''
+
+ROLE_MATERIAL_DELETE:
+  name: 'Delete'
+  desc: ''
+
+ROLE_MATERIAL_RENAME:
+  name: 'Rename'
+  desc: ''

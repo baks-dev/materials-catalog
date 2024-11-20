@@ -1,0 +1,488 @@
+<main class="main d-print-none container px-4">
+    <div class="mt-3">
+        {{ include(_self|replace({ "content.html.twig": "breadcrumb.html.twig" })) }}
+    </div>
+
+    <h1 class="h3 text-uppercase fw-bolder">
+        {{ card.product_name }}
+
+        {# Значение торгового предложения #}
+        {{ card.product_offer_value|call_twig_func(card.product_offer_reference~'_render') }}
+
+        {# Значение множественного варианта ТП #}
+        {{ card.product_variation_value|call_twig_func(card.product_variation_reference~'_render') }}
+
+        {# Значение модификации множественного варианта ТП #}
+        {{ card.product_modification_value|call_twig_func(card.product_modification_reference~'_render') }}
+
+
+        {# Свойства, учавствующие в названии #}
+        {% for name_property in arr_property | filter(props => props.field_name == true) %}
+            {{ name_property.field_name|call_twig_func(name_property.field_type) }}
+        {% endfor %}
+
+    </h1>
+
+
+    <div class="d-flex align-items-end gap-3">
+
+        {{ include(_self|replace({ "content.html.twig": "rating.html.twig" })) }}
+
+        <span class="small">Артикул: {{ card.product_article }}</span>
+
+
+        {# <img data-src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzkgMTkxIj4gPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwxOTEpIHNjYWxlKDAuMSwtMC4xKSIgZmlsbD0iI0ZGQTA0MyIgc3Ryb2tlPSJub25lIj4gPHBhdGggZD0iTTgzNiAxODM4IGMtMTMgLTE4IC0xNiAtNTIgLTE2IC0xNjMgMCAtMTYyIDggLTE4NSA2NCAtMTg1IDYwIDAgNjYgMTggNjYgMTg3IDAgMTMzIC0yIDE1MiAtMTggMTY2IC0yNyAyNSAtNzggMjIgLTk2IC01eiIvPiA8cGF0aCBkPSJNMjk3IDE1NTkgYy0xOSAtMTQgLTI3IC0zMCAtMjcgLTUyIDAgLTI3IDEzIC00NiA4MyAtMTE1IDkwIC05MCAxMTcgLTEwMCAxNTUgLTU5IDM4IDQwIDI5IDYzIC02MCAxNTMgLTQ2IDQ1IC05MiA4NSAtMTA0IDg4IC0xMyA0IC0zMSAtMSAtNDcgLTE1eiIvPiA8cGF0aCBkPSJNMTQxNSAxNTcwIGMtMTEgLTQgLTUzIC00MiAtOTIgLTgzIC01OSAtNjAgLTczIC04MSAtNzMgLTEwNiAwIC0zOCAzMSAtNzEgNjYgLTcxIDI5IDAgMTU1IDExNCAxODAgMTYyIDMxIDYwIC0yMSAxMjMgLTgxIDk4eiIvPiA8cGF0aCBkPSJNNzY1IDEzNjcgYy0xNDcgLTQ5IC0yNTMgLTE1OSAtMjkwIC0zMDIgLTUyIC0yMDIgNDUgLTQxMCAyMzMgLTQ5OCA4NiAtNDAgMjE4IC01MCAzMDMgLTIyIDE4NSA2MCAyOTkgMjE2IDI5OSA0MTAgMCAxMzMgLTQxIDIyNyAtMTM5IDMxOCAtNzkgNzQgLTE0NSAxMDAgLTI2NiAxMDQgLTY0IDIgLTExNCAtMiAtMTQwIC0xMHoiLz4gPHBhdGggZD0iTTQgMTAwNiBjLTMgLTcgLTQgLTM1IC0yIC02MiBsMyAtNDkgMTU1IC0zIGMxNDggLTMgMTU2IC0yIDE3MyAxOSAyMSAyNiAyMiA1OCAxIDg3IC0xNSAyMSAtMjEgMjIgLTE3MCAyMiAtMTIyIDAgLTE1NiAtMyAtMTYwIC0xNHoiLz4gPHBhdGggZD0iTTE0NDIgMTAwOCBjLTE3IC0xNyAtMTUgLTg0IDQgLTEwMiAxMyAtMTMgNDIgLTE2IDE1OSAtMTYgNzkgMCAxNTAgMyAxNTkgNiAyMyA5IDIzIDEwOSAwIDExOCAtMzEgMTIgLTMwOSA3IC0zMjIgLTZ6Ii8+IDxwYXRoIGQ9Ik0zNTIgNTE2IGMtODcgLTg5IC0xMDIgLTEyNSAtNjQgLTE1OCA0NSAtNDAgNTggLTM1IDE1MyA1OSA5NyA5NyAxMDcgMTIyIDY2IDE2MSAtNDIgMzkgLTY2IDMwIC0xNTUgLTYyeiIvPiA8cGF0aCBkPSJNMTI3MiA1ODQgYy0xNiAtMTEgLTIyIC0yNSAtMjIgLTUxIDAgLTMwIDEwIC00NiA3MyAtMTEwIDM5IC00MSA4MiAtNzkgOTUgLTg0IDMyIC0xMiA3MCA2IDgzIDM4IDE1IDM5IC03IDc2IC05MSAxNTggLTcyIDY5IC05NyA3OCAtMTM4IDQ5eiIvPiA8cGF0aCBkPSJNODM2IDM5OCBjLTEzIC0xOCAtMTYgLTUyIC0xNiAtMTYzIDAgLTE2MiA4IC0xODUgNjQgLTE4NSA2MCAwIDY2IDE4IDY2IDE4NyAwIDEzMyAtMiAxNTIgLTE4IDE2NiAtMjcgMjUgLTc4IDIyIC05NiAtNXoiLz4gPC9nPiA8L3N2Zz4="
+			 class="lazy" alt="Летняя" width="18" height="18"> #}
+
+
+        <span class="badge bg-success rounded-2">Новинка</span>
+        <span class="badge bg-danger rounded-2">Акция</span>
+        <span class="badge bg-hit rounded-2">Хит</span>
+        {# <span class="badge bg-light text-muted rounded-2">Модель производится с 1923</span> #}
+    </div>
+
+    <div class="d-flex gap-5 mt-5">
+
+        {# LIGHTBOX  #}
+
+        <div class="w-100">
+
+            {# Обложка #}
+            {% set image_path = '/assets/img/blank.svg' %}
+
+            {% if card.product_image_ext is defined and card.product_image_ext is not null %}
+                {% set img_host =  card.product_image_cdn == true  ? CDN_HOST : '' %}
+                {% set img_dir = card.product_image %}
+                {% set img_file = (img_host is empty ? '/image.' : '/small.') ~ card.product_image_ext %}
+                {% set image_path = img_host ~ img_table ~ img_dir ~ img_file %}
+            {% endif %}
+
+            <div id="img-product" data-bs-toggle="modal" data-bs-target="#lightboxModal"
+                 class="icon rounded-5 border lazy bg-contain bg-body w-100 shadow-none p-3" style="height: 380px;"
+                 data-bg="{{ image_path }}"
+                 title="{{ card.product_name }}"
+            >
+
+            </div>
+
+
+            {# ДОПОТЛИТЕЛЬНЫЕ ФОТО #}
+
+            <div class="d-flex gap-2 mt-4">
+
+                {# <div class="col">
+					<img data-src="img/card-img/shina-1.webp" src="/assets/img/empty.png"
+						 class="lazy img-fluid rounded-4 border" alt="..."
+					>
+				</div> #}
+
+                <button class="btn btn-link icon bg-cover rounded-4 lazy img-product"
+                        data-bg="{{ image_path }}"
+                        style="width: 70px; height: 70px;"
+                        aria-label="Triangle Sports TH201"
+                ></button>
+
+                <button class="btn btn-link icon bg-cover rounded-4 lazy img-product"
+                        data-bg="{{ image_path }}"
+                        style="width: 70px; height: 70px;"
+                        aria-label="Triangle Sports TH201"
+                ></button>
+
+                <button class="btn btn-link icon bg-cover rounded-4 lazy img-product"
+                        data-bg="{{ image_path }}"
+                        style="width: 70px; height: 70px;"
+                        aria-label="Triangle Sports TH201"
+                ></button>
+
+                <button class="btn btn-link icon bg-cover rounded-4 lazy img-product"
+                        data-bg="{{ image_path }}"
+                        style="width: 70px; height: 70px;"
+                        aria-label="Triangle Sports TH201"
+                ></button>
+
+            </div>
+
+            {{ include(_self|replace({ "content.html.twig": "_lightbox.html.twig" })) }}
+
+        </div>
+
+        {# ХАРАКТЕРИСТИКИ #}
+
+        <div class="w-100">
+            <h3 class="h6 mb-3 ms-2">Характеристики:</h3>
+
+
+            <div class="d-flex flex-column gap-3">
+
+                {% set odd = 'bg-light' %}
+                {% set even = '' %}
+
+
+                {# Торговое предложение #}
+                {% if card.product_offer_value %}
+
+                    {% set odd = '' %}
+                    {% set even = 'bg-light' %}
+
+                    <div class="d-flex justify-content-between p-2 rounded-4 {{ even }}">
+                        <div class="w-50">
+                            {{ card.product_offer_name }}
+                        </div>
+                        <div class="w-50 d-flex gap-3 align-items-center">
+                            {# Значение торгового предложения #}
+                            {{ card.product_offer_value|call_twig_func(card.product_offer_reference~'_render') }}
+                        </div>
+                    </div>
+
+                {% endif %}
+
+
+                {# Множественный вариант  #}
+                {% if card.product_variation_value %}
+
+                    {% set odd = 'bg-light' %}
+                    {% set even = '' %}
+
+                    <div class="d-flex flex-column gap-3">
+
+                        <div class="d-flex justify-content-between p-2 rounded-4 {{ even }}">
+                            <div class="w-50">
+                                {{ card.product_variation_name }}
+                            </div>
+                            <div class="w-50 d-flex gap-3 align-items-center">
+                                {# Значение множественного варианта ТП #}
+                                {{ card.product_variation_value|call_twig_func(card.product_variation_reference) }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if card.product_modification_value %}
+
+                    {% set odd = '' %}
+                    {% set even = 'bg-light' %}
+
+                    <div class="d-flex flex-column gap-3">
+
+                        <div class="d-flex justify-content-between p-2 rounded-4 {{ even }}">
+                            <div class="w-50">
+                                {{ card.product_modification_name }}
+                            </div>
+                            <div class="w-50 d-flex gap-3 align-items-center">
+                                {# Значение модификации множественного варианта ТП #}
+                                {{ card.product_modification_value|call_twig_func(card.product_modification_reference~'_render') }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+                {# Свойства, учавствующие в харкатеристиках #}
+                {% for key, name_property in  arr_property | filter(public => public.f2 == true) %}
+                    {# {{ name_property.f5|call_twig_func(name_property.f3) }} #}
+
+
+                    <div class="d-flex justify-content-between p-2 rounded-4 {{ cycle([odd, even], loop.index0) }}">
+                        <div class="w-50">
+                            {{ name_property.f4 }}
+                        </div>
+                        <div class="w-50 d-flex gap-3 align-items-center">
+                            {% set render = name_property.f5|call_twig_func(name_property.f3~'_render') %}
+
+
+                            {% if render %}
+                                {{ render|raw }}
+                            {% else %}
+                                {{ name_property.f5|call_twig_func(name_property.f3) }}
+                            {% endif %}
+
+
+                            {# {% set result = name_property.f5|call_twig_func(name_property.f3) %}
+							{% if render != result %}
+								{{ name_property.f5|call_twig_func(name_property.f3~'_render') }}
+							{% endif %}
+							{{ result }} #}
+
+
+                            {# {{ name_property.f5|call_twig_func(name_property.f3~'_render') }} {{ name_property.f5|call_twig_func(name_property.f3) }}} #}
+
+
+                            {# {{ name_property.f5|call_twig_func(name_property.f3) }} #}
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+
+            </div>
+
+
+            {# {{ include(_self|replace({ "content.html.twig": "_characteristic.html.twig" })) }} #}
+        </div>
+
+        <div class="w-100 d-flex flex-column align-items-start">
+
+            <div class="position-relative w-75">
+                <button class="btn btn-link position-absolute top-0 start-100 ms-5 p-3"
+                        aria-label="Добавить в избранное"
+                >
+                    {# <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+						 class="bi bi-heart-fill" viewBox="0 0 16 16">
+						<path fill-rule="evenodd"
+							  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
+					</svg> #}
+                    <img data-src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNCMUI2QkIiIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNOCAxLjMxNEMxMi40MzgtMy4yNDggMjMuNTM0IDQuNzM1IDggMTUtNy41MzQgNC43MzYgMy41NjItMy4yNDggOCAxLjMxNHoiPjwvcGF0aD48L3N2Zz4K"
+                         width="20" height="20"
+                         src="/assets/img/empty.png"
+                         class="lazy"
+                         alt="Добавить в избранное"
+                    >
+
+                </button>
+            </div>
+
+
+            {# БЛОК ПОКУПКИ ТОВАРА #}
+            {{ include(_self|replace({ "content.html.twig": "_order.html.twig" })) }}
+
+
+            {# Баннер #}
+
+            <div class="card text-bg-dark rounded-4 overflow-hidden mt-3" style="height: 150px;">
+                <img
+                        data-src="/temp/img/discount-img/disc-img-01.webp"
+                        src="/assets/img/empty.png"
+                        class="card-img lazy" alt="...">
+                <div class="card-img-overlay d-flex flex-column">
+                    <h3 class="card-title h5">супер-пупер акция! надо брать.</h3>
+                    <p class="card-text">* Скидка действует до 15 ноября 2022г.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {# <ul class="nav position-absolute z-index-5 gap-3" id="pills-tab" role="tablist"
+			style="margin-top: -85px; margin-left: 185px;">
+
+			<li class="nav-item" role="presentation">
+				<button class="btn btn-link nav-link rounded-4 px-3 text-white active" id="pills-home-tab"
+						data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-label="По авто"
+						aria-controls="pills-home" aria-selected="true"><span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							 class="bi bi-car-front-fill" viewBox="0 0 16 16">
+							<path d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848ZM3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM2.906 5.189a.51.51 0 0 0 .497.731c.91-.073 3.35-.17 4.597-.17 1.247 0 3.688.097 4.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 11.691 3H4.309a.5.5 0 0 0-.447.276L2.906 5.19Z"></path>
+						</svg>
+					</span><span class="ms-3 text-uppercase fw-bolder">По авто</span></button>
+			</li>
+
+			<li class="nav-item" role="presentation">
+				<button class="btn btn-link nav-link rounded-4 px-3 text-white" id="pills-profile-tab"
+						data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab"
+						aria-label="По параметрам" aria-controls="pills-profile" aria-selected="false" tabindex="-1">
+					<span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							 class="bi bi-gear-fill" viewBox="0 0 16 16">
+							<path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"></path>
+						</svg>
+					</span><span class="ms-3 text-uppercase fw-bolder">По параметрам</span></button>
+			</li>
+		</ul> #}
+
+    <hr class="mt-5 rounded-circle border-0" style="height: 20px; box-shadow: 0 -20px 20px -6px #000;">
+
+    {# 0 -5px 5px -5px #}
+
+
+    {# <div class="w-100 shadow-lg mt-5 mb-5 bg-body rounded p-5">
+	</div> #}
+
+    <ul class="nav nav-pills d-flex gap-5 pb-4" id="pills-tab" role="tablist">
+
+        <li class="nav-item" role="presentation">
+            <button class="btn nav-link fw-bolder active" id="pills-home-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                    aria-selected="true">
+                <span class="text-uppercase px-3">Альтернатива</span>
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="btn nav-link fw-bolder" id="pills-profile-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                    aria-selected="false">
+                <span class="text-uppercase px-3">Описание</span>
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="btn nav-link fw-bolder" id="pills-contact-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
+                    aria-selected="false">
+                <span class="text-uppercase px-3">Доставка</span>
+            </button>
+        </li>
+
+    </ul>
+
+    <div class="d-flex justify-content-between gap-5">
+
+        <div class="tab-content w-100" id="pills-tabContent">
+
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
+                 tabindex="0">
+                <h5 class="text-uppercase fw-bolder py-3">Альтернатива</h5>
+
+                {{ include(_self|replace({ "content.html.twig": "alternative.html.twig" })) }}
+            </div>
+
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
+                 tabindex="0">
+                <h5 class="text-uppercase fw-bolder py-3">Описание</h5>
+                {{ include(_self|replace({ "content.html.twig": "description.html.twig" })) }}
+            </div>
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
+                 tabindex="0">
+                <h5 class="text-uppercase fw-bolder py-3">Доставка</h5>
+                {{ include(_self|replace({ "content.html.twig": "delivery.html.twig" })) }}
+            </div>
+
+        </div>
+
+
+        <div class="w-25">
+
+            <h5 class="text-uppercase fw-bolder">Товар дня</h5>
+
+            <div class="row cards-box mt-5">
+                <div class="col">
+                    {% include Template('/user/pc/includes/card.html.twig') with { card : null } %}
+                    {# {% include '@Template/default/user/pc/includes/card.html.twig' %} #}
+                </div>
+            </div>
+
+
+            <a href="#" class="side-bar-image rounded-4 overflow-hidden w-100 mt-4 d-flex"
+               aria-label="Место вашей рекламы"
+               title="Место вашей рекламы"
+            >
+                <img src="/temp/img/reimage.webp" class="w-100" alt="Место вашей рекламы">
+            </a>
+        </div>
+
+    </div>
+
+
+    {# ПРОСТМОРЕННЫЕ #}
+    <section id="viewed" class="mt-4">
+        <div class="rounded-4 bg-light">
+            <h2 class="text-uppercase h5 fw-bolder p-3 pb-2">Просмотренные</h2>
+
+            <div class="w-100 d-flex gap-3 justify-content-between p-3">
+                {% for i in 0..3 %}
+                    {# {% include Template('/user/pc/includes/viewed.html.twig') with { viewed : null }  %} #}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+    <section class="comment mt-4" id="comments">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <h1 class="h4 text-uppercase fw-bolder mt-2">Отзывы Triangle Sports TH201 </h1>
+
+            <button type="button" class="btn btn-lg btn-danger rounded-4">
+                <span class="h5 text-uppercase mb-0 px-3">Оставить отзыв</span>
+            </button>
+        </div>
+
+
+        {# РЕЙТИНГ #}
+        <div class="d-flex gap-1 align-items-center">
+            {# {% include '@Template/default/user/pc/includes/rating.html.twig' %} #}
+
+            {% include Template('/user/pc/includes/rating.html.twig') with { rating : null } %}
+
+            <a href="{# {{ path('pages:user.reviews.index') }} #}" class="small ms-3" aria-label="Отзывы"
+               title="Отзывы">36 отзывов</a>
+        </div>
+
+
+        <div class="d-flex flex-column gap-3 mt-3">
+            {% for i in 0..5 %}
+                {# {% include('@Template/default/user/pc/includes/review.html.twig') %} #}
+
+                {% include Template('/user/pc/includes/review.html.twig') with { review : null } %}
+
+            {% endfor %}
+        </div>
+
+        <div class="mt-5">
+            {% include(Template('/user/pc/includes/pagination.html.twig')) %}
+
+            {# {% include('@Template/default/user/pc/includes/pagination.html.twig') %} #}
+            {# {{ include(_self|replace({ "content.html.twig": "pagination.html.twig" })) }} #}
+        </div>
+    </section>
+
+</main>
+
+
+{# {% set offer_value = null %}
+{% set offer_variation = null %}
+{% set offer_modification = null %}
+
+{% set arr_offers = card.category_offer|json_decode %}
+
+<ul>
+#}{# ОРГОВЫЕ ПРЕДЛОЖЕНИЯ #}{#
+{% for offers in arr_offers %}
+    {% if offers.product_offer.offer_value is not null %}
+        {% if offer_value is null or offer_value != offers.product_offer.offer_value %}
+
+            <li>{{ offers.product_offer.offer_value }}</li>
+
+            {% set offer_value = offers.product_offer.offer_value %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+</ul>
+#}{# МНОЖЕСТВЕННЫЕ ВАРИАНТЫ #}{#
+<div>
+	{% for offers in arr_offers %}
+		{% if offers.product_offer.product_variation.variation_value is not null %}
+			
+			{% if offers.product_offer.product_variation.product_modification.modification_value is null %}
+				
+				{% if offer_variation is null or offer_variation != offers.product_offer.offer_value~offers.product_offer.product_variation.variation_value %}
+					
+					<div id='{{ offers.product_offer.offer_value }}'>
+						- {{ offers.product_offer.offer_value }} {{ offers.product_offer.product_variation.variation_value }}
+					</div>
+					
+					{% set offer_variation = offers.product_offer.offer_value~offers.product_offer.product_variation.variation_value %}
+				
+				{% endif %}
+			
+			{% else %}
+				
+				{% if offer_modification is null or offer_modification != offers.product_offer.offer_value~offers.product_offer.product_variation.variation_value~offers.product_offer.product_variation.product_modification.modification_value %}
+					
+					<p> --
+						{{ offers.product_offer.product_variation.variation_value }}
+						/ {{ offers.product_offer.product_variation.product_modification.modification_value }}</p>
+					
+					{% set offer_modification = offers.product_offer.offer_value~offers.product_offer.product_variation.variation_value~offers.product_offer.product_variation.product_modification.modification_value %}
+				{% endif %}
+			
+			{% endif %}
+		
+		{% endif %}
+	{% endfor %}
+</div> #}
+
+
+

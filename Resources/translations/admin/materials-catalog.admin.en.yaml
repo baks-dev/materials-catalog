@@ -1,0 +1,29 @@
+page:
+  index: 'Catalog of raw materials'
+  new: 'Add raw materials'
+  edit: 'Edit raw materials'
+  rename: 'Rename raw materials'
+  delete: 'Delete products'
+
+breadcrumb:
+  index: 'Catalog of raw materials'
+  new: 'Add raw materials'
+  edit: 'Edit raw materials'
+  rename: 'Rename raw materials'
+  delete: 'Delete raw materials'
+
+success:
+  new: 'Raw materials added successfully'
+  update: 'Raw materials updated successfully'
+  edit: 'Raw materials updated successfully'
+  rename: 'Raw materials successfully renamed'
+  delete: 'The raw materials were successfully deleted to the cart'
+  restore: 'Raw materials successfully restored'
+
+danger:
+  new: '%s: Error adding raw materials'
+  update: '%s: Error updating raw materials'
+  edit: '%s: Error while updating raw materials'
+  rename: '%s: Error updating raw materials'
+  delete: '%s: Error deleting raw materials'
+  restore: '%s: Error while restoring raw materials'

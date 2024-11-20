@@ -1,0 +1,95 @@
+<div id="collection-offer">
+
+    {% set selectOfffer = app.request.get('offfer') %}
+    {% set selectVariation = app.request.get('variation') %}
+    {% set selectModification = app.request.get('modification') %}
+
+    {% for offer in form.offer %}
+        {{ include(_self|replace({ "form.offers.html.twig": "includes/offers/_offer.html.twig" })) }}
+    {% endfor %}
+</div>
+
+<div class="position-sticky d-flex align-items-center gap-3 z-index-4 w-75" style="bottom: 3rem;">
+    <button type="button" id="offer_addCollection"
+            class="btn btn-sm btn-outline-primary border-0 add_collection"
+            data-prototype="prototype.offer"
+            data-index="{{ form.offer.count }}"
+    >
+		<span class="svg-icon svg-icon-2">
+			<svg xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24" viewBox="0 0 24 24"
+                 fill="none">
+				<rect opacity="0.5" x="11" y="18" width="12"
+                      height="2" rx="1"
+                      transform="rotate(-90 11 18)"
+                      fill="currentColor"></rect>
+				<rect x="6" y="11" width="12" height="2"
+                      rx="1" fill="currentColor"></rect>
+			</svg>
+		</span>
+        Добавить еще "{{ form.offer.vars.prototype.value.vars.label }}"
+    </button>
+
+
+    {# Поиск по артикулам  #}
+    <div class="w-25 position-relative">
+        <input type="search" class="form-control w-100 d-none" autocomplete="off" id="searcherOffer"
+               placeholder="Перейти к артикулу...">
+
+        <ul id="searcher-offer" class="dropdown-menu dropdown-menu-center small position-absolute p-2 mb-3 w-100"
+            style="inset: auto auto 1.5rem 0;">
+
+
+            {% for offer in form.offer %}
+
+                {% if offer.vars.data.article %}
+                    <li data-href="{{ offer.article.vars.id }}">
+                        <span class="nav-link rounded-3 px-2 small text-nowrap mb-1 pointer">
+                            {{ offer.vars.data.article }}
+                        </span>
+                    </li>
+                {% endif %}
+
+                {% if variation_first %}
+
+                    {% for variation in offer.variation %}
+
+                        {% if variation.vars.data.article %}
+                            <li data-href="{{ variation.article.vars.id }}">
+                            <span class="nav-link rounded-3 px-2 small text-nowrap mb-1 pointer">
+                                {{ variation.vars.data.article }}
+                            </span>
+                            </li>
+                        {% endif %}
+
+                        {% if modification_first %}
+
+                            {% for modification in variation.modification %}
+                                {% if modification.vars.data.article %}
+                                    <li data-href="{{ modification.article.vars.id }}">
+                                <span class="nav-link rounded-3 px-2 small text-nowrap mb-1 pointer">
+                                    {{ modification.vars.data.article }}
+                                </span>
+                                    </li>
+                                {% endif %}
+
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+            {% endfor %}
+        </ul>
+    </div>
+
+    {# оказать все, если переданы GET параметры  #}
+    {% if app.request.query is not empty %}
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="allOffers">
+            <label class="form-check-label" for="allOffers">
+                Показать все
+            </label>
+        </div>
+    {% endif %}
+
+</div>

@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-around pb-3 radio-buttons clearfix" data-buttons="true" style='clear: both'>
+    <label class="btn p-3 border-dotted rounded-3 w-100 {{ form.active.active.vars.data ? 'active' }}">
+        <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+                <span class="h5">
+                    <div class="form-check d-flex align-items-center">
+                        {{ form_widget(form.active.active, { label: false }) }}
+                        <span>
+	                        {# Продукт активный #}
+                            {{ 'Продукт активный'|trans }}
+                        </span>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </label>
+</div>
+
+<div class="d-flex justify-content-between gap-4 align-items-end">
+    {{ form_row(form.active.activeFrom, { label : 'Начало активности'|trans } ) }}
+    {{ form_row(form.active.activeFromTime) }}
+
+    <div class="mb-4 "> -</div>
+
+    {{ form_row(form.active.activeTo, { label: 'Дата окончания'|trans }) }}
+    {{ form_row(form.active.activeToTime) }}
+</div>

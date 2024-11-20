@@ -1,0 +1,55 @@
+{% trans_default_domain 'admin.products.product' %}
+
+<div id="category_collection">
+
+    {% for category in form.category %}
+
+        {% set category_parent = loop.index0 ? 'false' : 'true' %}
+
+        <div class="d-flex gap-2 align-items-end item-collection-category">
+
+            <div class="w-100">
+                {# Родительский раздел #}
+                {{ form_row(category.category, {
+                    placeholder: 'Выберите категорию из списка...'|trans,
+                    attr: { 'data-select' : 'select2', 'data-parent' :  category_parent }
+                }) }}
+            </div>
+
+            <div class="{{ loop.index0 ? '' : ' d-none' }}">
+                {{ form_row(category.DeleteCategory, { label:
+                    '<span class="svg-icon svg-icon-2">
+					<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+						<rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+						<rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+					</svg>
+				</span>',
+                    attr: { class: 'btn-outline-danger btn-sm del-item-section border-0 del-item-category' }
+                }) }}
+            </div>
+        </div>
+
+    {% endfor %}
+</div>
+
+<div class="form-group">
+    <button type="button" id="category_addCollection"
+            class="btn btn-sm btn-outline-primary border-0"
+            data-index="{{ form.category.count }}"
+            data-prototype="prototype.category"
+    >
+		
+		<span class="svg-icon svg-icon-2">
+			<svg xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24" viewBox="0 0 24 24" fill="none">
+				<rect opacity="0.5" x="11" y="18" width="12"
+                      height="2" rx="1" transform="rotate(-90 11 18)" fill="currentColor"></rect>
+				<rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor"></rect>
+			</svg>
+		</span>
+        Добавить еще категорию
+    </button>
+</div>
+
+
+{# {{ include(_self|replace({ "_category.html.twig": "prototype.category.html.twig" }), { prototype: form.category.vars.prototype }) |e('html_attr') }} #}

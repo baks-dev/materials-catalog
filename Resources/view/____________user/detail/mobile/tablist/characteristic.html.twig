@@ -1,0 +1,174 @@
+{% set iterate = 1 %}
+{% set odd = 'bg-light' %}
+{% set even = '' %}
+
+
+<div class="d-flex flex-column gap-3 small">
+
+
+    <div class="d-flex flex-column gap-3">
+
+
+        {# Торговое предложение #}
+        {% if card.product_offer_value %}
+
+
+            {% set iterate = iterate + 1 %}
+
+            <div class="d-flex justify-content-between p-2 rounded-4 {{ cycle([odd, even], iterate) }}">
+                <div class="w-50">
+                    Модель
+                </div>
+                <div class="w-50 d-flex gap-3 align-items-center">
+                    {# Модель #}
+                    <a href="{{ path('materials-catalog:user.model', { category: card.category_url, url: card.url }) }}"
+                       class="text-muted"
+                       aria-label="{{ card.product_name }}"
+                       title="{{ card.product_name }}">
+                        {{ card.product_name }}
+                    </a>
+                </div>
+            </div>
+
+            {% set iterate = iterate + 1 %}
+
+            <div class="d-flex justify-content-between p-1 rounded-3 {{ cycle([odd, even], iterate) }}">
+                <div class="w-50">
+                    {# Название торгового предложения #}
+                    {{ card.product_offer_name }}
+                </div>
+                <div class="w-50 d-flex gap-3 align-items-center">
+                    {# Значение торгового предложения #}
+                    {{ card.product_offer_value|call_twig_func(card.product_offer_reference~'_render') }}
+                </div>
+            </div>
+
+        {% endif %}
+
+        {% if card.product_offer_postfix %}
+
+            {% set iterate = iterate + 1 %}
+
+            <div class="d-flex flex-column gap-3">
+
+                <div class="d-flex justify-content-between p-1 rounded-3 {{ cycle([odd, even], iterate) }}">
+                    <div class="w-50">
+                        {# Название модификации #}
+                        {{ card.product_offer_name_postfix }}
+                    </div>
+                    <div class="w-50 d-flex gap-3 align-items-center">
+                        {# Значение модификации множественного варианта ТП #}
+                        {{ card.product_offer_postfix }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+
+
+
+
+        {# Множественный вариант  #}
+        {% if card.product_variation_value %}
+
+            {% set iterate = iterate + 1 %}
+
+            <div class="d-flex flex-column gap-3">
+
+                <div class="d-flex justify-content-between p-1 rounded-3 {{ cycle([odd, even], iterate) }}">
+                    <div class="w-50">
+                        {# Название множественного варианта ТП #}
+                        {{ card.product_variation_name }}
+                    </div>
+                    <div class="w-50 d-flex gap-3 align-items-center">
+                        {# Значение множественного варианта ТП #}
+                        {{ card.product_variation_value|call_twig_func(card.product_variation_reference) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+        {% if card.product_variation_postfix %}
+
+            {% set iterate = iterate + 1 %}
+
+            <div class="d-flex flex-column gap-3">
+
+                <div class="d-flex justify-content-between p-1 rounded-3 {{ cycle([odd, even], iterate) }}">
+                    <div class="w-50">
+                        {# Название модификации #}
+                        {{ card.product_variation_name_postfix }}
+                    </div>
+                    <div class="w-50 d-flex gap-3 align-items-center">
+                        {# Значение модификации множественного варианта ТП #}
+                        {{ card.product_variation_postfix }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+
+        {# Модификация множественного варианта  #}
+        {% if card.product_modification_value %}
+
+            {% set iterate = iterate + 1 %}
+
+            <div class="d-flex flex-column gap-3">
+
+                <div class="d-flex justify-content-between p-1 rounded-3 {{ cycle([odd, even], iterate) }}">
+                    <div class="w-50">
+                        {# Название модификации #}
+                        {{ card.product_modification_name }}
+                    </div>
+                    <div class="w-50 d-flex gap-3 align-items-center">
+                        {# Значение модификации множественного варианта ТП #}
+                        {{ card.product_modification_value|call_twig_func(card.product_modification_reference~'_render') }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+        {% if card.product_modification_postfix %}
+
+            {% set iterate = iterate + 1 %}
+
+            <div class="d-flex flex-column gap-3">
+
+                <div class="d-flex justify-content-between p-1 rounded-3 {{ cycle([odd, even], iterate) }}">
+                    <div class="w-50">
+                        {# Название модификации #}
+                        {{ card.product_modification_name_postfix }}
+                    </div>
+                    <div class="w-50 d-flex gap-3 align-items-center">
+                        {# Значение модификации множественного варианта ТП #}
+                        {{ card.product_modification_postfix }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+        {# Свойства, учавствующие в харкатеристиках #}
+        {% for name_property in  arr_property | filter(props => props.field_public is defined and props.field_public == true  and props.field_value and props.field_value != 'false') %}
+
+            {% set iterate = iterate + 1 %}
+
+            <div class="d-flex justify-content-between align-items-center p-1 rounded-3 {{ cycle([odd, even], iterate) }}">
+                <div class="w-50">
+                    {{ name_property.field_trans }}
+                </div>
+                <div class="w-50 d-flex gap-3 align-items-center">
+                    {{ name_property.field_value|call_twig_func(name_property.field_type~'_template') }}
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+</div>

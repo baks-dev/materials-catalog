@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<yml_catalog date='{{ 'now'|date('Y-m-d\\TH:00:00P') }}'>
+    <shop>
+        <name>{{ settings.title is defined ?: 'Company name' }}</name>
+        <company>{{ settings.description is defined ?: 'Добро пожаловать' }}</company>
+        <url>{{ absolute_url(path('core:user.homepage')) }}</url>
+        <platform>Symfony</platform>
+        <version>1.0</version>
+        {# <agency>Технологичные решения</agency> #}
+        {# <email>example-email@gmail.com</email> #}
+
+        <categories>
+            {% for id, cat in category %}
+                <category
+                        id='{{ id }}'{# {{ cat.parent_category ? " parentId='"~cat.parent_category~"'":"" }} #}>{{ cat.category_name }}</category>
+            {% endfor %}
+        </categories>
+
+        <offers>
+            {% for card in products %}
+
+                {% set arr_property = card.category_section_field|json_decode %}
+
+                <offer id='{{ card.product_id }}' available='{{ card.product_quantity ? 'true' : 'false' }}'>
+                    <name>{{ card.product_name }}
+                        {# Значение множественного варианта ТП #}
+                        {{ card.variation_value|call_twig_func(card.variation_reference) ~ card.modification_value|call_twig_func(card.modification_reference) }}
+                        {# Значение торгового предложения #}
+                        {{ card.offer_value|call_twig_func(card.offer_reference) }}
+                        {# Постфикс торгового предложения #}
+                        {{ card.offer_postfix }}
+                        {# Постфикс множественного варианта #}
+                        {{ card.variation_postfix }}
+                        {# Постфикс модификации #}
+                        {{ card.modification_postfix }}</name>
+                    <vendor>{{ card.product_name }}</vendor>
+                    <vendorCode>{{ card.product_article }}</vendorCode>
+                    <categoryId>{{ card.category }}</categoryId>
+                    {# Обложка  #}
+                    {% set image_path = '/assets/img/empty.png' %}
+
+                    {% if card.product_image_ext is defined and card.product_image_ext is not null %}
+                        {% set img_host =  card.product_image_cdn == true  ? CDN_HOST : '' %}
+                        {% set img_dir = card.product_image %}
+                        {% set img_file = (img_host is empty ? '/image.' : '/original.') ~ card.product_image_ext %}
+                        {% set image_path = img_host ~ img_dir ~ img_file %}
+                    {% endif %}
+
+                    <picture>{{ absolute_url(image_path) }}</picture>
+                    <description>
+                        <![CDATA[ {{ card.preview|raw }} ]]>
+                    </description>
+
+                    {# Официальная гарантия производителя #}
+                    {# <manufacturer_warranty>true</manufacturer_warranty> #}
+                    {# <country_of_origin>Китай</country_of_origin> #}
+
+                    {% if card.product_barcode %}
+                        <barcode>{{ card.product_barcode }}</barcode>
+                    {% else %}
+                        <barcode>{{ barcode(card.product_article) }}</barcode>
+                    {% endif %}
+
+                    {# Свойства, учавствующие в ПРЕВЬЮ #}
+                    {% for name_property in arr_property | filter(preview => preview.field_card == true) %}
+                        {% set var = name_property.field_value|call_twig_func(name_property.field_type) %}
+                        {% if var %}
+                            <param name='{{ name_property.field_trans }}'>{{ var }}</param>
+                        {% endif %}
+                    {% endfor %}
+
+                    {# <weight>3.6</weight> #}
+                    {# <dimensions>20.1/20.5/22.5</dimensions> #}
+                    {# <service-life-days>P2Y</service-life-days> #}
+                    {# <comment-life-days>Использовать при температуре не ниже -10 градусов.</comment-life-days> #}
+                    {# <warranty-days>P1Y</warranty-days> #}
+                    {# <comment-warranty>Гарантия не распространяется на механические повреждения покрытия чаши.</comment-warranty> #}
+                </offer>
+
+            {% endfor %}
+
+        </offers>
+    </shop>
+</yml_catalog>
+
+
