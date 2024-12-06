@@ -52,13 +52,13 @@ use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Price\PriceDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Property\PropertyCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Seo\SeoCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Trans\MaterialTransDTO;
-use BaksDev\Products\Category\Type\Id\CategoryProductUid;
-use BaksDev\Products\Category\Type\Offers\Id\CategoryProductOffersUid;
-use BaksDev\Products\Category\Type\Offers\Modification\CategoryProductModificationUid;
-use BaksDev\Products\Category\Type\Offers\Variation\CategoryProductVariationUid;
-use BaksDev\Products\Category\Type\Section\Field\Id\CategoryProductSectionFieldUid;
-use BaksDev\Products\Category\UseCase\Admin\NewEdit\CategoryProductDTO;
-use BaksDev\Products\Category\UseCase\Admin\NewEdit\Tests\CategoryProductNewTest;
+use BaksDev\Materials\Category\Type\Id\CategoryProductUid;
+use BaksDev\Materials\Category\Type\Offers\Id\CategoryProductOffersUid;
+use BaksDev\Materials\Category\Type\Offers\Modification\CategoryProductModificationUid;
+use BaksDev\Materials\Category\Type\Offers\Variation\CategoryProductVariationUid;
+use BaksDev\Materials\Category\Type\Section\Field\Id\CategoryProductSectionFieldUid;
+use BaksDev\Materials\Category\UseCase\Admin\NewEdit\CategoryProductDTO;
+use BaksDev\Materials\Category\UseCase\Admin\NewEdit\Tests\CategoryProductNewTest;
 use BaksDev\Reference\Currency\Type\Currency;
 use BaksDev\Reference\Money\Type\Money;
 use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
@@ -80,7 +80,7 @@ use Symfony\Component\HttpFoundation\File\File;
  * @group materials-catalog-usecase
  */
 #[When(env: 'test')]
-class ProductsProductNewTest extends KernelTestCase
+class MaterialsProductNewTest extends KernelTestCase
 {
     public static function setUpBeforeClass(): void
     {

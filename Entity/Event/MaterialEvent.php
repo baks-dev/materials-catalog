@@ -34,7 +34,7 @@ use BaksDev\Materials\Catalog\Entity\Price\ProductPrice;
 use BaksDev\Materials\Catalog\Entity\Trans\MaterialTrans;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
 use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
-use BaksDev\Products\Category\Type\Id\CategoryProductUid;
+use BaksDev\Materials\Category\Type\Id\CategoryProductUid;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;

@@ -21,7 +21,7 @@
         </pickup-options> #}
 
         <offers>
-            {% for card in products|filter(v => v.product_price > 0) %}
+            {% for card in materials|filter(v => v.product_price > 0) %}
 
                 {% set arr_property = card.category_section_field|json_decode %}
 

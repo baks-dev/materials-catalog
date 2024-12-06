@@ -1,4 +1,4 @@
-{% trans_default_domain 'admin.products.product' %}
+{% trans_default_domain 'materials-catalog.admin' %}
 
 {# ---- ШАБЛОН ------------------------------------------------------------ #}
 {% extends Template('/admin/base.html.twig') %}
@@ -39,17 +39,17 @@
     <script nonce='{{ csp_nonce() }}' async data-src='/assets/js/image.input.min.js?v={{ version }}'
             class='lazy'></script>
 
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/products_product/product.main.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/product.main.min.js?v={{ version }}"
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/products_product/product.category.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/product.category.min.js?v={{ version }}"
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/products_product/product.photo.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/product.photo.min.js?v={{ version }}"
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/products_product/product.files.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/product.files.min.js?v={{ version }}"
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/products_product/product.video.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/product.video.min.js?v={{ version }}"
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/products_product/product.offer.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/product.offer.min.js?v={{ version }}"
             class='lazy'></script>
 
 {% endblock %}

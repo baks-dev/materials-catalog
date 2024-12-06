@@ -33,7 +33,7 @@ use Symfony\Component\DependencyInjection\Attribute\When;
 #[When(env: 'test')]
 final class IndexControllerTest extends WebTestCase
 {
-    private const URL = '/admin/products';
+    private const URL = '/admin/materials';
     private const ROLE = 'ROLE_MATERIAL';
 
     /** Доступ по роли ROLE_MATERIAL */

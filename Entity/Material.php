@@ -32,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /* Product */
 
 #[ORM\Entity]
-#[ORM\Table(name: 'product')]
+#[ORM\Table(name: 'material')]
 class Material
 {
     /** ID */

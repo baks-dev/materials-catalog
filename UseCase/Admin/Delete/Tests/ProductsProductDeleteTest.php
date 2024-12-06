@@ -31,7 +31,7 @@ use BaksDev\Materials\Catalog\Repository\CurrentProductEvent\CurrentProductEvent
 use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Catalog\UseCase\Admin\Delete\MaterialDeleteDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\Delete\ProductDeleteHandler;
-use BaksDev\Products\Category\UseCase\Admin\NewEdit\Tests\CategoryProductNewTest;
+use BaksDev\Materials\Category\UseCase\Admin\NewEdit\Tests\CategoryProductNewTest;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
@@ -46,11 +46,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @group materials-catalog-usecase
  *
  * @depends BaksDev\Materials\Catalog\Controller\Admin\Tests\DeleteControllerTest::class
- * @depends BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\ProductsProductEditTest::class
+ * @depends BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsProductEditTest::class
  *
  */
 #[When(env: 'test')]
-class ProductsProductDeleteTest extends KernelTestCase
+class MaterialsProductDeleteTest extends KernelTestCase
 {
     public static function tearDownAfterClass(): void
     {

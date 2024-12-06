@@ -20,7 +20,7 @@
         </pickup-options> #}
 
         <offers>
-            {% for card in products %}
+            {% for card in materials %}
 
                 <offer id='{{ card.product_id }}'>
                     <url>{{ absolute_url(path('materials-catalog:user.detail', {

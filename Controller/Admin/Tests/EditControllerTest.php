@@ -24,7 +24,7 @@
 namespace BaksDev\Materials\Catalog\Controller\Admin\Tests;
 
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\ProductsProductNewTest;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsProductNewTest;
 use BaksDev\Users\User\Tests\TestUserAccount;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
@@ -32,7 +32,7 @@ use Symfony\Component\DependencyInjection\Attribute\When;
 /**
  * @group materials-catalog
  *
- * @depends BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\ProductsProductNewTest::class
+ * @depends BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsProductNewTest::class
  */
 #[When(env: 'test')]
 final class EditControllerTest extends WebTestCase

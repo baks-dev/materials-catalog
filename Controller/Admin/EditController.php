@@ -32,7 +32,7 @@ use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\CategoryCollectionD
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialForm;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialHandler;
-use BaksDev\Products\Category\Type\Id\CategoryProductUid;
+use BaksDev\Materials\Category\Type\Id\CategoryProductUid;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,7 +93,7 @@ final class EditController extends AbstractController
             $this->addFlash(
                 'admin.page.edit',
                 $handle instanceof Material ? 'admin.success.edit' : 'admin.danger.edit',
-                'admin.products.product',
+                'materials-catalog.admin',
                 $handle
             );
 

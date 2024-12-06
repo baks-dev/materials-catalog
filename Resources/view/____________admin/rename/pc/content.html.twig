@@ -1,4 +1,4 @@
-{% trans_default_domain 'admin.products.product' %}
+{% trans_default_domain 'materials-catalog.admin' %}
 
 <div class="modal-dialog modal-dialog-centered " style="max-width: 800px;">
     {{ form_start(form) }}
@@ -54,7 +54,7 @@
 
                         {#  Название товара  #}
                         {{ form_row(translate.name, {
-                            label : 'admin.form.label.trans.name'|trans({}, 'admin.products.product', translate.vars.value.local),
+                            label : 'admin.form.label.trans.name'|trans({}, 'materials-catalog.admin', translate.vars.value.local),
                             attr : { 'data-lang' : 'product_form_trans_'~translate.vars.value.local }
                         }) }}
 

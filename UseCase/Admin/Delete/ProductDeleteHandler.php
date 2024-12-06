@@ -27,7 +27,7 @@ use BaksDev\Core\Messenger\MessageDispatchInterface;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Info\ProductInfo;
 use BaksDev\Materials\Catalog\Entity\Material;
-use BaksDev\Materials\Catalog\Messenger\ProductMessage;
+use BaksDev\Materials\Catalog\Messenger\MaterialMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -129,7 +129,7 @@ final class ProductDeleteHandler
 
         /* Отправляем событие в шину  */
         $this->messageDispatch->dispatch(
-            message: new ProductMessage($Main->getId(), $Main->getEvent(), $command->getEvent()),
+            message: new MaterialMessage($Main->getId(), $Main->getEvent(), $command->getEvent()),
             transport: 'materials-catalog'
         );
 

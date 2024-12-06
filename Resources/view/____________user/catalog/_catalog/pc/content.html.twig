@@ -100,7 +100,7 @@
 
                     К сожалению с такими характеристиками
 
-                    {% if other == true and products.data|length %}
+                    {% if other == true and materials.data|length %}
                         <div class='d-flex flex-column gap-1 my-3'>
                             {% for field in fields %}
                                 <div class='d-flex align-items-center gap-3'>
@@ -112,7 +112,7 @@
 
                     нет товаров в данной категории
 
-                    {% if other == true and products.data|length %}
+                    {% if other == true and materials.data|length %}
                         , но возможно Вас заинтересуют
                         товары, у которых отличаются свойства:
                     {% endif %}
@@ -122,7 +122,7 @@
 
 
             <div class="row cards-box-body mt-3">
-                {% for product in products.data %}
+                {% for product in materials.data %}
                     <div class="col-3">
                         {# Карточка товара раздела  #}
                         {% include Template('/user/pc/includes/card/card.html.twig') with { 'card': product } %}
@@ -130,7 +130,7 @@
                 {% endfor %}
             </div>
 
-            {% include Template('/user/pc/includes/pagination.html.twig') with { 'pagination' : products } %}
+            {% include Template('/user/pc/includes/pagination.html.twig') with { 'pagination' : materials } %}
 
         </section>
 

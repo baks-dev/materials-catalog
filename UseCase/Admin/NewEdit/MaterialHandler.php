@@ -36,7 +36,7 @@ use BaksDev\Materials\Catalog\Entity\Offers\Variation\Image\ProductVariationImag
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Image\ProductModificationImage;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\ProductModification;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\ProductVariation;
-use BaksDev\Materials\Catalog\Messenger\ProductMessage;
+use BaksDev\Materials\Catalog\Messenger\MaterialMessage;
 use BaksDev\Materials\Catalog\Repository\UniqProductUrl\UniqProductUrlInterface;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Files\FilesCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Image\ProductOfferImageCollectionDTO;
@@ -199,7 +199,7 @@ final class MaterialHandler extends AbstractHandler
 
         /* Отправляем событие в шину  */
         $this->messageDispatch->dispatch(
-            message: new ProductMessage($this->main->getId(), $this->main->getEvent(), $command->getEvent()),
+            message: new MaterialMessage($this->main->getId(), $this->main->getEvent(), $command->getEvent()),
             transport: 'materials-catalog',
         );
 

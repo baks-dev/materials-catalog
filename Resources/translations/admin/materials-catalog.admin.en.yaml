@@ -3,7 +3,7 @@ page:
   new: 'Add raw materials'
   edit: 'Edit raw materials'
   rename: 'Rename raw materials'
-  delete: 'Delete products'
+  delete: 'Delete materials'
 
 breadcrumb:
   index: 'Catalog of raw materials'

@@ -1,5 +1,5 @@
 ROLE_MATERIAL:
-  name: 'Products'
+  name: 'Materials'
   desc: 'Product List'
 
 ROLE_MATERIAL_INDEX:

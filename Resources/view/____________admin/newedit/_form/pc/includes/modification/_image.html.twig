@@ -1,4 +1,4 @@
-{% trans_default_domain 'admin.products.product' %}
+{% trans_default_domain 'materials-catalog.admin' %}
 
 			{# {% for image in modification.image %} #}
 
@@ -10,7 +10,7 @@
 
     {% if image.vars.data.ext is defined and image.vars.data.ext is not null %}
         {% set img_host =  image.vars.data.cdn == true  ? CDN_HOST : '' %}
-        {% set img_table = '/upload/' ~ constant('BaksDev\\Products\\Product\\Entity\\Offers\\Variation\\Modification\\Image\\ProductModificationImage::TABLE')~'/' %}
+        {% set img_table = '/upload/' ~ constant('BaksDev\\Materials\\Product\\Entity\\Offers\\Variation\\Modification\\Image\\ProductModificationImage::TABLE')~'/' %}
         {% set img_dir = image.vars.data.name %}
         {% set img_file = (img_host is empty ? '/image.' : '/small.') ~ image.vars.data.ext %}
         {% set image_path = img_host ~ img_table ~ img_dir ~ img_file %}

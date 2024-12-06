@@ -66,7 +66,7 @@ final class DeleteController extends AbstractController
             $this->addFlash(
                 'admin.page.delete',
                 $handle instanceof Material ? 'admin.success.delete' : 'admin.danger.delete',
-                'admin.products.product',
+                'materials-catalog.admin',
                 $handle
             );
 

@@ -29,7 +29,7 @@ use BaksDev\Core\Form\Search\SearchForm;
 use BaksDev\Core\Listeners\Event\Security\RoleSecurity;
 use BaksDev\Materials\Catalog\Forms\ProductFilter\Admin\ProductFilterDTO;
 use BaksDev\Materials\Catalog\Forms\ProductFilter\Admin\ProductFilterForm;
-use BaksDev\Materials\Catalog\Repository\AllProducts\AllProductsInterface;
+use BaksDev\Materials\Catalog\Repository\AllMaterials\AllMaterialsInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -39,10 +39,10 @@ use Symfony\Component\Routing\Attribute\Route;
 #[RoleSecurity('ROLE_MATERIAL')]
 final class IndexController extends AbstractController
 {
-    #[Route('/admin/products/{page<\d+>}', name: 'admin.index', methods: ['GET', 'POST',])]
+    #[Route('/admin/materials/{page<\d+>}', name: 'admin.index', methods: ['GET', 'POST',])]
     public function index(
         Request $request,
-        AllProductsInterface $getAllProduct,
+        AllMaterialsInterface $getAllProduct,
         int $page = 0,
     ): Response
     {
@@ -78,12 +78,12 @@ final class IndexController extends AbstractController
         if($isFilter)
         {
             // Получаем список торговых предложений
-            $query = $getAllProduct->getAllProductsOffers($this->getProfileUid());
+            $query = $getAllProduct->getAllMaterialsOffers($this->getProfileUid());
         }
         else
         {
             // Получаем список продукции
-            $query = $getAllProduct->getAllProducts($this->getProfileUid());
+            $query = $getAllProduct->getAllMaterials($this->getProfileUid());
         }
 
 

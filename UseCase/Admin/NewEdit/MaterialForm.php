@@ -26,10 +26,10 @@ namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit;
 use BaksDev\Core\Services\Reference\ReferenceChoice;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\CategoryCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Property\PropertyCollectionDTO;
-use BaksDev\Products\Category\Repository\CategoryModificationForm\CategoryModificationFormInterface;
-use BaksDev\Products\Category\Repository\CategoryOffersForm\CategoryOffersFormInterface;
-use BaksDev\Products\Category\Repository\CategoryPropertyById\CategoryPropertyByIdInterface;
-use BaksDev\Products\Category\Repository\CategoryVariationForm\CategoryVariationFormInterface;
+use BaksDev\Materials\Category\Repository\CategoryModificationForm\CategoryModificationFormInterface;
+use BaksDev\Materials\Category\Repository\CategoryOffersForm\CategoryOffersFormInterface;
+use BaksDev\Materials\Category\Repository\CategoryPropertyById\CategoryPropertyByIdInterface;
+use BaksDev\Materials\Category\Repository\CategoryVariationForm\CategoryVariationFormInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -42,13 +42,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class MaterialForm extends AbstractType
 {
-    public function __construct(
-        private readonly CategoryPropertyByIdInterface $categoryProperty,
-        private readonly CategoryOffersFormInterface $categoryOffers,
-        private readonly CategoryVariationFormInterface $categoryVariation,
-        private readonly CategoryModificationFormInterface $categoryModification,
-        private readonly ReferenceChoice $reference,
-    ) {}
+    //    public function __construct(
+    //        private readonly CategoryPropertyByIdInterface $categoryProperty,
+    //        private readonly CategoryOffersFormInterface $categoryOffers,
+    //        private readonly CategoryVariationFormInterface $categoryVariation,
+    //        private readonly CategoryModificationFormInterface $categoryModification,
+    //        private readonly ReferenceChoice $reference,
+    //    ) {}
 
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

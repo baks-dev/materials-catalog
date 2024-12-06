@@ -10,7 +10,7 @@
 
                 <div class="d-flex gap-3">
 
-                    {{ form_widget(field, { label: 'Подобрать '~((products.data|first).category_name is defined ? (products.data|first).category_name) , attr: { class : 'btn-danger w-100 rounded-4 text-uppercase fw-bolder shadow' } }) }}
+                    {{ form_widget(field, { label: 'Подобрать '~((materials.data|first).category_name is defined ? (materials.data|first).category_name) , attr: { class : 'btn-danger w-100 rounded-4 text-uppercase fw-bolder shadow' } }) }}
 
                     {# <button type="reset" class="btn btn-light rounded-4" aria-label="Сбросить">
 						<span class="small text-uppercase fw-bolder">

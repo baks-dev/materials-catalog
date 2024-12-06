@@ -24,7 +24,7 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use BaksDev\Materials\Catalog\BaksDevMaterialsCatalogBundle;
-use BaksDev\Materials\Catalog\BaksDevProductsProductBundle;
+use BaksDev\Materials\Catalog\BaksDevMaterialsProductBundle;
 use Symfony\Config\TwigConfig;
 
 return static function(TwigConfig $twig) {

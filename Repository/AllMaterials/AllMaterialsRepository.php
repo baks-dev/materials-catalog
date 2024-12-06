@@ -21,7 +21,7 @@
  *  THE SOFTWARE.
  */
 
-namespace BaksDev\Materials\Catalog\Repository\AllProducts;
+namespace BaksDev\Materials\Catalog\Repository\AllMaterials;
 
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Core\Form\Search\SearchDTO;
@@ -49,24 +49,23 @@ use BaksDev\Materials\Catalog\Entity\Property\ProductProperty;
 use BaksDev\Materials\Catalog\Entity\Trans\MaterialTrans;
 use BaksDev\Materials\Catalog\Forms\ProductFilter\Admin\ProductFilterDTO;
 use BaksDev\Materials\Catalog\Forms\ProductFilter\Admin\Property\ProductFilterPropertyDTO;
-use BaksDev\Products\Category\Entity\CategoryProduct;
-use BaksDev\Products\Category\Entity\Info\CategoryProductInfo;
-use BaksDev\Products\Category\Entity\Offers\CategoryProductOffers;
-use BaksDev\Products\Category\Entity\Offers\Variation\CategoryProductVariation;
-use BaksDev\Products\Category\Entity\Offers\Variation\Modification\CategoryProductModification;
-use BaksDev\Products\Category\Entity\Trans\CategoryProductTrans;
-use BaksDev\Products\Category\Type\Id\CategoryProductUid;
+use BaksDev\Materials\Category\Entity\CategoryProduct;
+use BaksDev\Materials\Category\Entity\Info\CategoryProductInfo;
+use BaksDev\Materials\Category\Entity\Offers\CategoryProductOffers;
+use BaksDev\Materials\Category\Entity\Offers\Variation\CategoryProductVariation;
+use BaksDev\Materials\Category\Entity\Offers\Variation\Modification\CategoryProductModification;
+use BaksDev\Materials\Category\Entity\Trans\CategoryProductTrans;
+use BaksDev\Materials\Category\Type\Id\CategoryProductUid;
 use BaksDev\Users\Profile\UserProfile\Entity\Personal\UserProfilePersonal;
 use BaksDev\Users\Profile\UserProfile\Entity\UserProfile;
 use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
 use Override;
 
-//use BaksDev\Products\Category\Entity as CategoryEntity;
+//use BaksDev\Materials\Category\Entity as CategoryEntity;
 
-final class AllProductsRepository implements AllProductsInterface
+final class AllMaterialsRepository implements AllMaterialsInterface
 {
     private ?SearchDTO $search = null;
-    private ?ProductFilterDTO $filter = null;
 
     public function __construct(
         private readonly DBALQueryBuilder $DBALQueryBuilder,
@@ -80,14 +79,7 @@ final class AllProductsRepository implements AllProductsInterface
         return $this;
     }
 
-    public function filter(ProductFilterDTO $filter): self
-    {
-        $this->filter = $filter;
-        return $this;
-    }
-
-    #[Override]
-    public function getAllProductsOffers(UserProfileUid|string $profile): PaginatorInterface
+    public function getAllMaterialsOffers(UserProfileUid|string $profile): PaginatorInterface
     {
         if(is_string($profile))
         {
@@ -603,7 +595,7 @@ final class AllProductsRepository implements AllProductsInterface
     }
 
     #[Override]
-    public function getAllProducts(UserProfileUid|string $profile): PaginatorInterface
+    public function getAllMaterials(UserProfileUid|string $profile): PaginatorInterface
     {
         if(is_string($profile))
         {

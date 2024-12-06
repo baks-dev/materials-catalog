@@ -28,7 +28,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
 /**
- * @group products-sign
+ * @group materials-catalog
  */
 #[When(env: 'test')]
 final class NewControllerTest extends WebTestCase
