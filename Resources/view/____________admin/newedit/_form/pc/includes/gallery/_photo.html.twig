@@ -23,7 +23,7 @@
 
                     {% if photo.vars.data.ext is defined and photo.vars.data.ext is not null %}
                         {% set img_host =  photo.vars.data.cdn == true  ? CDN_HOST : '' %}
-                        {% set img_table = '/upload/' ~ constant('BaksDev\\Materials\\Product\\Entity\\Photo\\ProductPhoto::TABLE')~'/' %}
+                        {% set img_table = '/upload/product_photo/' %}
                         {% set img_dir = photo.vars.data.name %}
                         {% set img_file = (img_host is empty ? '/image.' : '/small.') ~ photo.vars.data.ext %}
                         {% set image_path = img_host ~ img_table ~ img_dir ~ img_file %}
