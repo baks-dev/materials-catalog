@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -30,28 +30,17 @@ use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Messenger\MaterialMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class ProductDeleteHandler
+final readonly class ProductDeleteHandler
 {
-    private EntityManagerInterface $entityManager;
-    private ValidatorInterface $validator;
-    private LoggerInterface $logger;
-    private MessageDispatchInterface $messageDispatch;
-
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        ValidatorInterface $validator,
-        LoggerInterface $logger,
-        MessageDispatchInterface $messageDispatch
-    )
-    {
-        $this->entityManager = $entityManager;
-        $this->validator = $validator;
-        $this->logger = $logger;
-        $this->messageDispatch = $messageDispatch;
-    }
+        #[Target('materialsCatalogLogger')] private LoggerInterface $logger,
+        private EntityManagerInterface $entityManager,
+        private ValidatorInterface $validator,
+        private MessageDispatchInterface $messageDispatch
+    ) {}
 
     public function handle(
         MaterialDeleteDTO $command
