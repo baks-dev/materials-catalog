@@ -41,9 +41,9 @@ use BaksDev\Materials\Catalog\Entity\Offers\Variation\Quantity\MaterialsVariatio
 use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
 use BaksDev\Materials\Catalog\Entity\Trans\MaterialTrans;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Category\Type\Id\CategoryMaterialUid;
 use BaksDev\Products\Product\Repository\MaterialsChoice\MaterialsChoiceInterface;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Generator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

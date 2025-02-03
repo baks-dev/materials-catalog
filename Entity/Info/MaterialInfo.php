@@ -26,7 +26,7 @@ namespace BaksDev\Materials\Catalog\Entity\Info;
 use BaksDev\Core\Entity\EntityReadonly;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

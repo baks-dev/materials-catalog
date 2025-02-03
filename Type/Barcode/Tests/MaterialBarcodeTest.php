@@ -26,7 +26,7 @@ declare(strict_types=1);
 namespace BaksDev\Materials\Catalog\Type\Barcode\Tests;
 
 use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\Uid\UuidV7;

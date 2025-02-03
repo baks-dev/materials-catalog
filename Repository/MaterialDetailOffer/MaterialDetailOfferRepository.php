@@ -34,13 +34,13 @@ use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\MaterialModif
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Price\MaterialModificationPrice;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Price\MaterialVariationPrice;
 use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Category\Entity\Offers\CategoryMaterialOffers;
 use BaksDev\Materials\Category\Entity\Offers\Trans\CategoryMaterialOffersTrans;
 use BaksDev\Materials\Category\Entity\Offers\Variation\CategoryMaterialVariation;
 use BaksDev\Materials\Category\Entity\Offers\Variation\Modification\CategoryMaterialModification;
 use BaksDev\Materials\Category\Entity\Offers\Variation\Modification\Trans\CategoryMaterialModificationTrans;
 use BaksDev\Materials\Category\Entity\Offers\Variation\Trans\CategoryMaterialVariationTrans;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 final class MaterialDetailOfferRepository implements MaterialDetailOfferInterface
 {

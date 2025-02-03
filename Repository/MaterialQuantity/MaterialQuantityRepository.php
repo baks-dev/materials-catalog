@@ -29,7 +29,7 @@ use BaksDev\Core\Doctrine\ORMQueryBuilder;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 final class MaterialQuantityRepository implements MaterialQuantityInterface
 {

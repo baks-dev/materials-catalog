@@ -26,7 +26,7 @@ declare(strict_types=1);
 namespace BaksDev\Materials\Catalog\Repository\ExistMaterialRelationAction;
 
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use BaksDev\Users\UsersTable\Entity\Actions\Materials\UsersTableActionsMaterial;
 use BaksDev\Users\UsersTable\Entity\Actions\UsersTableActions;
 

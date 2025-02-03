@@ -48,7 +48,6 @@ use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
 use BaksDev\Materials\Catalog\Entity\Property\MaterialProperty;
 use BaksDev\Materials\Catalog\Entity\Seo\MaterialSeo;
 use BaksDev\Materials\Catalog\Entity\Trans\MaterialTrans;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Category\Entity\CategoryMaterial;
 use BaksDev\Materials\Category\Entity\Cover\CategoryMaterialCover;
 use BaksDev\Materials\Category\Entity\Info\CategoryMaterialInfo;
@@ -62,6 +61,7 @@ use BaksDev\Materials\Category\Entity\Section\CategoryMaterialSection;
 use BaksDev\Materials\Category\Entity\Section\Field\CategoryMaterialSectionField;
 use BaksDev\Materials\Category\Entity\Section\Field\Trans\CategoryMaterialSectionFieldTrans;
 use BaksDev\Materials\Category\Entity\Trans\CategoryMaterialTrans;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 final class MaterialModelRepository implements MaterialModelInterface
 {

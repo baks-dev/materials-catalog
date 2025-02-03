@@ -28,7 +28,6 @@ namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests;
 
 use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Repository\CurrentMaterialEvent\CurrentMaterialEventInterface;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
@@ -50,6 +49,7 @@ use BaksDev\Materials\Category\Type\Offers\Id\CategoryMaterialOffersUid;
 use BaksDev\Materials\Category\Type\Offers\Modification\CategoryMaterialModificationUid;
 use BaksDev\Materials\Category\Type\Offers\Variation\CategoryMaterialVariationUid;
 use BaksDev\Materials\Category\Type\Section\Field\Id\CategoryMaterialSectionFieldUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use BaksDev\Reference\Currency\Type\Currency;
 use BaksDev\Reference\Money\Type\Money;
 use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;

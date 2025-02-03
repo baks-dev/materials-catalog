@@ -24,7 +24,7 @@
 namespace BaksDev\Materials\Catalog\Repository\MaterialQuantity;
 
 use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 interface MaterialQuantityInterface
 {

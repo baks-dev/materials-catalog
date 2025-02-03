@@ -26,7 +26,7 @@ namespace BaksDev\Materials\Catalog\Repository\CurrentMaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 interface CurrentMaterialEventInterface
 {

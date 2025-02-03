@@ -24,7 +24,7 @@
 namespace BaksDev\Materials\Catalog\Repository\MaterialOfferChoice;
 
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Generator;
 
 interface MaterialOfferChoiceInterface

@@ -44,7 +44,6 @@ use BaksDev\Materials\Catalog\Entity\Offers\Variation\Quantity\MaterialsVariatio
 use BaksDev\Materials\Catalog\Entity\Photo\MaterialPhoto;
 use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
 use BaksDev\Materials\Catalog\Entity\Trans\MaterialTrans;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
@@ -56,6 +55,7 @@ use BaksDev\Materials\Category\Entity\Offers\Variation\Modification\CategoryMate
 use BaksDev\Materials\Category\Entity\Offers\Variation\Modification\Trans\CategoryMaterialModificationTrans;
 use BaksDev\Materials\Category\Entity\Offers\Variation\Trans\CategoryMaterialVariationTrans;
 use BaksDev\Materials\Category\Entity\Trans\CategoryMaterialTrans;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use InvalidArgumentException;
 
 final class MaterialDetailByConstRepository implements MaterialDetailByConstInterface

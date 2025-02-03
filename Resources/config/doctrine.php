@@ -30,8 +30,6 @@ use BaksDev\Materials\Catalog\Type\Event\MaterialEventType;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
 use BaksDev\Materials\Catalog\Type\File\MaterialFileType;
 use BaksDev\Materials\Catalog\Type\File\MaterialFileUid;
-use BaksDev\Materials\Catalog\Type\Id\MaterialType;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Catalog\Type\Invariable\MaterialInvariableType;
 use BaksDev\Materials\Catalog\Type\Invariable\MaterialInvariableUid;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
@@ -63,7 +61,7 @@ use Symfony\Config\DoctrineConfig;
 return static function(ContainerConfigurator $container, DoctrineConfig $doctrine) {
 
     /* MaterialUid */
-    $doctrine->dbal()->type(MaterialUid::TYPE)->class(MaterialType::class);
+
     $doctrine->dbal()->type(MaterialEventUid::TYPE)->class(MaterialEventType::class);
     $doctrine->dbal()->type(MaterialOfferConst::TYPE)->class(MaterialOfferConstType::class);
     $doctrine->dbal()->type(MaterialFileUid::TYPE)->class(MaterialFileType::class);

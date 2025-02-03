@@ -24,7 +24,7 @@
 namespace BaksDev\Materials\Catalog\Repository\MaterialDetail;
 
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 interface MaterialDetailByValueInterface
 {

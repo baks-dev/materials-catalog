@@ -24,10 +24,10 @@
 namespace BaksDev\Materials\Catalog\Repository\AllMaterialsIdentifier;
 
 use BaksDev\Materials\Catalog\Entity\Material;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Generator;
 
 interface AllMaterialsIdentifierInterface

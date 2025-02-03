@@ -30,9 +30,9 @@ use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffer;
 use BaksDev\Materials\Catalog\Entity\Offers\Quantity\MaterialOfferQuantity;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Category\Entity\Offers\CategoryMaterialOffers;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class MaterialOfferQuantityRepository implements MaterialOfferQuantityInterface

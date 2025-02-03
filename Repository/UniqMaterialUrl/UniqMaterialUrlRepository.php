@@ -25,7 +25,7 @@ namespace BaksDev\Materials\Catalog\Repository\UniqMaterialUrl;
 
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Materials\Catalog\Entity\Info\MaterialInfo;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Doctrine\DBAL\Connection;
 
 final class UniqMaterialUrlRepository implements UniqMaterialUrlInterface

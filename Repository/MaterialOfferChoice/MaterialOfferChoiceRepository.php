@@ -35,11 +35,11 @@ use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\MaterialModif
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Quantity\MaterialModificationQuantity;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Quantity\MaterialsVariationQuantity;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Catalog\Type\Offers\Id\MaterialOfferUid;
 use BaksDev\Materials\Category\Entity\Offers\CategoryMaterialOffers;
 use BaksDev\Materials\Category\Entity\Offers\Trans\CategoryMaterialOffersTrans;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Generator;
 
 final readonly class MaterialOfferChoiceRepository implements MaterialOfferChoiceInterface

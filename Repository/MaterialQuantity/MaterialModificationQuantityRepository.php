@@ -32,11 +32,11 @@ use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffer;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\MaterialVariation;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\MaterialModification;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Quantity\MaterialModificationQuantity;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
 use BaksDev\Materials\Category\Entity\Offers\Variation\Modification\CategoryMaterialModification;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 final class MaterialModificationQuantityRepository implements MaterialModificationQuantityInterface
 {

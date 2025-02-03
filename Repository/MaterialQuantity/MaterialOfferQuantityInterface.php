@@ -24,8 +24,8 @@
 namespace BaksDev\Materials\Catalog\Repository\MaterialQuantity;
 
 use BaksDev\Materials\Catalog\Entity\Offers\Quantity\MaterialOfferQuantity;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 interface MaterialOfferQuantityInterface
 {

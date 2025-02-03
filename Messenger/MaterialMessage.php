@@ -26,7 +26,7 @@ declare(strict_types=1);
 namespace BaksDev\Materials\Catalog\Messenger;
 
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 final class MaterialMessage
 {

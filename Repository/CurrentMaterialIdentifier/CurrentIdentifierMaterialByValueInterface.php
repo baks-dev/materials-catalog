@@ -23,7 +23,7 @@
 
 namespace BaksDev\Materials\Catalog\Repository\CurrentMaterialIdentifier;
 
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 interface CurrentIdentifierMaterialByValueInterface
 {

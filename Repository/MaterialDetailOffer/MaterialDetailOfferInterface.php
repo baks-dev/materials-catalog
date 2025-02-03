@@ -23,7 +23,7 @@
 
 namespace BaksDev\Materials\Catalog\Repository\MaterialDetailOffer;
 
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 
 interface MaterialDetailOfferInterface
 {

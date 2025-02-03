@@ -30,9 +30,9 @@ use BaksDev\Materials\Catalog\Entity\Category\MaterialCategory;
 use BaksDev\Materials\Catalog\Entity\Info\MaterialInfo;
 use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Entity\Trans\MaterialTrans;
-use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
 use BaksDev\Materials\Category\Type\Id\CategoryMaterialUid;
 use BaksDev\Products\Product\Repository\MaterialsChoice\MaterialsChoiceInterface;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Generator;
 
 final readonly class MaterialsChoiceRepository implements MaterialsChoiceInterface
