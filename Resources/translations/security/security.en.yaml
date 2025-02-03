@@ -1,8 +1,10 @@
 ROLE_MATERIAL:
+  header: 'Materials'
   name: 'Materials'
-  desc: 'Product List'
+  desc: 'Material List'
 
 ROLE_MATERIAL_INDEX:
+  header: 'Materials'
   name: 'View'
   desc: ''
 

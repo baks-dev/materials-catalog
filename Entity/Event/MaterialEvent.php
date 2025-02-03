@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -25,25 +25,33 @@ namespace BaksDev\Materials\Catalog\Entity\Event;
 
 use BaksDev\Core\Entity\EntityEvent;
 use BaksDev\Core\Type\Locale\Locale;
-use BaksDev\Materials\Catalog\Entity\Category\ProductCategory;
-use BaksDev\Materials\Catalog\Entity\Cover\MaterialCover;
-use BaksDev\Materials\Catalog\Entity\Info\ProductInfo;
+use BaksDev\Materials\Catalog\Entity\Active\MaterialActive;
+use BaksDev\Materials\Catalog\Entity\Category\MaterialCategory;
+use BaksDev\Materials\Catalog\Entity\Description\MaterialDescription;
+use BaksDev\Materials\Catalog\Entity\Files\MaterialFiles;
+use BaksDev\Materials\Catalog\Entity\Info\MaterialInfo;
 use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Entity\Modify\MaterialModify;
-use BaksDev\Materials\Catalog\Entity\Price\ProductPrice;
+use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffer;
+use BaksDev\Materials\Catalog\Entity\Photo\MaterialPhoto;
+use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
+use BaksDev\Materials\Catalog\Entity\Property\MaterialProperty;
+use BaksDev\Materials\Catalog\Entity\Seo\MaterialSeo;
 use BaksDev\Materials\Catalog\Entity\Trans\MaterialTrans;
+use BaksDev\Materials\Catalog\Entity\Video\MaterialVideo;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
 use BaksDev\Materials\Catalog\Type\Id\MaterialUid;
-use BaksDev\Materials\Category\Type\Id\CategoryProductUid;
+use BaksDev\Materials\Category\Type\Id\CategoryMaterialUid;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 
-// События Product
+// События Material
 
 #[ORM\Entity]
 #[ORM\Table(name: 'material_event')]
+#[ORM\Index(columns: ['main'])]
 class MaterialEvent extends EntityEvent
 {
     /** ID */
@@ -53,11 +61,27 @@ class MaterialEvent extends EntityEvent
     #[ORM\Column(type: MaterialEventUid::TYPE)]
     private MaterialEventUid $id;
 
-    /** ID Product */
+    /** ID Material */
     #[Assert\NotBlank]
     #[Assert\Uuid]
     #[ORM\Column(type: MaterialUid::TYPE, nullable: false)]
     private ?MaterialUid $main = null;
+
+    /** Категории */
+    #[Assert\Valid]
+    #[ORM\OneToMany(targetEntity: MaterialCategory::class, mappedBy: 'event', cascade: ['all'])]
+    private Collection $category;
+
+    /**
+     * Информация о сырья
+     */
+    #[ORM\OneToOne(targetEntity: MaterialInfo::class, mappedBy: 'event', cascade: ['all'])]
+    private ?MaterialInfo $info = null;
+
+    /** Базовые Стоимость и наличие */
+    #[Assert\Valid]
+    #[ORM\OneToOne(targetEntity: MaterialPrice::class, mappedBy: 'event', cascade: ['all'])]
+    private ?MaterialPrice $price = null;
 
     /** Модификатор */
     #[ORM\OneToOne(targetEntity: MaterialModify::class, mappedBy: 'event', cascade: ['all'])]
@@ -68,10 +92,22 @@ class MaterialEvent extends EntityEvent
     #[ORM\OneToMany(targetEntity: MaterialTrans::class, mappedBy: 'event', cascade: ['all'])]
     private Collection $translate;
 
-    /** Cover */
-    #[ORM\OneToOne(targetEntity: MaterialCover::class, mappedBy: 'event', cascade: ['all'])]
-    private ?MaterialCover $cover = null;
+    /** Фото сырья */
+    #[Assert\Valid]
+    #[ORM\OneToMany(targetEntity: MaterialPhoto::class, mappedBy: 'event', cascade: ['all'])]
+    #[ORM\OrderBy(['root' => 'DESC'])]
+    private Collection $photo;
 
+    /** Файлы (документы) сырья */
+    #[Assert\Valid]
+    #[ORM\OneToMany(targetEntity: MaterialFiles::class, mappedBy: 'event', cascade: ['all'])]
+    private Collection $file;
+
+    /** Тоговые предложения */
+    #[Assert\Valid]
+    #[ORM\OrderBy(['value' => 'ASC'])]
+    #[ORM\OneToMany(targetEntity: MaterialOffer::class, mappedBy: 'event', cascade: ['all'])]
+    private Collection $offer;
 
     public function __construct()
     {
@@ -144,11 +180,11 @@ class MaterialEvent extends EntityEvent
 
 
     /**
-     * Метод возвращает идентификатор корневой категории продукта
+     * Метод возвращает идентификатор корневой категории сырья
      */
-    public function getRootCategory(): ?CategoryProductUid
+    public function getRootCategory(): ?CategoryMaterialUid
     {
-        $filter = $this->category->filter(function(ProductCategory $category) {
+        $filter = $this->category->filter(function(MaterialCategory $category) {
             return $category->isRoot();
 
         });
@@ -198,7 +234,7 @@ class MaterialEvent extends EntityEvent
     /**
      * Info
      */
-    public function getInfo(): ProductInfo
+    public function getInfo(): MaterialInfo
     {
         return $this->info;
     }

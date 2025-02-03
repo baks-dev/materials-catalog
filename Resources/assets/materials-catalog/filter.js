@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,14 @@
  *  THE SOFTWARE.
  */
 
-executeFunc(function productFilter()
+executeFunc(function materialFilter()
 {
     if(typeof formDebounce !== 'function')
     {
         return false;
     }
 
-    const form = document.forms.product_filter_form;
+    const form = document.forms.material_filter_form;
 
 
     if(typeof form === 'undefined')
@@ -35,7 +35,7 @@ executeFunc(function productFilter()
         return false;
     }
 
-    form.addEventListener('click', () =>
+    form.addEventListener('click', (event) =>
     {
         if(idFormDebounce == lastFormDebounce)
         {
@@ -46,30 +46,31 @@ executeFunc(function productFilter()
         lastFormDebounce = idFormDebounce;
     });
 
+
     const inputFields = form.querySelectorAll('input, select, textarea');
 
     // Добавляем обработчик изменения для каждого поля ввода
     inputFields.forEach(field =>
     {
         if(
-            field.id === 'product_filter_form_category' ||
-            field.id === 'product_filter_form_all'
+            field.id === 'material_filter_form_category' ||
+            field.id === 'material_filter_form_all'
         )
         {
             field.addEventListener('change', () =>
             {
-                const product_filter_form_offer = form.product_filter_form_offer;
+                const material_filter_form_offer = form.material_filter_form_offer;
 
-                if(typeof product_filter_form_offer === 'object')
+                if(typeof material_filter_form_offer === 'object')
                 {
-                    const options = product_filter_form_offer.options;
+                    const options = material_filter_form_offer.options;
 
                     for(var i = 0; i < options.length; i++)
                     {
                         options[i].selected = false;
                     }
 
-                    product_filter_form_offer.selectedIndex = 0;
+                    material_filter_form_offer.selectedIndex = 0;
                 }
 
                 setTimeout(() => { form.submit(); }, 300);

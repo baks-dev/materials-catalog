@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,8 @@ use BaksDev\Core\Listeners\Event\Security\RoleSecurity;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\UseCase\Admin\Delete\MaterialDeleteDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\Delete\ProductDeleteForm;
-use BaksDev\Materials\Catalog\UseCase\Admin\Delete\ProductDeleteHandler;
+use BaksDev\Materials\Catalog\UseCase\Admin\Delete\MaterialDeleteForm;
+use BaksDev\Materials\Catalog\UseCase\Admin\Delete\MaterialDeleteHandler;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,16 +43,16 @@ final class DeleteController extends AbstractController
     #[Route('/admin/material/delete/{id}', name: 'admin.delete', methods: ['POST', 'GET'])]
     public function delete(
         Request $request,
-        ProductDeleteHandler $productDeleteHandler,
+        MaterialDeleteHandler $materialDeleteHandler,
         #[MapEntity] MaterialEvent $Event
     ): Response
     {
 
-        $ProductDeleteDTO = new MaterialDeleteDTO();
-        $Event->getDto($ProductDeleteDTO);
+        $MaterialDeleteDTO = new MaterialDeleteDTO();
+        $Event->getDto($MaterialDeleteDTO);
 
-        $form = $this->createForm(ProductDeleteForm::class, $ProductDeleteDTO, [
-            'action' => $this->generateUrl('materials-catalog:admin.delete', ['id' => $ProductDeleteDTO->getEvent()]),
+        $form = $this->createForm(MaterialDeleteForm::class, $MaterialDeleteDTO, [
+            'action' => $this->generateUrl('materials-catalog:admin.delete', ['id' => $MaterialDeleteDTO->getEvent()]),
         ]);
 
         $form->handleRequest($request);
@@ -61,11 +61,11 @@ final class DeleteController extends AbstractController
         {
             $this->refreshTokenForm($form);
 
-            $handle = $productDeleteHandler->handle($ProductDeleteDTO);
+            $handle = $materialDeleteHandler->handle($MaterialDeleteDTO);
 
             $this->addFlash(
-                'admin.page.delete',
-                $handle instanceof Material ? 'admin.success.delete' : 'admin.danger.delete',
+                'page.delete',
+                $handle instanceof Material ? 'success.delete' : 'danger.delete',
                 'materials-catalog.admin',
                 $handle
             );

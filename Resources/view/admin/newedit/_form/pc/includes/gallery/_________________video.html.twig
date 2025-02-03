@@ -1,0 +1,31 @@
+{% trans_default_domain 'materials-catalog.admin' %}
+
+<div class="card w-100 border-light">
+    <div class="card-header border-light bg-body">
+        <div class="card-title">
+            <h4>
+                Видео
+            </h4>
+        </div>
+    </div>
+
+    <div class="card-footer border-light bg-body">
+        <button type="button" id="video_addCollection"
+                class="btn btn-sm btn-outline-primary border-0"
+                data-prototype="prototype.gallery.video"
+                data-index="{{ form.video.count }}"
+        >
+			<span class="svg-icon svg-icon-2">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+					<rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)"
+                          fill="currentColor"></rect>
+					<rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor"></rect>
+				</svg>
+			</span>
+            Добавить еще видео
+        </button>
+    </div>
+</div>
+
+
+

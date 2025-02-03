@@ -41,6 +41,7 @@ return static function(FrameworkConfig $framework) {
         ->multiplier(3) // увеличиваем задержку перед каждой повторной попыткой
         ->service(null);
 
+
     $messenger
         ->transport('materials-catalog-low')
         ->dsn('%env(MESSENGER_TRANSPORT_DSN)%')
@@ -52,6 +53,7 @@ return static function(FrameworkConfig $framework) {
         ->maxDelay(1)
         ->multiplier(2)
         ->service(null);
+
 
     $failure = $framework->messenger();
 

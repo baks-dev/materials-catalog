@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -21,19 +21,18 @@
  *  THE SOFTWARE.
  */
 
-use BaksDev\Materials\Catalog\BaksDevMaterialsCatalogBundle;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return function(RoutingConfigurator $routes) {
 
 
-    $MODULE = BaksDevMaterialsCatalogBundle::PATH;
+    $MODULE = substr(__DIR__, 0, strpos(__DIR__, "Resources"));
 
     $routes->import(
         $MODULE.'Controller',
         'attribute',
         false,
-        $MODULE.implode(DIRECTORY_SEPARATOR, ['Controller', '**', '*Test.php'])
+        $MODULE.'Controller/**/*Test.php'
     )
         ->prefix(\BaksDev\Core\Type\Locale\Locale::routes())
         ->namePrefix('materials-catalog:');

@@ -1,0 +1,138 @@
+{# {% set material_offers = item.material_offers|json_decode %} #}
+{% set material_offers = [] %}
+
+<div class="col-2 p-1">
+
+    <div class="border-bottom border-4 rounded-4 bg-primary border-primary">
+
+        <div class="card bg-light-primary rounded-4">
+
+            <div class="card-body small p-2">
+                <div class="d-flex justify-content-between align-items-center small">
+
+                    {# {{ include(_self|replace({ "card.html.twig": "_usecase.html.twig" })) }} #}
+                    {# Бренд #}
+                    <div class="w-100">
+                        {{ item.users_profile_username }}
+                    </div>
+
+                    <div class="text-muted">
+                        {% if item.category_name %}
+                            <span class="badge text-bg-secondary">{{ item.category_name }}</span>
+                        {% else %}
+                            <span class="badge text-bg-danger">Без категории</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {# <div class="d-flex justify-content-between align-items-end">
+                    <span class="h5 mb-0"> #}{# {{ money(item.order_price, item.order_currency) }} #}{# </span>
+                    <span class="small text-muted">1 шт</span>
+                </div> #}
+            </div>
+
+            {# Обложка  #}
+
+            <div class="d-flex flex-column small gap-1 p-2 bg-cover lazy col-2 w-100 position-relative"
+                 style="height: 200px;"
+                 data-bg="{{ cdn_image_path(item.material_image, item.material_image_ext, item.material_image_cdn) }}"
+            >
+                <div
+                        class="icon rounded-circle bg-contain p-1 mb-2 shadow position-absolute"
+                        style="width: 25px; height: 25px;"
+                >
+                    {{ include(_self|replace({ "card.html.twig": "_usecase.html.twig" })) }}
+                </div>
+
+                {# {% set offer_count = material_offers|length %} #}
+
+                {% if item.offer_count > 0 %}
+                    <form method="post" action="{{ path('materials-catalog:admin.index') }}"
+                          class="position-absolute bottom-0 end-0 p-1">
+
+                        <input type="hidden" name="search_form[query]" value="{{ item.article }}">
+
+                        <div class="btn-group p-0" role="group">
+                            <button type="submit" class="btn btn-primary btn-sm py-0"
+                                    role="tooltip"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    data-bs-delay='{"show":600,"hide":100}'
+                                    title='Торговые предложения'
+                            >
+                                {{ item.offer_count }}
+                            </button>
+                        </div>
+                    </form>
+                {% endif %}
+
+            </div>
+
+
+            <div class="card-body d-flex flex-column p-2">
+
+                <div class="text-truncate bg-contain"
+                     role="tooltip"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="top"
+                     data-bs-delay='{"show":600,"hide":100}'
+                     title="{{ item.material_name }}"
+                >
+                    <a href="{{ (is_granted(ROLE~'_EDIT') or is_granted('ROLE_ADMIN')) ? path('materials-catalog:admin.newedit.edit', { id: item.event }) }}"
+                       class="fw-bolder mb-1 text-dark text-decoration-none"
+                    >
+                        {{ item.material_name|capitalize }}
+                    </a>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center small">
+
+                    {% if item.article %}
+                        <div class="d-flex align-items-center">
+                            <span>Префикс: &nbsp;</span>
+                            <form method="post" action='{{ path('materials-catalog:admin.index') }}' class="p-0">
+                                <input type="hidden" name="search_form[query]" value="{{ item.article }}">
+                                <button type="submit" class="btn btn-link text-decoration-none btn-sm p-0 border-0">
+                                    <span class="small">{{ item.article }}</span>
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+
+
+
+                    {# <span
+                            data-bs-toggle="tooltip"
+              role="tooltip"
+                            data-bs-placement="bottom"
+                            data-bs-delay='{"show":600,"hide":100}'
+                            title='QR сырья'
+                    >
+                        <a href="{{ path('materials-catalog:admin.qrcode', {
+                            material: item.event,
+                            offer: item.material_offer_id,
+                            variation: item.material_variation_id,
+                            modification: item.material_modification_id
+                        }) }}"
+                           class="btn-link btn p-0 pb-1 modal-link disabled"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modal"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                                 class="bi bi-qr-code" viewBox="0 0 16 16">
+                                <path d="M2 2h2v2H2V2Z"/>
+                                <path d="M6 0v6H0V0h6ZM5 1H1v4h4V1ZM4 12H2v2h2v-2Z"/>
+                                <path d="M6 10v6H0v-6h6Zm-5 1v4h4v-4H1Zm11-9h2v2h-2V2Z"/>
+                                <path d="M10 0v6h6V0h-6Zm5 1v4h-4V1h4ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Z"/>
+                                <path d="M7 12h1v3h4v1H7v-4Zm9 2v2h-3v-1h2v-1h1Z"/>
+                            </svg>
+                        </a>
+                    </span> #}
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>

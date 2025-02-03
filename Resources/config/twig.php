@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,12 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use BaksDev\Materials\Catalog\BaksDevMaterialsCatalogBundle;
-use BaksDev\Materials\Catalog\BaksDevMaterialsProductBundle;
 use Symfony\Config\TwigConfig;
 
 return static function(TwigConfig $twig) {
 
     $twig->path(
-        BaksDevMaterialsCatalogBundle::PATH.implode(DIRECTORY_SEPARATOR, ['Resources', 'view', '']),
+        BaksDevMaterialsCatalogBundle::PATH.implode(DIRECTORY_SEPARATOR, ['Resources', 'view', '']), // .'Resources/view',
         'materials-catalog'
     );
 

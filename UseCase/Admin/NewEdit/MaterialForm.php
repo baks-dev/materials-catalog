@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,12 @@
 namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit;
 
 use BaksDev\Core\Services\Reference\ReferenceChoice;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\CategoryCollectionDTO;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\MaterialCategoryCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Property\PropertyCollectionDTO;
-use BaksDev\Materials\Category\Repository\CategoryModificationForm\CategoryModificationFormInterface;
-use BaksDev\Materials\Category\Repository\CategoryOffersForm\CategoryOffersFormInterface;
-use BaksDev\Materials\Category\Repository\CategoryPropertyById\CategoryPropertyByIdInterface;
-use BaksDev\Materials\Category\Repository\CategoryVariationForm\CategoryVariationFormInterface;
+use BaksDev\Materials\Category\Repository\CategoryModificationForm\CategoryMaterialModificationFormInterface;
+use BaksDev\Materials\Category\Repository\CategoryOffersForm\CategoryMaterialOffersFormInterface;
+use BaksDev\Materials\Category\Repository\CategoryPropertyById\CategoryMaterialPropertyByIdInterface;
+use BaksDev\Materials\Category\Repository\CategoryVariationForm\CategoryMaterialVariationFormInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -42,27 +42,25 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class MaterialForm extends AbstractType
 {
-    //    public function __construct(
-    //        private readonly CategoryPropertyByIdInterface $categoryProperty,
-    //        private readonly CategoryOffersFormInterface $categoryOffers,
-    //        private readonly CategoryVariationFormInterface $categoryVariation,
-    //        private readonly CategoryModificationFormInterface $categoryModification,
-    //        private readonly ReferenceChoice $reference,
-    //    ) {}
+    public function __construct(
+        private readonly CategoryMaterialPropertyByIdInterface $categoryProperty,
+        private readonly CategoryMaterialOffersFormInterface $categoryOffers,
+        private readonly CategoryMaterialVariationFormInterface $categoryVariation,
+        private readonly CategoryMaterialModificationFormInterface $categoryModification,
+        private readonly ReferenceChoice $reference,
+    ) {}
 
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-        $builder->add('info', Info\InfoForm::class, ['label' => false]);
+        $builder->add('info', Info\MaterialInfoForm::class, ['label' => false]);
 
-        $builder->add('active', Active\ActiveForm::class, ['label' => false]);
-
-        $builder->add('price', Price\PriceForm::class, ['label' => false]);
+        $builder->add('price', Price\MaterialPriceForm::class, ['label' => false]);
 
         /* CATEGORIES CollectionType */
         $builder->add('category', CollectionType::class, [
-            'entry_type' => Category\CategoryCollectionForm::class,
+            'entry_type' => Category\MaterialCategoryCollectionForm::class,
             'entry_options' => ['label' => false],
             'label' => false,
             'by_reference' => false,
@@ -73,7 +71,7 @@ final class MaterialForm extends AbstractType
 
         /* FILES Collection */
         $builder->add('file', CollectionType::class, [
-            'entry_type' => Files\FilesCollectionForm::class,
+            'entry_type' => Files\MaterialFilesCollectionForm::class,
             'entry_options' => ['label' => false],
             'label' => false,
             'by_reference' => false,
@@ -82,20 +80,10 @@ final class MaterialForm extends AbstractType
             'prototype_name' => '__files__',
         ]);
 
-        /* SEO Collection */
-        $builder->add('seo', CollectionType::class, [
-            'entry_type' => Seo\SeoCollectionForm::class,
-            'entry_options' => ['label' => false],
-            'label' => false,
-            'by_reference' => false,
-            'allow_delete' => true,
-            'allow_add' => true,
-            'prototype_name' => '__seo__',
-        ]);
 
         /* TRANS CollectionType */
         $builder->add('translate', CollectionType::class, [
-            'entry_type' => Trans\ProductTransForm::class,
+            'entry_type' => Trans\MaterialTransForm::class,
             'entry_options' => ['label' => false],
             'label' => false,
             'by_reference' => false,
@@ -105,20 +93,10 @@ final class MaterialForm extends AbstractType
         ]);
 
 
-        /* TRANS CollectionType */
-        $builder->add('description', CollectionType::class, [
-            'entry_type' => Description\ProductDescriptionForm::class,
-            'entry_options' => ['label' => false],
-            'label' => false,
-            'by_reference' => false,
-            'allow_delete' => true,
-            'allow_add' => true,
-            'prototype_name' => '__description__',
-        ]);
 
         /* PHOTOS CollectionType */
         $builder->add('photo', CollectionType::class, [
-            'entry_type' => Photo\PhotoCollectionForm::class,
+            'entry_type' => Photo\MaterialPhotoCollectionForm::class,
             'entry_options' => ['label' => false],
             'label' => false,
             'by_reference' => false,
@@ -129,7 +107,7 @@ final class MaterialForm extends AbstractType
 
         /* FILES CollectionType */
         $builder->add('file', CollectionType::class, [
-            'entry_type' => Files\FilesCollectionForm::class,
+            'entry_type' => Files\MaterialFilesCollectionForm::class,
             'entry_options' => ['label' => false],
             'label' => false,
             'by_reference' => false,
@@ -138,16 +116,7 @@ final class MaterialForm extends AbstractType
             'prototype_name' => '__files__',
         ]);
 
-        /* VIDEOS CollectionType */
-        $builder->add('video', CollectionType::class, [
-            'entry_type' => Video\VideoCollectionForm::class,
-            'entry_options' => ['label' => false],
-            'label' => false,
-            'by_reference' => false,
-            'allow_delete' => true,
-            'allow_add' => true,
-            'prototype_name' => '__videos__',
-        ]);
+
 
         /*
          * PROPERTIES
@@ -155,15 +124,15 @@ final class MaterialForm extends AbstractType
 
         /* @var ArrayCollection $categories */
         $categories = $options['data']->getCategory();
-        /* @var CategoryCollectionDTO $category */
+        /* @var MaterialCategoryCollectionDTO $category */
         $category = $categories->current();
 
-        $propertyCategory = $category->getCategory() ? $this->categoryProperty
-            ->forCategory($category->getCategory())
-            ->findAll() : [];
+        //        $propertyCategory = $category->getCategory() ? $this->categoryProperty
+        //            ->forCategory($category->getCategory())
+        //            ->findAll() : [];
 
         /* CollectionType */
-        $builder->add('property', CollectionType::class, [
+        /*$builder->add('property', CollectionType::class, [
             'entry_type' => Property\PropertyCollectionForm::class,
             'entry_options' => [
                 'label' => false,
@@ -174,13 +143,15 @@ final class MaterialForm extends AbstractType
             'allow_delete' => true,
             'allow_add' => true,
             'prototype_name' => '__properties__',
-        ]);
+        ]);*/
 
         $builder->add('dataOffer', HiddenType::class, ['mapped' => false]);
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function(FormEvent $event) use ($propertyCategory) {
+            function(FormEvent $event) /*use ($propertyCategory)*/ {
+
+                return;
 
                 /* @var MaterialDTO $data */
                 $data = $event->getData();
@@ -234,7 +205,7 @@ final class MaterialForm extends AbstractType
 
         /* Сохранить ******************************************************/
         $builder->add(
-            'product',
+            'material',
             SubmitType::class,
             ['label' => 'Save', 'label_html' => true, 'attr' => ['class' => 'btn-primary']]
         );
@@ -269,7 +240,7 @@ final class MaterialForm extends AbstractType
                 null;
 
         $builder->add('offer', CollectionType::class, [
-            'entry_type' => Offers\ProductOffersCollectionForm::class,
+            'entry_type' => Offers\MaterialOffersCollectionForm::class,
             'entry_options' => [
                 'label' => false,
                 //'category_id' => $category,
@@ -396,58 +367,58 @@ final class MaterialForm extends AbstractType
                     if(!empty($offersCategory) && $data->getOffer()->isEmpty())
                     {
 
-                        $ProductOffersCollectionDTO = new Offers\ProductOffersCollectionDTO();
-                        $ProductOffersCollectionDTO->setCategoryOffer($offersCategory->id);
+                        $MaterialOffersCollectionDTO = new Offers\MaterialOffersCollectionDTO();
+                        $MaterialOffersCollectionDTO->setCategoryOffer($offersCategory->id);
 
                         if($offersCategory->image)
                         {
-                            $ProductOfferImageCollectionDTO = new Offers\Image\ProductOfferImageCollectionDTO();
-                            $ProductOfferImageCollectionDTO->setRoot(true);
-                            $ProductOffersCollectionDTO->addImage($ProductOfferImageCollectionDTO);
+                            $MaterialOfferImageCollectionDTO = new Offers\Image\MaterialOfferImageCollectionDTO();
+                            $MaterialOfferImageCollectionDTO->setRoot(true);
+                            $MaterialOffersCollectionDTO->addImage($MaterialOfferImageCollectionDTO);
                         }
 
                         if($variationCategory)
                         {
 
-                            $ProductOffersVariationCollectionDTO = new Offers\Variation\ProductVariationCollectionDTO();
-                            $ProductOffersVariationCollectionDTO->setCategoryVariation($variationCategory->id);
+                            $MaterialOffersVariationCollectionDTO = new Offers\Variation\MaterialVariationCollectionDTO();
+                            $MaterialOffersVariationCollectionDTO->setCategoryVariation($variationCategory->id);
 
                             if($variationCategory->image)
                             {
-                                $ProductOfferVariationImageCollectionDTO =
-                                    new Offers\Variation\Image\ProductVariationImageCollectionDTO();
-                                $ProductOfferVariationImageCollectionDTO->setRoot(true);
-                                $ProductOffersVariationCollectionDTO->addImage(
-                                    $ProductOfferVariationImageCollectionDTO
+                                $MaterialOfferVariationImageCollectionDTO =
+                                    new Offers\Variation\Image\MaterialVariationImageCollectionDTO();
+                                $MaterialOfferVariationImageCollectionDTO->setRoot(true);
+                                $MaterialOffersVariationCollectionDTO->addImage(
+                                    $MaterialOfferVariationImageCollectionDTO
                                 );
                             }
 
-                            $ProductOffersCollectionDTO->addVariation($ProductOffersVariationCollectionDTO);
+                            $MaterialOffersCollectionDTO->addVariation($MaterialOffersVariationCollectionDTO);
 
 
                             if($modificationCategory)
                             {
-                                $ProductOffersVariationModificationCollectionDTO =
-                                    new Offers\Variation\Modification\ProductModificationCollectionDTO();
-                                $ProductOffersVariationModificationCollectionDTO
+                                $MaterialOffersVariationModificationCollectionDTO =
+                                    new Offers\Variation\Modification\MaterialModificationCollectionDTO();
+                                $MaterialOffersVariationModificationCollectionDTO
                                     ->setCategoryModification($modificationCategory->id);
 
                                 if($modificationCategory->image)
                                 {
-                                    $ProductOfferVariationModificationImageCollectionDTO =
-                                        new Offers\Variation\Modification\Image\ProductModificationImageCollectionDTO();
-                                    $ProductOfferVariationModificationImageCollectionDTO->setRoot(true);
-                                    $ProductOffersVariationModificationCollectionDTO->addImage($ProductOfferVariationModificationImageCollectionDTO);
+                                    $MaterialOfferVariationModificationImageCollectionDTO =
+                                        new Offers\Variation\Modification\Image\MaterialModificationImageCollectionDTO();
+                                    $MaterialOfferVariationModificationImageCollectionDTO->setRoot(true);
+                                    $MaterialOffersVariationModificationCollectionDTO->addImage($MaterialOfferVariationModificationImageCollectionDTO);
 
 
                                 }
 
-                                $ProductOffersVariationCollectionDTO->addModification($ProductOffersVariationModificationCollectionDTO);
+                                $MaterialOffersVariationCollectionDTO->addModification($MaterialOffersVariationModificationCollectionDTO);
                             }
 
                         }
 
-                        $data->addOffer($ProductOffersCollectionDTO);
+                        $data->addOffer($MaterialOffersCollectionDTO);
                     }
                 }
             );

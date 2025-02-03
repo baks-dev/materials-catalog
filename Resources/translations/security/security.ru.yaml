@@ -1,10 +1,12 @@
 # Роль
 ROLE_MATERIAL:
-  name: 'Сырьё'
-  desc: 'Каталог сырья'
+  header: 'Сырьё'
+  name: 'Каталог сырья'
+  desc: 'Список сырья'
 
 # Правила
 ROLE_MATERIAL_INDEX:
+  header: 'Сырьё'
   name: 'Просмотр'
   desc: ''
 
@@ -23,5 +25,3 @@ ROLE_MATERIAL_DELETE:
 ROLE_MATERIAL_RENAME:
   name: 'Переименовать'
   desc: ''
-
-

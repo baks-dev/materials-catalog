@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -24,22 +24,24 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use BaksDev\Materials\Catalog\BaksDevMaterialsCatalogBundle;
+use BaksDev\Materials\Catalog\Repository\MaterialsChoice\MaterialsChoiceRepository;
+use BaksDev\Materials\Catalog\Routing\BaksRoutingLoader;
+use BaksDev\Products\Product\Repository\MaterialsChoice\MaterialsChoiceInterface;
 
 return static function(ContainerConfigurator $container) {
 
     $services = $container->services()
         ->defaults()
+        ->public()
         ->autowire()
         ->autoconfigure();
 
-    $NAMESPACE = BaksDevMaterialsCatalogBundle::NAMESPACE;
-    $PATH = BaksDevMaterialsCatalogBundle::PATH;
-
-    $services->load($NAMESPACE, $PATH)
+    $services->load(BaksDevMaterialsCatalogBundle::NAMESPACE, BaksDevMaterialsCatalogBundle::PATH)
         ->exclude([
-            $PATH.'{Entity,Resources,Type}',
-            $PATH.'**'.DIRECTORY_SEPARATOR.'*Message.php',
-            $PATH.'**'.DIRECTORY_SEPARATOR.'*DTO.php',
-            $PATH.'**'.DIRECTORY_SEPARATOR.'*Test.php',
+            BaksDevMaterialsCatalogBundle::PATH.'{Entity,Resources,Type}',
+            BaksDevMaterialsCatalogBundle::PATH.'**'.DIRECTORY_SEPARATOR.'*Message.php',
+            BaksDevMaterialsCatalogBundle::PATH.'**'.DIRECTORY_SEPARATOR.'*DTO.php',
         ]);
+
+    $services->set(MaterialsChoiceInterface::class)->class(MaterialsChoiceRepository::class);
 };

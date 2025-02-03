@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialEventUid extends Uid
 {
-    public const string TEST = '45393f06-e4c3-7872-88ce-407aca747a07';
+    public const string TEST = '0188a99e-7e95-7385-a2d5-b6fb3d0ca89f';
 
     public const string TYPE = 'material_event';
 

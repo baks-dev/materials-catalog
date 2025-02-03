@@ -30,27 +30,25 @@ use BaksDev\Files\Resources\Upload\File\FileUploadInterface;
 use BaksDev\Files\Resources\Upload\Image\ImageUploadInterface;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Material;
-use BaksDev\Materials\Catalog\Entity\Offers\Image\ProductOfferImage;
-use BaksDev\Materials\Catalog\Entity\Offers\ProductOffer;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\Image\ProductVariationImage;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Image\ProductModificationImage;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\ProductModification;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\ProductVariation;
+use BaksDev\Materials\Catalog\Entity\Offers\Image\MaterialOfferImage;
+use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffer;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Image\MaterialVariationImage;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\MaterialVariation;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Image\MaterialModificationImage;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\MaterialModification;
 use BaksDev\Materials\Catalog\Messenger\MaterialMessage;
-use BaksDev\Materials\Catalog\Repository\UniqProductUrl\UniqProductUrlInterface;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Files\FilesCollectionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Image\ProductOfferImageCollectionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Image\ProductVariationImageCollectionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Modification\Image\ProductModificationImageCollectionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Photo\PhotoCollectionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Video\VideoCollectionDTO;
+use BaksDev\Materials\Catalog\Repository\UniqMaterialUrl\UniqMaterialUrlInterface;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Files\MaterialFilesCollectionDTO;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Image\MaterialOfferImageCollectionDTO;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Image\MaterialVariationImageCollectionDTO;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Modification\Image\MaterialModificationImageCollectionDTO;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Photo\MaterialPhotoCollectionDTO;
 use Doctrine\ORM\EntityManagerInterface;
-use DomainException;
 
 final class MaterialHandler extends AbstractHandler
 {
     public function __construct(
-        private readonly UniqProductUrlInterface $uniqProductUrl,
+        private readonly UniqMaterialUrlInterface $uniqMaterialUrl,
 
         EntityManagerInterface $entityManager,
         MessageDispatchInterface $messageDispatch,
@@ -65,66 +63,51 @@ final class MaterialHandler extends AbstractHandler
     public function handle(MaterialDTO $command): Material|string
     {
 
-        /* Валидация DTO  */
-        $this->validatorCollection->add($command);
+        $this->setCommand($command);
 
-        $this->main = new Material();
-        $this->event = new MaterialEvent();
+        $this->preEventPersistOrUpdate(Material::class, MaterialEvent::class);
 
-        try
-        {
-            $command->getEvent() ? $this->preUpdate($command, true) : $this->prePersist($command);
-        }
-        catch(DomainException $errorUniqid)
-        {
-            return $errorUniqid->getMessage();
-        }
+        //        try
+        //        {
+        //            $command->getEvent() ? $this->preUpdate($command, true) : $this->prePersist($command);
+        //        }
+        //        catch(DomainException $errorUniqid)
+        //        {
+        //            return $errorUniqid->getMessage();
+        //        }
 
 
-        /** Проверяем уникальность семантической ссылки продукта */
-        $infoDTO = $command->getInfo();
-        $uniqProductUrl = $this->uniqProductUrl->isExists($infoDTO->getUrl(), $this->main->getId());
+        /** Проверяем уникальность семантической ссылки сырья */
+        //$infoDTO = $command->getInfo();
+        //$uniqMaterialUrl = $this->uniqMaterialUrl->isExists($infoDTO->getUrl(), $this->main->getId());
 
-        if($uniqProductUrl)
-        {
-            $this->event->getInfo()->updateUrlUniq(); // Обновляем URL на уникальный с префиксом
-        }
+        //        if($uniqMaterialUrl)
+        //        {
+        //            $this->event->getInfo()->updateUrlUniq(); // Обновляем URL на уникальный с префиксом
+        //        }
 
         // Загрузка базового фото галереи
-        foreach($this->event->getPhoto() as $ProductPhoto)
+        foreach($this->event->getPhoto() as $MaterialPhoto)
         {
-            /** @var PhotoCollectionDTO $PhotoCollectionDTO */
-            $PhotoCollectionDTO = $ProductPhoto->getEntityDto();
+            /** @var MaterialPhotoCollectionDTO $PhotoCollectionDTO */
+            $PhotoCollectionDTO = $MaterialPhoto->getEntityDto();
 
             if(null !== $PhotoCollectionDTO->file)
             {
-                $this->imageUpload->upload($PhotoCollectionDTO->file, $ProductPhoto);
+                $this->imageUpload->upload($PhotoCollectionDTO->file, $MaterialPhoto);
             }
         }
 
 
         // Загрузка файлов PDF галереи
-        foreach($this->event->getFile() as $ProductFile)
+        foreach($this->event->getFile() as $MaterialFile)
         {
-            /** @var FilesCollectionDTO $FilesCollectionDTO */
-            $FilesCollectionDTO = $ProductFile->getEntityDto();
+            /** @var MaterialFilesCollectionDTO $FilesCollectionDTO */
+            $FilesCollectionDTO = $MaterialFile->getEntityDto();
 
             if($FilesCollectionDTO->file !== null)
             {
-                $this->fileUpload->upload($FilesCollectionDTO->file, $ProductFile);
-            }
-        }
-
-
-        // Загрузка файлов Видео галереи
-        foreach($this->event->getVideo() as $ProductVideo)
-        {
-            /** @var VideoCollectionDTO $VideoCollectionDTO */
-            $VideoCollectionDTO = $ProductVideo->getEntityDto();
-
-            if($VideoCollectionDTO->file !== null)
-            {
-                $this->fileUpload->upload($VideoCollectionDTO->file, $ProductVideo);
+                $this->fileUpload->upload($FilesCollectionDTO->file, $MaterialFile);
             }
         }
 
@@ -132,52 +115,52 @@ final class MaterialHandler extends AbstractHandler
         /**
          * Загрузка фото торгового предложения.
          *
-         * @var ProductOffer $ProductOffer
+         * @var MaterialOffer $MaterialOffer
          */
 
-        foreach($this->event->getOffer() as $ProductOffer)
+        foreach($this->event->getOffer() as $MaterialOffer)
         {
 
-            /** @var ProductOfferImage $ProductOfferImage */
-            foreach($ProductOffer->getImage() as $ProductOfferImage)
+            /** @var MaterialOfferImage $MaterialOfferImage */
+            foreach($MaterialOffer->getImage() as $MaterialOfferImage)
             {
-                /** @var ProductOfferImageCollectionDTO $ProductOfferImageCollectionDTO */
-                $ProductOfferImageCollectionDTO = $ProductOfferImage->getEntityDto();
+                /** @var MaterialOfferImageCollectionDTO $MaterialOfferImageCollectionDTO */
+                $MaterialOfferImageCollectionDTO = $MaterialOfferImage->getEntityDto();
 
-                if($ProductOfferImageCollectionDTO->file !== null)
+                if($MaterialOfferImageCollectionDTO->file !== null)
                 {
-                    $this->imageUpload->upload($ProductOfferImageCollectionDTO->file, $ProductOfferImage);
+                    $this->imageUpload->upload($MaterialOfferImageCollectionDTO->file, $MaterialOfferImage);
                 }
             }
 
-            /** @var ProductVariation $ProductVariation */
-            foreach($ProductOffer->getVariation() as $ProductVariation)
+            /** @var MaterialVariation $MaterialVariation */
+            foreach($MaterialOffer->getVariation() as $MaterialVariation)
             {
-                /** @var ProductVariationImage $ProductVariationImage */
-                foreach($ProductVariation->getImage() as $ProductVariationImage)
+                /** @var MaterialVariationImage $MaterialVariationImage */
+                foreach($MaterialVariation->getImage() as $MaterialVariationImage)
                 {
-                    /** @var ProductVariationImageCollectionDTO $ProductVariationImageCollectionDTO */
-                    $ProductVariationImageCollectionDTO = $ProductVariationImage->getEntityDto();
+                    /** @var MaterialVariationImageCollectionDTO $MaterialVariationImageCollectionDTO */
+                    $MaterialVariationImageCollectionDTO = $MaterialVariationImage->getEntityDto();
 
-                    if($ProductVariationImageCollectionDTO->file !== null)
+                    if($MaterialVariationImageCollectionDTO->file !== null)
                     {
-                        $this->imageUpload->upload($ProductVariationImageCollectionDTO->file, $ProductVariationImage);
+                        $this->imageUpload->upload($MaterialVariationImageCollectionDTO->file, $MaterialVariationImage);
                     }
                 }
 
-                /** @var ProductModification $ProductModification */
-                foreach($ProductVariation->getModification() as $ProductModification)
+                /** @var MaterialModification $MaterialModification */
+                foreach($MaterialVariation->getModification() as $MaterialModification)
                 {
 
-                    /** @var ProductModificationImage $ProductModificationImage */
-                    foreach($ProductModification->getImage() as $ProductModificationImage)
+                    /** @var MaterialModificationImage $MaterialModificationImage */
+                    foreach($MaterialModification->getImage() as $MaterialModificationImage)
                     {
-                        /** @var ProductModificationImageCollectionDTO $ProductModificationImageCollectionDTO */
-                        $ProductModificationImageCollectionDTO = $ProductModificationImage->getEntityDto();
+                        /** @var MaterialModificationImageCollectionDTO $MaterialModificationImageCollectionDTO */
+                        $MaterialModificationImageCollectionDTO = $MaterialModificationImage->getEntityDto();
 
-                        if($ProductModificationImageCollectionDTO->file !== null)
+                        if($MaterialModificationImageCollectionDTO->file !== null)
                         {
-                            $this->imageUpload->upload($ProductModificationImageCollectionDTO->file, $ProductModificationImage);
+                            $this->imageUpload->upload($MaterialModificationImageCollectionDTO->file, $MaterialModificationImage);
                         }
                     }
 
@@ -192,7 +175,7 @@ final class MaterialHandler extends AbstractHandler
             return $this->validatorCollection->getErrorUniqid();
         }
 
-        $this->entityManager->flush();
+        $this->flush();
 
         /* Отправляем событие в шину  */
         $this->messageDispatch->dispatch(

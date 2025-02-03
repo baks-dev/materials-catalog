@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,10 @@ declare(strict_types=1);
 
 namespace BaksDev\Materials\Catalog\Security;
 
-use BaksDev\Materials\Stocks\Security\MenuGroupStocks;
 use BaksDev\Menu\Admin\Command\Upgrade\MenuAdminInterface;
 use BaksDev\Menu\Admin\Type\SectionGroup\Group\Collection\MenuAdminSectionGroupCollectionInterface;
+use BaksDev\Products\Category\Security\MenuGroupProducts;
+use BaksDev\Products\Stocks\Security\MenuGroupStocks;
 use BaksDev\Users\Profile\Group\Security\RoleInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
@@ -35,7 +36,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 #[AutoconfigureTag('baks.menu.admin')]
 final class Role implements RoleInterface, MenuAdminInterface
 {
-    public const ROLE = 'ROLE_MATERIAL';
+    public const string ROLE = 'ROLE_MATERIAL';
 
     public function getRole(): string
     {
@@ -56,13 +57,13 @@ final class Role implements RoleInterface, MenuAdminInterface
     /** Метод возвращает секцию, в которую помещается ссылка на раздел */
     public function getGroupMenu(): MenuAdminSectionGroupCollectionInterface|bool
     {
-        return new MenuGroupStocks();
+        return new MenuGroupProducts();
     }
 
     /** Метод возвращает позицию, в которую располагается ссылка в секции меню */
     public function getSortMenu(): int
     {
-        return 100;
+        return 261;
     }
 
     /** Метод возвращает флаг "Показать в выпадающем меню"  */

@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -39,15 +39,11 @@ final class MaterialMessage
     /** Идентификатор предыдущего события */
     private ?string $last;
 
-    public function __construct(
-        MaterialUid|string $id,
-        MaterialEventUid|string $event,
-        MaterialEventUid|string|null $last = null
-    )
+    public function __construct(MaterialUid $id, MaterialEventUid $event, ?MaterialEventUid $last = null)
     {
-        $this->last = (string) $last;
         $this->id = (string) $id;
         $this->event = (string) $event;
+        $this->last = $last ? (string) $last : null;
     }
 
     /** Идентификатор */

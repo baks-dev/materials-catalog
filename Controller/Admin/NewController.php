@@ -28,11 +28,11 @@ use BaksDev\Core\Listeners\Event\Security\RoleSecurity;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\CategoryCollectionDTO;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\MaterialCategoryCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialForm;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialHandler;
-use BaksDev\Materials\Category\Type\Id\CategoryProductUid;
+use BaksDev\Materials\Category\Type\Id\CategoryMaterialUid;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,17 +47,14 @@ final class NewController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
-        MaterialHandler $productHandler,
+        MaterialHandler $materialHandler,
         ?MaterialEventUid $id = null,
     ): Response
     {
 
-        $ProductDTO = new MaterialDTO();
+        $MaterialDTO = new MaterialDTO();
+        $this->isAdmin() ?: $MaterialDTO->getInfo()->setProfile($this->getProfileUid());
 
-        if($this->isAdmin() === false)
-        {
-            $ProductDTO->getInfo()->setProfile($this->getProfileUid());
-        }
 
         // Если передан идентификатор события - копируем
         if($id)
@@ -66,33 +63,33 @@ final class NewController extends AbstractController
 
             if($Event)
             {
-                $Event->getDto($ProductDTO);
-                $ProductDTO->setId(new MaterialEventUid());
+                $Event->getDto($MaterialDTO);
+                $MaterialDTO->setId(new MaterialEventUid());
             }
         }
 
         // Если передана категория - присваиваем для настроек (свойства, ТП)
         if($request->get('category'))
         {
-            $CategoryCollectionDTO = new CategoryCollectionDTO();
+            $CategoryCollectionDTO = new MaterialCategoryCollectionDTO();
             $CategoryCollectionDTO->rootCategory();
-            $CategoryCollectionDTO->setCategory(new CategoryProductUid($request->get('category')));
-            $ProductDTO->addCategory($CategoryCollectionDTO);
+            $CategoryCollectionDTO->setCategory(new CategoryMaterialUid($request->get('category')));
+            $MaterialDTO->addCategory($CategoryCollectionDTO);
         }
 
         // Форма добавления
-        $form = $this->createForm(MaterialForm::class, $ProductDTO);
+        $form = $this->createForm(MaterialForm::class, $MaterialDTO);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid() && $form->has('product'))
+        if($form->isSubmitted() && $form->isValid() && $form->has('material'))
         {
             $this->refreshTokenForm($form);
 
-            $handle = $productHandler->handle($ProductDTO);
+            $handle = $materialHandler->handle($MaterialDTO);
 
             $this->addFlash(
-                'admin.page.new',
-                $handle instanceof Material ? 'admin.success.new' : 'admin.danger.new',
+                'page.new',
+                $handle instanceof Material ? 'success.new' : 'danger.new',
                 'materials-catalog.admin',
                 $handle
             );

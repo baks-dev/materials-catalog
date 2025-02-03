@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -27,35 +27,34 @@ use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Core\Form\Search\SearchDTO;
 use BaksDev\Core\Services\Paginator\PaginatorInterface;
 use BaksDev\Elastic\Api\Index\ElasticGetIndex;
-use BaksDev\Materials\Catalog\Entity\Category\ProductCategory;
-use BaksDev\Materials\Catalog\Entity\Description\ProductDescription;
+use BaksDev\Materials\Catalog\Entity\Category\MaterialCategory;
+use BaksDev\Materials\Catalog\Entity\Description\MaterialDescription;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
-use BaksDev\Materials\Catalog\Entity\Info\ProductInfo;
+use BaksDev\Materials\Catalog\Entity\Info\MaterialInfo;
 use BaksDev\Materials\Catalog\Entity\Material;
-use BaksDev\Materials\Catalog\Entity\Offers\Image\ProductOfferImage;
-use BaksDev\Materials\Catalog\Entity\Offers\Price\ProductOfferPrice;
-use BaksDev\Materials\Catalog\Entity\Offers\ProductOffer;
-use BaksDev\Materials\Catalog\Entity\Offers\Quantity\ProductOfferQuantity;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\Image\ProductVariationImage;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Price\ProductModificationPrice;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\ProductModification;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Quantity\ProductModificationQuantity;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\Price\ProductVariationPrice;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\ProductVariation;
-use BaksDev\Materials\Catalog\Entity\Offers\Variation\Quantity\ProductVariationQuantity;
-use BaksDev\Materials\Catalog\Entity\Photo\ProductPhoto;
-use BaksDev\Materials\Catalog\Entity\Price\ProductPrice;
-use BaksDev\Materials\Catalog\Entity\Property\ProductProperty;
+use BaksDev\Materials\Catalog\Entity\Offers\Image\MaterialOfferImage;
+use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffer;
+use BaksDev\Materials\Catalog\Entity\Offers\Price\MaterialOfferPrice;
+use BaksDev\Materials\Catalog\Entity\Offers\Quantity\MaterialOfferQuantity;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Image\MaterialVariationImage;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\MaterialVariation;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Image\MaterialModificationImage;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\MaterialModification;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Price\MaterialModificationPrice;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Quantity\MaterialModificationQuantity;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Price\MaterialVariationPrice;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Quantity\MaterialsVariationQuantity;
+use BaksDev\Materials\Catalog\Entity\Photo\MaterialPhoto;
+use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
 use BaksDev\Materials\Catalog\Entity\Trans\MaterialTrans;
-use BaksDev\Materials\Catalog\Forms\ProductFilter\Admin\ProductFilterDTO;
-use BaksDev\Materials\Catalog\Forms\ProductFilter\Admin\Property\ProductFilterPropertyDTO;
-use BaksDev\Materials\Category\Entity\CategoryProduct;
-use BaksDev\Materials\Category\Entity\Info\CategoryProductInfo;
-use BaksDev\Materials\Category\Entity\Offers\CategoryProductOffers;
-use BaksDev\Materials\Category\Entity\Offers\Variation\CategoryProductVariation;
-use BaksDev\Materials\Category\Entity\Offers\Variation\Modification\CategoryProductModification;
-use BaksDev\Materials\Category\Entity\Trans\CategoryProductTrans;
-use BaksDev\Materials\Category\Type\Id\CategoryProductUid;
+use BaksDev\Materials\Catalog\Forms\MaterialFilter\Admin\MaterialFilterDTO;
+use BaksDev\Materials\Category\Entity\CategoryMaterial;
+use BaksDev\Materials\Category\Entity\Info\CategoryMaterialInfo;
+use BaksDev\Materials\Category\Entity\Offers\CategoryMaterialOffers;
+use BaksDev\Materials\Category\Entity\Offers\Variation\CategoryMaterialVariation;
+use BaksDev\Materials\Category\Entity\Offers\Variation\Modification\CategoryMaterialModification;
+use BaksDev\Materials\Category\Entity\Trans\CategoryMaterialTrans;
+use BaksDev\Materials\Category\Type\Id\CategoryMaterialUid;
 use BaksDev\Users\Profile\UserProfile\Entity\Personal\UserProfilePersonal;
 use BaksDev\Users\Profile\UserProfile\Entity\UserProfile;
 use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
@@ -66,6 +65,7 @@ use Override;
 final class AllMaterialsRepository implements AllMaterialsInterface
 {
     private ?SearchDTO $search = null;
+    private ?MaterialFilterDTO $filter = null;
 
     public function __construct(
         private readonly DBALQueryBuilder $DBALQueryBuilder,
@@ -79,6 +79,13 @@ final class AllMaterialsRepository implements AllMaterialsInterface
         return $this;
     }
 
+    public function filter(MaterialFilterDTO $filter): self
+    {
+        $this->filter = $filter;
+        return $this;
+    }
+
+    #[Override]
     public function getAllMaterialsOffers(UserProfileUid|string $profile): PaginatorInterface
     {
         if(is_string($profile))
@@ -92,61 +99,49 @@ final class AllMaterialsRepository implements AllMaterialsInterface
             ->bindLocal();
 
         $dbal
-            ->select('product.id')
-            ->addSelect('product.event')
-            ->from(Material::class, 'product');
+            ->select('material.id')
+            ->addSelect('material.event')
+            ->from(Material::class, 'material');
 
         $dbal->leftJoin(
-            'product',
+            'material',
             MaterialEvent::class,
-            'product_event',
-            'product_event.id = product.event'
+            'material_event',
+            'material_event.id = material.event'
         );
 
         $dbal
-            ->addSelect('product_trans.name AS product_name')
+            ->addSelect('material_trans.name AS material_name')
             ->leftJoin(
-                'product_event',
+                'material_event',
                 MaterialTrans::class,
-                'product_trans',
-                'product_trans.event = product_event.id AND product_trans.local = :local'
+                'material_trans',
+                'material_trans.event = material_event.id AND material_trans.local = :local'
             );
 
 
-        $dbal
-            ->addSelect('product_desc.preview AS product_preview')
-            ->addSelect('product_desc.description AS product_description')
-            ->leftJoin(
-                'product_event',
-                ProductDescription::class,
-                'product_desc',
-                'product_desc.event = product_event.id AND product_desc.device = :device '
-            )->setParameter('device', 'pc');
-
-
-        $dbal->andWhere('product_info.profile = :profile OR product_info.profile IS NULL');
+        $dbal->andWhere('material_info.profile = :profile OR material_info.profile IS NULL');
         $dbal->setParameter('profile', $profile, UserProfileUid::TYPE);
 
 
-        /* ProductInfo */
+        /* MaterialInfo */
 
         $dbal
-            ->addSelect('product_info.url')
             ->leftJoin(
-                'product_event',
-                ProductInfo::class,
-                'product_info',
-                'product_info.product = product.id'
+                'material_event',
+                MaterialInfo::class,
+                'material_info',
+                'material_info.material = material.id'
             );
 
 
         /** Ответственное лицо (Профиль пользователя) */
 
         $dbal->leftJoin(
-            'product_info',
+            'material_info',
             UserProfile::class,
             'users_profile',
-            'users_profile.id = product_info.profile'
+            'users_profile.id = material_info.profile'
         );
 
         $dbal
@@ -162,211 +157,219 @@ final class AllMaterialsRepository implements AllMaterialsInterface
         /** Торговое предложение */
 
         $dbal
-            ->addSelect('product_offer.id as product_offer_id')
-            ->addSelect('product_offer.const as product_offer_const')
-            ->addSelect('product_offer.value as product_offer_value')
-            ->addSelect('product_offer.postfix as product_offer_postfix')
+            ->addSelect('material_offer.id as material_offer_id')
+            ->addSelect('material_offer.const as material_offer_const')
+            ->addSelect('material_offer.value as material_offer_value')
             ->leftJoin(
-                'product_event',
-                ProductOffer::class,
-                'product_offer',
-                'product_offer.event = product_event.id'
+                'material_event',
+                MaterialOffer::class,
+                'material_offer',
+                'material_offer.event = material_event.id'
             );
 
         if($this->filter->getOffer())
         {
-            $dbal->andWhere('product_offer.value = :offer');
+            $dbal->andWhere('material_offer.value = :offer');
             $dbal->setParameter('offer', $this->filter->getOffer());
         }
 
 
         /* Тип торгового предложения */
         $dbal
-            ->addSelect('category_offer.reference as product_offer_reference')
+            ->addSelect('category_offer.reference as material_offer_reference')
             ->leftJoin(
-                'product_offer',
-                CategoryProductOffers::class,
+                'material_offer',
+                CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = product_offer.category_offer'
+                'category_offer.id = material_offer.category_offer'
             );
 
 
         /** Множественные варианты торгового предложения */
 
         $dbal
-            ->addSelect('product_variation.id as product_variation_id')
-            ->addSelect('product_variation.const as product_variation_const')
-            ->addSelect('product_variation.value as product_variation_value')
-            ->addSelect('product_variation.postfix as product_variation_postfix')
+            ->addSelect('material_variation.id as material_variation_id')
+            ->addSelect('material_variation.const as material_variation_const')
+            ->addSelect('material_variation.value as material_variation_value')
             ->leftJoin(
-                'product_offer',
-                ProductVariation::class,
-                'product_variation',
-                'product_variation.offer = product_offer.id'
+                'material_offer',
+                MaterialVariation::class,
+                'material_variation',
+                'material_variation.offer = material_offer.id'
             );
 
 
         if($this->filter->getVariation())
         {
-            $dbal->andWhere('product_variation.value = :variation');
+            $dbal->andWhere('material_variation.value = :variation');
             $dbal->setParameter('variation', $this->filter->getVariation());
         }
 
 
         /* Тип множественного варианта торгового предложения */
         $dbal
-            ->addSelect('category_variation.reference as product_variation_reference')
+            ->addSelect('category_variation.reference as material_variation_reference')
             ->leftJoin(
-                'product_variation',
-                CategoryProductVariation::class,
+                'material_variation',
+                CategoryMaterialVariation::class,
                 'category_variation',
-                'category_variation.id = product_variation.category_variation'
+                'category_variation.id = material_variation.category_variation'
             );
 
 
         /** Модификация множественного варианта */
         $dbal
-            ->addSelect('product_modification.id as product_modification_id')
-            ->addSelect('product_modification.const as product_modification_const')
-            ->addSelect('product_modification.value as product_modification_value')
-            ->addSelect('product_modification.postfix as product_modification_postfix')
+            ->addSelect('material_modification.id as material_modification_id')
+            ->addSelect('material_modification.const as material_modification_const')
+            ->addSelect('material_modification.value as material_modification_value')
             ->leftJoin(
-                'product_variation',
-                ProductModification::class,
-                'product_modification',
-                'product_modification.variation = product_variation.id '
+                'material_variation',
+                MaterialModification::class,
+                'material_modification',
+                'material_modification.variation = material_variation.id '
             );
 
 
         if($this->filter->getModification())
         {
-            $dbal->andWhere('product_modification.value = :modification');
+            $dbal->andWhere('material_modification.value = :modification');
             $dbal->setParameter('modification', $this->filter->getModification());
         }
 
         /** Получаем тип модификации множественного варианта */
         $dbal
-            ->addSelect('category_modification.reference as product_modification_reference')
+            ->addSelect('category_modification.reference as material_modification_reference')
             ->leftJoin(
-                'product_modification',
-                CategoryProductModification::class,
+                'material_modification',
+                CategoryMaterialModification::class,
                 'category_modification',
-                'category_modification.id = product_modification.category_modification'
+                'category_modification.id = material_modification.category_modification'
             );
 
 
-        /** Артикул продукта */
+        /** Артикул сырья */
 
         $dbal->addSelect("
             COALESCE(
-                product_modification.article,
-                product_variation.article,
-                product_offer.article,
-                product_info.article
-            ) AS product_article
+                material_modification.article,
+                material_variation.article,
+                material_offer.article,
+                material_info.article
+            ) AS material_article
 		");
 
 
-        /** Фото продукта */
+        /** Фото сырья */
 
         $dbal->leftJoin(
-            'product_event',
-            ProductPhoto::class,
-            'product_photo',
-            'product_photo.event = product_event.id AND product_photo.root = true'
+            'material_event',
+            MaterialPhoto::class,
+            'material_photo',
+            'material_photo.event = material_event.id AND material_photo.root = true'
         );
 
         $dbal->leftJoin(
-            'product_offer',
-            ProductVariationImage::class,
-            'product_variation_image',
-            'product_variation_image.variation = product_variation.id AND product_variation_image.root = true'
+            'material_offer',
+            MaterialOfferImage::class,
+            'material_offer_images',
+            'material_offer_images.offer = material_offer.id AND material_offer_images.root = true'
         );
 
         $dbal->leftJoin(
-            'product_offer',
-            ProductOfferImage::class,
-            'product_offer_images',
-            'product_offer_images.offer = product_offer.id AND product_offer_images.root = true'
+            'material_offer',
+            MaterialVariationImage::class,
+            'material_variation_image',
+            'material_variation_image.variation = material_variation.id AND material_variation_image.root = true'
+        );
+
+        $dbal->leftJoin(
+            'material_modification',
+            MaterialModificationImage::class,
+            'material_modification_image',
+            'material_modification_image.modification = material_modification.id AND material_modification_image.root = true'
         );
 
         $dbal->addSelect(
             "
 			CASE
-			   WHEN product_variation_image.name IS NOT NULL 
-			   THEN CONCAT ( '/upload/".$dbal->table(ProductVariationImage::class)."' , '/', product_variation_image.name)
+			
+			    WHEN material_modification_image.name IS NOT NULL 
+			   THEN CONCAT ( '/upload/".$dbal->table(MaterialModificationImage::class)."' , '/', material_modification_image.name)
 			   
-			   WHEN product_offer_images.name IS NOT NULL 
-			   THEN CONCAT ( '/upload/".$dbal->table(ProductOfferImage::class)."' , '/', product_offer_images.name)
+			   WHEN material_variation_image.name IS NOT NULL 
+			   THEN CONCAT ( '/upload/".$dbal->table(MaterialVariationImage::class)."' , '/', material_variation_image.name)
 			   
-			   WHEN product_photo.name IS NOT NULL 
-			   THEN CONCAT ( '/upload/".$dbal->table(ProductPhoto::class)."' , '/', product_photo.name)
+			   WHEN material_offer_images.name IS NOT NULL 
+			   THEN CONCAT ( '/upload/".$dbal->table(MaterialOfferImage::class)."' , '/', material_offer_images.name)
+			   
+			   WHEN material_photo.name IS NOT NULL 
+			   THEN CONCAT ( '/upload/".$dbal->table(MaterialPhoto::class)."' , '/', material_photo.name)
 			   
 			   ELSE NULL
-			END AS product_image
+			END AS material_image
 		"
         );
 
         /** Флаг загрузки файла CDN */
         $dbal->addSelect("
 			CASE
-			   WHEN product_variation_image.name IS NOT NULL 
-			   THEN product_variation_image.ext
+			   WHEN material_variation_image.name IS NOT NULL 
+			   THEN material_variation_image.ext
 			   
-			   WHEN product_offer_images.name IS NOT NULL 
-			   THEN product_offer_images.ext
+			   WHEN material_offer_images.name IS NOT NULL 
+			   THEN material_offer_images.ext
 			   
-			   WHEN product_photo.name IS NOT NULL 
-			   THEN product_photo.ext
+			   WHEN material_photo.name IS NOT NULL 
+			   THEN material_photo.ext
 			   
 			   ELSE NULL
-			END AS product_image_ext
+			END AS material_image_ext
 		");
 
 
         /** Флаг загрузки файла CDN */
         $dbal->addSelect("
 			CASE
-			   WHEN product_variation_image.name IS NOT NULL 
-			   THEN product_variation_image.cdn
+			   WHEN material_variation_image.name IS NOT NULL 
+			   THEN material_variation_image.cdn
 					
-			   WHEN product_offer_images.name IS NOT NULL 
-			   THEN product_offer_images.cdn
+			   WHEN material_offer_images.name IS NOT NULL 
+			   THEN material_offer_images.cdn
 					
-			   WHEN product_photo.name IS NOT NULL 
-			   THEN product_photo.cdn
+			   WHEN material_photo.name IS NOT NULL 
+			   THEN material_photo.cdn
 			   
 			   ELSE NULL
-			END AS product_image_cdn
+			END AS material_image_cdn
 		");
 
 
         /* Категория */
         $dbal->leftJoin(
-            'product_event',
-            ProductCategory::class,
-            'product_event_category',
-            'product_event_category.event = product_event.id AND product_event_category.root = true'
+            'material_event',
+            MaterialCategory::class,
+            'material_event_category',
+            'material_event_category.event = material_event.id AND material_event_category.root = true'
         );
 
         if($this->filter->getCategory())
         {
-            $dbal->andWhere('product_event_category.category = :category');
-            $dbal->setParameter('category', $this->filter->getCategory(), CategoryProductUid::TYPE);
+            $dbal->andWhere('material_event_category.category = :category');
+            $dbal->setParameter('category', $this->filter->getCategory(), CategoryMaterialUid::TYPE);
         }
 
         $dbal->leftJoin(
-            'product_event_category',
-            CategoryProduct::class,
+            'material_event_category',
+            CategoryMaterial::class,
             'category',
-            'category.id = product_event_category.category'
+            'category.id = material_event_category.category'
         );
 
         $dbal
             ->addSelect('category_trans.name AS category_name')
             ->leftJoin(
                 'category',
-                CategoryProductTrans::class,
+                CategoryMaterialTrans::class,
                 'category_trans',
                 'category_trans.event = category.event AND category_trans.local = :local'
             );
@@ -374,138 +377,118 @@ final class AllMaterialsRepository implements AllMaterialsInterface
 
         /* Базовая Цена товара */
         $dbal->leftJoin(
-            'product',
-            ProductPrice::class,
-            'product_price',
-            'product_price.event = product.event'
+            'material',
+            MaterialPrice::class,
+            'material_price',
+            'material_price.event = material.event'
         );
 
         /* Цена торгового предо жения */
         $dbal->leftJoin(
-            'product_offer',
-            ProductOfferPrice::class,
-            'product_offer_price',
-            'product_offer_price.offer = product_offer.id'
+            'material_offer',
+            MaterialOfferPrice::class,
+            'material_offer_price',
+            'material_offer_price.offer = material_offer.id'
         );
 
         /* Цена множественного варианта */
         $dbal->leftJoin(
-            'product_variation',
-            ProductVariationPrice::class,
-            'product_variation_price',
-            'product_variation_price.variation = product_variation.id'
+            'material_variation',
+            MaterialVariationPrice::class,
+            'material_variation_price',
+            'material_variation_price.variation = material_variation.id'
         );
 
         /* Цена модификации множественного варианта */
         $dbal->leftJoin(
-            'product_modification',
-            ProductModificationPrice::class,
-            'product_modification_price',
-            'product_modification_price.modification = product_modification.id'
+            'material_modification',
+            MaterialModificationPrice::class,
+            'material_modification_price',
+            'material_modification_price.modification = material_modification.id'
         );
 
 
-        /* Стоимость продукта */
+        /* Стоимость сырья */
 
-        $dbal->addSelect(
-            '
-			CASE
-			   WHEN product_modification_price.price IS NOT NULL AND product_modification_price.price > 0 
-			   THEN product_modification_price.price
-			   
-			   WHEN product_variation_price.price IS NOT NULL AND product_variation_price.price > 0 
-			   THEN product_variation_price.price
-			   
-			   WHEN product_offer_price.price IS NOT NULL AND product_offer_price.price > 0 
-			   THEN product_offer_price.price
-			   
-			   WHEN product_price.price IS NOT NULL AND product_price.price > 0 
-			   THEN product_price.price
-			   
-			   ELSE NULL
-			END AS product_price
+        $dbal->addSelect('
+			COALESCE(
+                NULLIF(material_modification_price.price, 0), 
+                NULLIF(material_variation_price.price, 0), 
+                NULLIF(material_offer_price.price, 0), 
+                NULLIF(material_price.price, 0),
+                0
+            ) AS material_price
 		');
 
-        /* Предыдущая стоимость продукта */
 
-        $dbal->addSelect("
-			COALESCE(
-                NULLIF(product_modification_price.old, 0),
-                NULLIF(product_variation_price.old, 0),
-                NULLIF(product_offer_price.old, 0),
-                NULLIF(product_price.old, 0),
-                0
-            ) AS product_old_price
-		");
-
-        /* Валюта продукта */
+        /* Валюта сырья */
 
         $dbal->addSelect(
             '
 			CASE
-			   WHEN product_modification_price.price IS NOT NULL AND product_modification_price.price > 0 
-			   THEN product_modification_price.currency
+			   WHEN material_modification_price.price IS NOT NULL AND material_modification_price.price > 0 
+			   THEN material_modification_price.currency
 			   
-			   WHEN product_variation_price.price IS NOT NULL AND product_variation_price.price > 0 
-			   THEN product_variation_price.currency
+			   WHEN material_variation_price.price IS NOT NULL AND material_variation_price.price > 0 
+			   THEN material_variation_price.currency
 			   
-			   WHEN product_offer_price.price IS NOT NULL AND product_offer_price.price > 0 
-			   THEN product_offer_price.currency
+			   WHEN material_offer_price.price IS NOT NULL AND material_offer_price.price > 0 
+			   THEN material_offer_price.currency
 			   
-			   WHEN product_price.price IS NOT NULL AND product_price.price > 0 
-			   THEN product_price.currency
+			   WHEN material_price.price IS NOT NULL AND material_price.price > 0 
+			   THEN material_price.currency
 			   
 			   ELSE NULL
-			END AS product_currency
+			END AS material_currency
 		'
         );
 
 
-        /* Наличие продукта */
+        /* Наличие сырья */
 
         /* Наличие и резерв торгового предложения */
         $dbal->leftJoin(
-            'product_offer',
-            ProductOfferQuantity::class,
-            'product_offer_quantity',
-            'product_offer_quantity.offer = product_offer.id'
+            'material_offer',
+            MaterialOfferQuantity::class,
+            'material_offer_quantity',
+            'material_offer_quantity.offer = material_offer.id'
         );
 
         /* Наличие и резерв множественного варианта */
         $dbal->leftJoin(
-            'product_variation',
-            ProductVariationQuantity::class,
-            'product_variation_quantity',
-            'product_variation_quantity.variation = product_variation.id'
+            'material_variation',
+            MaterialsVariationQuantity::class,
+            'material_variation_quantity',
+            'material_variation_quantity.variation = material_variation.id'
         );
 
         $dbal
             ->leftJoin(
-                'product_modification',
-                ProductModificationQuantity::class,
-                'product_modification_quantity',
-                'product_modification_quantity.modification = product_modification.id'
+                'material_modification',
+                MaterialModificationQuantity::class,
+                'material_modification_quantity',
+                'material_modification_quantity.modification = material_modification.id'
             );
 
 
         $dbal->addSelect("
 			COALESCE(
-                NULLIF(product_modification_quantity.quantity, 0),
-                NULLIF(product_variation_quantity.quantity, 0),
-                NULLIF(product_offer_quantity.quantity, 0),
-                NULLIF(product_price.quantity, 0),
+                NULLIF(material_modification_quantity.quantity, 0),
+                NULLIF(material_variation_quantity.quantity, 0),
+                NULLIF(material_offer_quantity.quantity, 0),
+                NULLIF(material_price.quantity, 0),
                 0
-            ) AS product_quantity
+            ) AS material_quantity
 		");
 
         $dbal->addSelect("
 			COALESCE(
-                NULLIF(product_modification_quantity.reserve, 0),
-                NULLIF(product_variation_quantity.reserve, 0),
-                NULLIF(product_offer_quantity.reserve, 0),
-                NULLIF(product_price.reserve, 0),
+                NULLIF(material_modification_quantity.reserve, 0),
+                NULLIF(material_variation_quantity.reserve, 0),
+                NULLIF(material_offer_quantity.reserve, 0),
+                NULLIF(material_price.reserve, 0),
                 0
-            ) AS product_reserve
+            ) AS material_reserve
 		");
 
 
@@ -516,55 +499,30 @@ final class AllMaterialsRepository implements AllMaterialsInterface
         //            CASE
         //
         //
-        //			   WHEN product_modification_quantity.quantity > 0 AND product_modification_quantity.quantity > product_modification_quantity.reserve
-        //			   THEN (product_modification_quantity.quantity - product_modification_quantity.reserve)
+        //			   WHEN material_modification_quantity.quantity > 0 AND material_modification_quantity.quantity > material_modification_quantity.reserve
+        //			   THEN (material_modification_quantity.quantity - material_modification_quantity.reserve)
         //
-        //			   WHEN product_variation_quantity.quantity > 0 AND product_variation_quantity.quantity > product_variation_quantity.reserve
-        //			   THEN (product_variation_quantity.quantity - product_variation_quantity.reserve)
+        //			   WHEN material_variation_quantity.quantity > 0 AND material_variation_quantity.quantity > material_variation_quantity.reserve
+        //			   THEN (material_variation_quantity.quantity - material_variation_quantity.reserve)
         //
-        //			   WHEN product_offer_quantity.quantity > 0 AND product_offer_quantity.quantity > product_offer_quantity.reserve
-        //			   THEN (product_offer_quantity.quantity - product_offer_quantity.reserve)
+        //			   WHEN material_offer_quantity.quantity > 0 AND material_offer_quantity.quantity > material_offer_quantity.reserve
+        //			   THEN (material_offer_quantity.quantity - material_offer_quantity.reserve)
         //
-        //			   WHEN product_price.quantity > 0 AND product_price.quantity > product_price.reserve
-        //			   THEN (product_price.quantity - product_price.reserve)
+        //			   WHEN material_price.quantity > 0 AND material_price.quantity > material_price.reserve
+        //			   THEN (material_price.quantity - material_price.reserve)
         //
         //			   ELSE 0
         //
-        //			END AS product_quantity
+        //			END AS material_quantity
         //
         //		'
         //        );
 
 
-        /**
-         * Фильтр по свойства продукта
-         */
-        if($this->filter->getProperty())
-        {
-            /** @var ProductFilterPropertyDTO $property */
-            foreach($this->filter->getProperty() as $property)
-            {
-                if($property->getValue())
-                {
-                    $dbal->join(
-                        'product',
-                        ProductProperty::class,
-                        'product_property_'.$property->getType(),
-                        'product_property_'.$property->getType().'.event = product.event AND 
-                        product_property_'.$property->getType().'.field = :'.$property->getType().'_const AND 
-                        product_property_'.$property->getType().'.value = :'.$property->getType().'_value'
-                    );
-
-                    $dbal->setParameter($property->getType().'_const', $property->getConst());
-                    $dbal->setParameter($property->getType().'_value', $property->getValue());
-                }
-            }
-        }
-
         if($this->search->getQuery())
         {
             /** Поиск по модификации */
-            $result = $this->elasticGetIndex ? $this->elasticGetIndex->handle(ProductModification::class, $this->search->getQuery(), 1) : false;
+            $result = $this->elasticGetIndex ? $this->elasticGetIndex->handle(MaterialModification::class, $this->search->getQuery(), 1) : false;
 
             if($result)
             {
@@ -577,7 +535,7 @@ final class AllMaterialsRepository implements AllMaterialsInterface
 
                     $dbal
                         ->createSearchQueryBuilder($this->search)
-                        ->addSearchInArray('product_modification.id', array_column($data, "id"));
+                        ->addSearchInArray('material_modification.id', array_column($data, "id"));
 
                     return $this->paginator->fetchAllAssociative($dbal);
                 }
@@ -585,21 +543,21 @@ final class AllMaterialsRepository implements AllMaterialsInterface
 
             $dbal
                 ->createSearchQueryBuilder($this->search)
-                ->addSearchEqualUid('product.id')
-                ->addSearchEqualUid('product.event')
-                ->addSearchEqualUid('product_variation.id')
-                ->addSearchEqualUid('product_modification.id')
-                ->addSearchLike('product_trans.name')
-                //->addSearchLike('product_trans.preview')
-                ->addSearchLike('product_info.article')
-                ->addSearchLike('product_offer.article')
-                ->addSearchLike('product_modification.article')
-                ->addSearchLike('product_modification.article')
-                ->addSearchLike('product_variation.article');
+                ->addSearchEqualUid('material.id')
+                ->addSearchEqualUid('material.event')
+                ->addSearchEqualUid('material_variation.id')
+                ->addSearchEqualUid('material_modification.id')
+                ->addSearchLike('material_trans.name')
+                //->addSearchLike('material_trans.preview')
+                ->addSearchLike('material_info.article')
+                ->addSearchLike('material_offer.article')
+                ->addSearchLike('material_modification.article')
+                ->addSearchLike('material_modification.article')
+                ->addSearchLike('material_variation.article');
 
         }
 
-        $dbal->orderBy('product.event', 'DESC');
+        $dbal->orderBy('material.event', 'DESC');
 
         return $this->paginator->fetchAllAssociative($dbal);
 
@@ -618,62 +576,50 @@ final class AllMaterialsRepository implements AllMaterialsInterface
             ->bindLocal();
 
         $dbal
-            ->select('product.id')
-            ->addSelect('product.event')
-            ->from(Material::class, 'product');
+            ->select('material.id')
+            ->addSelect('material.event')
+            ->from(Material::class, 'material');
 
         $dbal->leftJoin(
-            'product',
+            'material',
             MaterialEvent::class,
-            'product_event',
-            'product_event.id = product.event'
+            'material_event',
+            'material_event.id = material.event'
         );
 
         $dbal
-            ->addSelect('product_trans.name AS product_name')
+            ->addSelect('material_trans.name AS material_name')
             ->leftJoin(
-                'product_event',
+                'material_event',
                 MaterialTrans::class,
-                'product_trans',
-                'product_trans.event = product_event.id AND product_trans.local = :local'
+                'material_trans',
+                'material_trans.event = material_event.id AND material_trans.local = :local'
             );
 
 
-        $dbal
-            ->addSelect('product_desc.preview AS product_preview')
-            ->addSelect('product_desc.description AS product_description')
-            ->leftJoin(
-                'product_event',
-                ProductDescription::class,
-                'product_desc',
-                'product_desc.event = product_event.id AND product_desc.device = :device '
-            )->setParameter('device', 'pc');
-
-
-        $dbal->andWhere('product_info.profile = :profile OR product_info.profile IS NULL');
+        $dbal->andWhere('material_info.profile = :profile OR material_info.profile IS NULL');
         $dbal->setParameter('profile', $profile, UserProfileUid::TYPE);
 
 
-        /* ProductInfo */
+        /* MaterialInfo */
 
         $dbal
-            ->addSelect('product_info.url')
             ->leftJoin(
-                'product_event',
-                ProductInfo::class,
-                'product_info',
-                'product_info.product = product.id'
+                'material_event',
+                MaterialInfo::class,
+                'material_info',
+                'material_info.material = material.id'
             );
 
         /** Ответственное лицо (Профиль пользователя) */
 
         $dbal
-            ->addSelect('product_info.article')
+            ->addSelect('material_info.article')
             ->leftJoin(
-                'product_info',
+                'material_info',
                 UserProfile::class,
                 'users_profile',
-                'users_profile.id = product_info.profile'
+                'users_profile.id = material_info.profile'
             );
 
         $dbal
@@ -689,276 +635,206 @@ final class AllMaterialsRepository implements AllMaterialsInterface
         /** Торговое предложение */
 
         $dbal->leftJoin(
-            'product_event',
-            ProductOffer::class,
-            'product_offer',
-            'product_offer.event = product_event.id'
+            'material_event',
+            MaterialOffer::class,
+            'material_offer',
+            'material_offer.event = material_event.id'
         );
 
 
         /* Тип торгового предложения */
 
         $dbal->leftJoin(
-            'product_offer',
-            CategoryProductOffers::class,
+            'material_offer',
+            CategoryMaterialOffers::class,
             'category_offer',
-            'category_offer.id = product_offer.category_offer'
+            'category_offer.id = material_offer.category_offer'
         );
 
 
         /** Множественные варианты торгового предложения */
 
         $dbal->leftJoin(
-            'product_offer',
-            ProductVariation::class,
-            'product_variation',
-            'product_variation.offer = product_offer.id'
+            'material_offer',
+            MaterialVariation::class,
+            'material_variation',
+            'material_variation.offer = material_offer.id'
         );
 
 
         /* Цена множественного варианта */
         $dbal->leftJoin(
             'category_variation',
-            ProductVariationPrice::class,
-            'product_variation_price',
-            'product_variation_price.variation = product_variation.id'
+            MaterialVariationPrice::class,
+            'material_variation_price',
+            'material_variation_price.variation = material_variation.id'
         );
 
 
         /* Тип множественного варианта торгового предложения */
         $dbal->leftJoin(
-            'product_variation',
-            CategoryProductVariation::class,
+            'material_variation',
+            CategoryMaterialVariation::class,
             'category_variation',
-            'category_variation.id = product_variation.category_variation'
+            'category_variation.id = material_variation.category_variation'
         );
 
 
         /** Модификация множественного варианта */
 
         $dbal->leftJoin(
-            'product_variation',
-            ProductModification::class,
-            'product_modification',
-            'product_modification.variation = product_variation.id '
+            'material_variation',
+            MaterialModification::class,
+            'material_modification',
+            'material_modification.variation = material_variation.id '
+        );
+
+        $dbal->leftJoin(
+            'material_modification',
+            MaterialModificationImage::class,
+            'material_modification_image',
+            'material_modification_image.modification = material_modification.id AND material_modification_image.root = true'
         );
 
 
         /** Получаем тип модификации множественного варианта */
         $dbal->leftJoin(
-            'product_modification',
-            CategoryProductModification::class,
+            'material_modification',
+            CategoryMaterialModification::class,
             'category_modification',
-            'category_modification.id = product_modification.category_modification'
+            'category_modification.id = material_modification.category_modification'
         );
 
 
-        /** Фото продукта */
+        /** Фото сырья */
 
         $dbal->leftJoin(
-            'product_event',
-            ProductPhoto::class,
-            'product_photo',
-            'product_photo.event = product_event.id AND product_photo.root = true'
+            'material_event',
+            MaterialPhoto::class,
+            'material_photo',
+            'material_photo.event = material_event.id AND material_photo.root = true'
         );
 
         $dbal->leftJoin(
-            'product_offer',
-            ProductVariationImage::class,
-            'product_variation_image',
-            'product_variation_image.variation = product_variation.id AND product_variation_image.root = true'
+            'material_offer',
+            MaterialVariationImage::class,
+            'material_variation_image',
+            'material_variation_image.variation = material_variation.id AND material_variation_image.root = true'
         );
 
         $dbal->leftJoin(
-            'product_offer',
-            ProductOfferImage::class,
-            'product_offer_images',
-            'product_offer_images.offer = product_offer.id AND product_offer_images.root = true'
+            'material_offer',
+            MaterialOfferImage::class,
+            'material_offer_images',
+            'material_offer_images.offer = material_offer.id AND material_offer_images.root = true'
         );
 
         $dbal->addSelect(
             "
 			CASE
-			   WHEN product_variation_image.name IS NOT NULL 
-			   THEN CONCAT ( '/upload/".$dbal->table(ProductVariationImage::class)."' , '/', product_variation_image.name)
+			    WHEN material_modification_image.name IS NOT NULL 
+			   THEN CONCAT ( '/upload/".$dbal->table(MaterialModificationImage::class)."' , '/', material_modification_image.name)
+
+			   WHEN material_variation_image.name IS NOT NULL 
+			   THEN CONCAT ( '/upload/".$dbal->table(MaterialVariationImage::class)."' , '/', material_variation_image.name)
 					
-			   WHEN product_offer_images.name IS NOT NULL 
-			   THEN CONCAT ( '/upload/".$dbal->table(ProductOfferImage::class)."' , '/', product_offer_images.name)
+			   WHEN material_offer_images.name IS NOT NULL 
+			   THEN CONCAT ( '/upload/".$dbal->table(MaterialOfferImage::class)."' , '/', material_offer_images.name)
 					
-			   WHEN product_photo.name IS NOT NULL 
-			   THEN CONCAT ( '/upload/".$dbal->table(ProductPhoto::class)."' , '/', product_photo.name)
+			   WHEN material_photo.name IS NOT NULL 
+			   THEN CONCAT ( '/upload/".$dbal->table(MaterialPhoto::class)."' , '/', material_photo.name)
 					
 			   ELSE NULL
-			END AS product_image
+			END AS material_image
 		"
         );
 
         /** Флаг загрузки файла CDN */
         $dbal->addSelect("
 			CASE
-			   WHEN product_variation_image.name IS NOT NULL 
-			   THEN product_variation_image.ext
+			   WHEN material_variation_image.name IS NOT NULL 
+			   THEN material_variation_image.ext
 					
-			   WHEN product_offer_images.name IS NOT NULL 
-			   THEN product_offer_images.ext
+			   WHEN material_offer_images.name IS NOT NULL 
+			   THEN material_offer_images.ext
 					
-			   WHEN product_photo.name IS NOT NULL 
-			   THEN product_photo.ext
+			   WHEN material_photo.name IS NOT NULL 
+			   THEN material_photo.ext
 					
 			   ELSE NULL
-			END AS product_image_ext
+			END AS material_image_ext
 		")
-            ->addGroupBy('product_variation_image.ext')
-            ->addGroupBy('product_offer_images.ext')
-            ->addGroupBy('product_photo.ext');
+            ->addGroupBy('material_variation_image.ext')
+            ->addGroupBy('material_offer_images.ext')
+            ->addGroupBy('material_photo.ext');
 
 
         /** Флаг загрузки файла CDN */
         $dbal->addSelect("
 			CASE
-			   WHEN product_variation_image.name IS NOT NULL 
-			   THEN product_variation_image.cdn
+			   WHEN material_variation_image.name IS NOT NULL 
+			   THEN material_variation_image.cdn
 					
-			   WHEN product_offer_images.name IS NOT NULL 
-			   THEN product_offer_images.cdn
+			   WHEN material_offer_images.name IS NOT NULL 
+			   THEN material_offer_images.cdn
 					
-			   WHEN product_photo.name IS NOT NULL 
-			   THEN product_photo.cdn
+			   WHEN material_photo.name IS NOT NULL 
+			   THEN material_photo.cdn
 					
 			   ELSE NULL
-			END AS product_image_cdn
+			END AS material_image_cdn
 		")
-            ->addGroupBy('product_variation_image.cdn')
-            ->addGroupBy('product_offer_images.cdn')
-            ->addGroupBy('product_photo.cdn');
+            ->addGroupBy('material_variation_image.cdn')
+            ->addGroupBy('material_offer_images.cdn')
+            ->addGroupBy('material_photo.cdn');
 
         /* Категория */
         $dbal->leftJoin(
-            'product_event',
-            ProductCategory::class,
-            'product_event_category',
-            'product_event_category.event = product_event.id AND product_event_category.root = true'
+            'material_event',
+            MaterialCategory::class,
+            'material_event_category',
+            'material_event_category.event = material_event.id AND material_event_category.root = true'
         );
 
 
         if($this->filter->getCategory())
         {
-            $dbal->andWhere('product_event_category.category = :category');
-            $dbal->setParameter('category', $this->filter->getCategory(), CategoryProductUid::TYPE);
+            $dbal->andWhere('material_event_category.category = :category');
+            $dbal->setParameter('category', $this->filter->getCategory(), CategoryMaterialUid::TYPE);
         }
 
         $dbal->leftJoin(
-            'product_event_category',
-            CategoryProduct::class,
+            'material_event_category',
+            CategoryMaterial::class,
             'category',
-            'category.id = product_event_category.category'
+            'category.id = material_event_category.category'
         );
-
-
-        $dbal
-            ->addSelect('category_info.url AS category_url')
-            ->leftJoin(
-                'category',
-                CategoryProductInfo::class,
-                'category_info',
-                'category_info.event = category.event'
-            );
 
 
         $dbal->addSelect('category_trans.name AS category_name');
 
         $dbal->leftJoin(
             'category',
-            CategoryProductTrans::class,
+            CategoryMaterialTrans::class,
             'category_trans',
             'category_trans.event = category.event AND category_trans.local = :local'
         );
 
 
-        //        $dbal->addSelect(
-        //            "JSON_AGG
-        //			( DISTINCT
-        //
-        //					JSONB_BUILD_OBJECT
-        //					(
-        //						/* свойства для сортирвоки JSON */
-        //						'0', CONCAT(product_offer.value, product_variation.value, product_modification.value),
-        //
-        //
-        //						'offer_value', product_offer.value, /* значение торгового предложения */
-        //						'offer_reference', category_offer.reference, /* тип (field) торгового предложения */
-        //						'offer_article', product_offer.article, /* артикул торгового предложения */
-        //
-        //						'variation_value', product_variation.value, /* значение множественного варианта */
-        //						'variation_reference', category_variation.reference, /* тип (field) множественного варианта */
-        //						'variation_article', category_variation.article, /* валюта множественного варианта */
-        //
-        //						'modification_value', product_modification.value, /* значение модификации */
-        //						'modification_reference', category_modification.reference, /* тип (field) модификации */
-        //						'modification_article', category_modification.article /* артикул модификации */
-        //
-        //					)
-        //
-        //			)
-        //			AS product_offers"
-        //        );
-
-
-        //        $dbal->addSelect("
-        //			CASE
-        //			   WHEN COUNT(product_offer) > 0
-        //			   THEN COUNT(product_offer)
-        //
-        //			   WHEN COUNT(product_variation) > 0
-        //			   THEN COUNT(product_variation)
-        //
-        //			   WHEN COUNT(product_modification) > 0
-        //			   THEN COUNT(product_modification)
-        //
-        //			   ELSE 0
-        //			END AS offers_count
-        //		");
-
-
         $dbal->addSelect("
 			COALESCE(
-                NULLIF(COUNT(product_modification), 0),
-                NULLIF(COUNT(product_variation), 0),
-                NULLIF(COUNT(product_offer), 0),
+                NULLIF(COUNT(material_modification), 0),
+                NULLIF(COUNT(material_variation), 0),
+                NULLIF(COUNT(material_offer), 0),
                 0
             ) AS offer_count
 		");
 
 
-        /**
-         * Фильтр по свойства продукта
-         */
-        if($this->filter->getProperty())
-        {
-            /** @var ProductFilterPropertyDTO $property */
-            foreach($this->filter->getProperty() as $property)
-            {
-                if($property->getValue())
-                {
-                    $dbal->join(
-                        'product',
-                        ProductProperty::class,
-                        'product_property_'.$property->getType(),
-                        'product_property_'.$property->getType().'.event = product.event AND 
-                        product_property_'.$property->getType().'.field = :'.$property->getType().'_const AND 
-                        product_property_'.$property->getType().'.value = :'.$property->getType().'_value'
-                    );
-
-                    $dbal->setParameter($property->getType().'_const', $property->getConst());
-                    $dbal->setParameter($property->getType().'_value', $property->getValue());
-                }
-            }
-        }
-
         if($this->search->getQuery())
         {
 
-            /** Поиск по продукции */
+            /** Поиск по сырья */
             $result = $this->elasticGetIndex ? $this->elasticGetIndex->handle(Material::class, $this->search->getQuery(), 1) : false;
 
             if($result)
@@ -972,7 +848,7 @@ final class AllMaterialsRepository implements AllMaterialsInterface
 
                     $dbal
                         ->createSearchQueryBuilder($this->search)
-                        ->addSearchInArray('product.id', array_column($data, "id"));
+                        ->addSearchInArray('material.id', array_column($data, "id"));
 
                     return $this->paginator->fetchAllAssociative($dbal);
                 }
@@ -981,20 +857,20 @@ final class AllMaterialsRepository implements AllMaterialsInterface
 
             $dbal
                 ->createSearchQueryBuilder($this->search)
-                ->addSearchEqualUid('product.id')
-                ->addSearchEqualUid('product.event')
-                ->addSearchEqualUid('product_variation.id')
-                ->addSearchEqualUid('product_modification.id')
-                ->addSearchLike('product_trans.name')
-                ->addSearchLike('product_info.article')
-                ->addSearchLike('product_offer.article')
-                ->addSearchLike('product_modification.article')
-                ->addSearchLike('product_modification.article')
-                ->addSearchLike('product_variation.article');
+                ->addSearchEqualUid('material.id')
+                ->addSearchEqualUid('material.event')
+                ->addSearchEqualUid('material_variation.id')
+                ->addSearchEqualUid('material_modification.id')
+                ->addSearchLike('material_trans.name')
+                ->addSearchLike('material_info.article')
+                ->addSearchLike('material_offer.article')
+                ->addSearchLike('material_modification.article')
+                ->addSearchLike('material_modification.article')
+                ->addSearchLike('material_variation.article');
 
         }
 
-        $dbal->orderBy('product.event', 'DESC');
+        $dbal->orderBy('material.event', 'DESC');
 
         $dbal->allGroupByExclude();
 

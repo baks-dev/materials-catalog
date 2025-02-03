@@ -1,29 +1,36 @@
 page:
-  index: 'Catalog of raw materials'
-  new: 'Add raw materials'
-  edit: 'Edit raw materials'
-  rename: 'Rename raw materials'
+  index: 'Material Catalog'
+  new: 'Add material'
+  edit: 'Edit material'
+  rename: 'Rename the material'
   delete: 'Delete materials'
 
 breadcrumb:
-  index: 'Catalog of raw materials'
-  new: 'Add raw materials'
-  edit: 'Edit raw materials'
-  rename: 'Rename raw materials'
-  delete: 'Delete raw materials'
+  index: 'Material Catalog'
+  new: 'Add material'
+  edit: 'Edit material'
+  rename: 'Rename the material'
+  delete: 'Delete a material'
+
+
+form:
+  label:
+    trans:
+      name: 'Material name'
+    url: 'Material symbol code'
 
 success:
-  new: 'Raw materials added successfully'
-  update: 'Raw materials updated successfully'
-  edit: 'Raw materials updated successfully'
-  rename: 'Raw materials successfully renamed'
-  delete: 'The raw materials were successfully deleted to the cart'
-  restore: 'Raw materials successfully restored'
+  new: 'Material added successfully'
+  update: 'Material updated successfully'
+  edit: 'Material updated successfully'
+  rename: 'Material successfully renamed'
+  delete: 'Material successfully removed to cart'
+  restore: 'The material was successfully restored'
 
 danger:
-  new: '%s: Error adding raw materials'
-  update: '%s: Error updating raw materials'
-  edit: '%s: Error while updating raw materials'
-  rename: '%s: Error updating raw materials'
-  delete: '%s: Error deleting raw materials'
-  restore: '%s: Error while restoring raw materials'
+  new: '%s: Error adding material'
+  update: '%s: Error updating material'
+  edit: '%s: Error while updating material'
+  rename: '%s: Error updating material'
+  delete: '%s: Error deleting material'
+  restore: '%s: Error while restoring material'

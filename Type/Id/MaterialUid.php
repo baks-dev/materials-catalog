@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,12 @@
 
 namespace BaksDev\Materials\Catalog\Type\Id;
 
-use App\Kernel;
 use BaksDev\Core\Type\UidType\Uid;
 use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialUid extends Uid
 {
-    public const string TEST = 'fc163077-bc6d-7b65-933b-a844474a0cd9';
+    public const string TEST = '0188a99e-e18e-733d-9305-9e2bfaf96f09';
 
     public const string TYPE = 'material';
 

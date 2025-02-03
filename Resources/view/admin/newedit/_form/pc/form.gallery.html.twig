@@ -1,0 +1,26 @@
+{% trans_default_domain 'materials-catalog.admin' %}
+
+<div class="d-flex gap-2">
+
+    <div class="d-flex flex-column gap-2 w-100">
+
+
+        {# ФОТО #}
+        {{ include(_self|replace({ "form.gallery.html.twig": "includes/gallery/_photo.html.twig" })) }}
+
+
+        <div class="d-flex gap-2">
+
+            <div class="d-flex flex-column gap-2 w-50 mb-2">
+
+                {# ФАЙЛЫ #}
+                {{ include(_self|replace({ "form.gallery.html.twig": "includes/gallery/_files.html.twig" })) }}
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+

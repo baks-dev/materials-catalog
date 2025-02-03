@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -23,16 +23,15 @@
 
 namespace BaksDev\Materials\Catalog\Controller\Admin;
 
-use App\Kernel;
 use BaksDev\Core\Controller\AbstractController;
 use BaksDev\Core\Listeners\Event\Security\RoleSecurity;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Material;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\CategoryCollectionDTO;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\MaterialCategoryCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialForm;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialHandler;
-use BaksDev\Materials\Category\Type\Id\CategoryProductUid;
+use BaksDev\Materials\Category\Type\Id\CategoryMaterialUid;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,18 +47,18 @@ final class EditController extends AbstractController
     public function edit(
         #[MapEntity] MaterialEvent $Event,
         Request $request,
-        MaterialHandler $productHandler
+        MaterialHandler $materialHandler
     ): Response
     {
 
-        $ProductDTO = new MaterialDTO();
-        $ProductDTO = $Event->getDto($ProductDTO);
+        $MaterialDTO = new MaterialDTO();
+        $MaterialDTO = $Event->getDto($MaterialDTO);
 
         // Если передана категория - присваиваем для подгрузки настроект (свойства, ТП)
         if($request->get('category'))
         {
-            /** @var CategoryCollectionDTO $category */
-            foreach($ProductDTO->getCategory() as $category)
+            /** @var MaterialCategoryCollectionDTO $category */
+            foreach($MaterialDTO->getCategory() as $category)
             {
                 if($category->getRoot())
                 {
@@ -69,30 +68,30 @@ final class EditController extends AbstractController
                         break;
                     }
 
-                    $category->setCategory(new CategoryProductUid($request->get('category')));
+                    $category->setCategory(new CategoryMaterialUid($request->get('category')));
                 }
             }
 
             if($category->getCategory() === null && $request->get('category') !== 'null')
             {
                 $category->setRoot(true);
-                $category->setCategory(new CategoryProductUid($request->get('category')));
+                $category->setCategory(new CategoryMaterialUid($request->get('category')));
             }
         }
 
         // Форма добавления
-        $form = $this->createForm(MaterialForm::class, $ProductDTO);
+        $form = $this->createForm(MaterialForm::class, $MaterialDTO);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid() && $form->has('product'))
+        if($form->isSubmitted() && $form->isValid() && $form->has('material'))
         {
             $this->refreshTokenForm($form);
 
-            $handle = $productHandler->handle($ProductDTO);
+            $handle = $materialHandler->handle($MaterialDTO);
 
             $this->addFlash(
-                'admin.page.edit',
-                $handle instanceof Material ? 'admin.success.edit' : 'admin.danger.edit',
+                'page.edit',
+                $handle instanceof Material ? 'success.edit' : 'danger.edit',
                 'materials-catalog.admin',
                 $handle
             );
