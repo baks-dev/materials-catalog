@@ -995,6 +995,16 @@ function articleGenerate()
     }
 
 
+    /** Замена HEX на цвет */
+
+    generate = generate.replace(/000000/gi, 'BLACK');
+    generate = generate.replace(/FFFFFF/gi, 'WHITE');
+    generate = generate.replace(/808080/gi, 'GRAY');
+    generate = generate.replace(/FF0000/gi, 'RED');
+    generate = generate.replace(/800080/gi, 'VIOLET');
+    generate = generate.replace(/FFA500/gi, 'ORANGE');
+    generate = generate.replace(/FFFF00/gi, 'YELLOW');
+
     result = document.getElementById(this.dataset.id);
 
     if(result)
