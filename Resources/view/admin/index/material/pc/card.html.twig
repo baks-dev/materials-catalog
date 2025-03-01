@@ -89,7 +89,7 @@
 
                     {% if item.article %}
                         <div class="d-flex align-items-center">
-                            <span>Префикс: &nbsp;</span>
+                            <span>Код: &nbsp;</span>
                             <form method="post" action='{{ path('materials-catalog:admin.index') }}' class="p-0">
                                 <input type="hidden" name="search_form[query]" value="{{ item.article }}">
                                 <button type="submit" class="btn btn-link text-decoration-none btn-sm p-0 border-0">

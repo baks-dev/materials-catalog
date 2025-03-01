@@ -55,11 +55,7 @@
             </div>
 
             <div class="card-body pb-0">
-                {# Профиль пользователя #}
-                {% if is_granted('ROLE_ADMIN') %}
-                    {{ form_row(form.info.profile, { label : 'Прикрепить к профилю пользователя'|trans, placeholder : 'Выберите профиль из списка...'  } ) }}
-                {% endif %}
-
+                {{ form_row(form.info.profile, { label : 'Прикрепить к профилю пользователя'|trans, placeholder : 'Выберите профиль из списка...'  } ) }}
             </div>
 
         </div>

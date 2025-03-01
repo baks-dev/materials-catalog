@@ -25,7 +25,6 @@ namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Info;
 
 use BaksDev\Materials\Catalog\Repository\MaterialUserProfileChoice\MaterialUserProfileChoiceInterface;
 use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -35,33 +34,27 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class MaterialInfoForm extends AbstractType
 {
-    public function __construct(
-        private readonly MaterialUserProfileChoiceInterface $profileChoice,
-        private readonly Security $security
-    ) {}
+    public function __construct(private readonly MaterialUserProfileChoiceInterface $profileChoice) {}
 
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-        if($this->security->isGranted('ROLE_ADMIN'))
-        {
-            $builder
-                ->add('profile', ChoiceType::class, [
-                    'choices' => $this->profileChoice->getProfileCollection(),
-                    'choice_value' => function(?UserProfileUid $profile) {
-                        return $profile?->getValue();
-                    },
-                    'choice_label' => function(UserProfileUid $profile) {
-                        return $profile->getAttr();
-                    },
-                    'label' => false,
-                    'expanded' => false,
-                    'multiple' => false,
-                    'required' => false,
-                    'attr' => ['data-select' => 'select2',],
-                ]);
-        }
+        $builder
+            ->add('profile', ChoiceType::class, [
+                'choices' => $this->profileChoice->getProfileCollection(),
+                'choice_value' => function(?UserProfileUid $profile) {
+                    return $profile?->getValue();
+                },
+                'choice_label' => function(UserProfileUid $profile) {
+                    return $profile->getAttr();
+                },
+                'label' => false,
+                'expanded' => false,
+                'multiple' => false,
+                'required' => false,
+                'attr' => ['data-select' => 'select2',],
+            ]);
 
         /* TextType */
         $builder->add('sort', IntegerType::class);
