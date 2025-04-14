@@ -45,16 +45,17 @@ class AllMaterialsIdentifierRepositoryTest extends KernelTestCase
         $AllMaterialsIdentifier = self::getContainer()->get(AllMaterialsIdentifierInterface::class);
         $result = $AllMaterialsIdentifier->findAll();
 
+
         foreach($result as $data)
         {
-            self::assertTrue(isset($data['material_id']));
-            self::assertTrue(isset($data['material_event']));
-            self::assertTrue(isset($data['offer_id']));
-            self::assertTrue(isset($data['offer_const']));
-            self::assertTrue(isset($data['variation_id']));
-            self::assertTrue(isset($data['variation_const']));
-            self::assertTrue(isset($data['modification_id']));
-            self::assertTrue(isset($data['modification_const']));
+            self::assertTrue(array_key_exists('material_id', $data));
+            self::assertTrue(array_key_exists('material_event', $data));
+            self::assertTrue(array_key_exists('offer_id', $data));
+            self::assertTrue(array_key_exists('offer_const', $data));
+            self::assertTrue(array_key_exists('variation_id', $data));
+            self::assertTrue(array_key_exists('variation_const', $data));
+            self::assertTrue(array_key_exists('modification_id', $data));
+            self::assertTrue(array_key_exists('modification_const', $data));
 
             self::$data = $data;
 
@@ -112,6 +113,7 @@ class AllMaterialsIdentifierRepositoryTest extends KernelTestCase
         /** @var AllMaterialsIdentifierInterface $AllMaterialsIdentifier */
         $AllMaterialsIdentifier = self::getContainer()->get(AllMaterialsIdentifierInterface::class);
         $result = $AllMaterialsIdentifier
+            ->forOfferConst(self::$data['offer_const'])
             ->forVariationConst(self::$data['variation_const'])
             ->findAll();
 
@@ -129,10 +131,11 @@ class AllMaterialsIdentifierRepositoryTest extends KernelTestCase
 
     public function testModificationCase(): void
     {
-
         /** @var AllMaterialsIdentifierInterface $AllMaterialsIdentifier */
         $AllMaterialsIdentifier = self::getContainer()->get(AllMaterialsIdentifierInterface::class);
         $result = $AllMaterialsIdentifier
+            ->forOfferConst(self::$data['offer_const'])
+            ->forVariationConst(self::$data['variation_const'])
             ->forModificationConst(self::$data['modification_const'])
             ->findAll();
 

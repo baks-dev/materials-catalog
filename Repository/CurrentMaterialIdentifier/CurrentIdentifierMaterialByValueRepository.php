@@ -100,7 +100,7 @@ final class CurrentIdentifierMaterialByValueRepository implements CurrentIdentif
     /**
      * Метод возвращает активные идентификаторы сырья по событию и идентификаторов торгового предложения
      */
-    public function find(): CurrentMaterialDTO|false
+    public function find(): CurrentMaterialResult|false
     {
         if(!$this->material instanceof MaterialUid)
         {
@@ -111,9 +111,9 @@ final class CurrentIdentifierMaterialByValueRepository implements CurrentIdentif
          * Определяем активное событие сырья
          */
 
-        $current = $this->DBALQueryBuilder->createQueryBuilder(self::class);
+        $dbal = $this->DBALQueryBuilder->createQueryBuilder(self::class);
 
-        $current
+        $dbal
             ->addSelect('material.id')
             ->addSelect('material.event')
             ->from(Material::class, 'material')
@@ -127,7 +127,7 @@ final class CurrentIdentifierMaterialByValueRepository implements CurrentIdentif
 
         if($this->offer)
         {
-            $current
+            $dbal
                 ->addSelect('current_offer.id AS offer')
                 ->addSelect('current_offer.const AS offer_const')
                 ->leftJoin(
@@ -141,7 +141,7 @@ final class CurrentIdentifierMaterialByValueRepository implements CurrentIdentif
             if($this->variation)
             {
 
-                $current
+                $dbal
                     ->addSelect('current_variation.id AS variation')
                     ->addSelect('current_variation.const AS variation_const')
                     ->leftJoin(
@@ -155,7 +155,7 @@ final class CurrentIdentifierMaterialByValueRepository implements CurrentIdentif
 
                 if($this->modification)
                 {
-                    $current
+                    $dbal
                         ->addSelect('current_modification.id AS modification')
                         ->addSelect('current_modification.const AS modification_const')
                         ->leftJoin(
@@ -170,9 +170,9 @@ final class CurrentIdentifierMaterialByValueRepository implements CurrentIdentif
         }
 
 
-        return $current
+        return $dbal
             ->enableCache('materials-catalog', 60)
-            ->fetchHydrate(CurrentMaterialDTO::class);
+            ->fetchHydrate(CurrentMaterialResult::class);
 
     }
 }

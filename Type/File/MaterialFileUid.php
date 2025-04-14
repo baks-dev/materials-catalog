@@ -29,7 +29,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialFileUid extends Uid
 {
-    public const string TEST = '0188a99e-be40-719d-872f-d67aac086cae';
+    public const string TEST = '857fe817-a5ec-7720-aa6d-2cc0ad2b3535';
 
     public const string TYPE = 'material_file';
 

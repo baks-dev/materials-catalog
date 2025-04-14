@@ -25,16 +25,12 @@ declare(strict_types=1);
 
 namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests;
 
-
 use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Repository\CurrentMaterialEvent\CurrentMaterialEventInterface;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Active\ActiveDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\MaterialCategoryCollectionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Description\MaterialDescriptionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Info\MaterialInfoDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialHandler;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\MaterialOffersCollectionDTO;
@@ -42,7 +38,6 @@ use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\MaterialVar
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Modification\MaterialModificationCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Photo\MaterialPhotoCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Price\MaterialPriceDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Seo\MaterialSeoCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Trans\MaterialTransDTO;
 use BaksDev\Materials\Category\Type\Id\CategoryMaterialUid;
 use BaksDev\Materials\Category\Type\Offers\Id\CategoryMaterialOffersUid;
@@ -52,8 +47,6 @@ use BaksDev\Materials\Category\Type\Section\Field\Id\CategoryMaterialSectionFiel
 use BaksDev\Products\Product\Type\Material\MaterialUid;
 use BaksDev\Reference\Currency\Type\Currency;
 use BaksDev\Reference\Money\Type\Money;
-use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
-use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -103,26 +96,6 @@ class MaterialsEditTest extends KernelTestCase
             self::assertFalse($Category->getRoot());
         }
 
-        /** SeoCollectionDTO */
-
-        $SeoCollection = $MaterialDTO->getSeo();
-
-        /** @var MaterialSeoCollectionDTO $SeoCollectionDTO */
-        foreach($SeoCollection as $SeoCollectionDTO)
-        {
-            self::assertSame('Test New Title', $SeoCollectionDTO->getTitle());
-            $SeoCollectionDTO->setTitle('Test Edit Title');
-            self::assertSame('Test Edit Title', $SeoCollectionDTO->getTitle());
-
-            self::assertSame('Test New Keywords', $SeoCollectionDTO->getKeywords());
-            $SeoCollectionDTO->setKeywords('Test Edit Keywords');
-            self::assertSame('Test Edit Keywords', $SeoCollectionDTO->getKeywords());
-
-            self::assertSame('Test New Description', $SeoCollectionDTO->getDescription());
-            $SeoCollectionDTO->setDescription('Test Edit Description');
-            self::assertSame('Test Edit Description', $SeoCollectionDTO->getDescription());
-        }
-
 
         /** PhotoCollectionDTO */
 
@@ -154,41 +127,6 @@ class MaterialsEditTest extends KernelTestCase
         }
 
 
-        /** MaterialDescriptionDTO */
-
-        $materialDescription = $MaterialDTO->getDescription();
-
-        /** @var MaterialDescriptionDTO $materialDescriptionDto */
-        foreach($materialDescription as $materialDescriptionDto)
-        {
-            self::assertSame('Test New Description', $materialDescriptionDto->getDescription());
-            $materialDescriptionDto->setDescription('Test Edit Description');
-            self::assertSame('Test Edit Description', $materialDescriptionDto->getDescription());
-
-            self::assertSame('Test New Preview', $materialDescriptionDto->getPreview());
-            $materialDescriptionDto->setPreview('Test Edit Preview');
-            self::assertSame('Test Edit Preview', $materialDescriptionDto->getPreview());
-        }
-
-        /** InfoDTO */
-
-        /** @var MaterialInfoDTO $InfoDTO */
-        $InfoDTO = $MaterialDTO->getInfo();
-
-        self::assertSame('Test New Info Article', $InfoDTO->getArticle());
-        $InfoDTO->setArticle('Test Edit Info Article');
-        self::assertSame('Test Edit Info Article', $InfoDTO->getArticle());
-
-        self::assertSame(5, $InfoDTO->getSort());
-        $InfoDTO->setSort(25);
-        self::assertSame(25, $InfoDTO->getSort());
-
-        self::assertSame('new_info_url', $InfoDTO->getUrl());
-        $InfoDTO->setUrl('edit_info_url');
-        self::assertSame('edit_info_url', $InfoDTO->getUrl());
-
-        self::assertTrue($InfoDTO->getProfile()->equals(UserProfileUid::TEST));
-
 
         /** PriceDTO */
 
@@ -206,72 +144,6 @@ class MaterialsEditTest extends KernelTestCase
         $PriceDTO->setRequest(false);
         self::assertFalse($PriceDTO->getRequest());
 
-
-        /** ActiveDTO */
-
-
-        /** @var  ActiveDTO $ActiveDTO */
-        $ActiveDTO = $MaterialDTO->getActive();
-
-
-        $activeTestDateNew = new DateTimeImmutable('2024-09-15 15:12:00');
-        $activeTestDateEdit = new DateTimeImmutable('2024-09-17 10:00:00');
-
-        self::assertFalse($ActiveDTO->getActive());
-        $ActiveDTO->setActive(true);
-        self::assertTrue($ActiveDTO->getActive());
-
-
-        // Active From Date
-
-        self::assertEquals(
-            $activeTestDateNew->format('Y-m-d H:i:s'),
-            $ActiveDTO->getActiveFrom()->format('Y-m-d H:i:s')
-        );
-        $ActiveDTO->setActiveFrom($activeTestDateEdit);
-        self::assertSame(
-            $activeTestDateEdit->format('Y-m-d H:i:s'),
-            $ActiveDTO->getActiveFrom()->format('Y-m-d H:i:s')
-        );
-
-
-        // Active From Time
-        // Время присваивается из даты, новое время != New, === Edit
-
-        self::assertEquals(
-            $activeTestDateEdit->format('Y-m-d H:i:s'),
-            $ActiveDTO->getActiveFromTime()->format('Y-m-d H:i:s')
-        );
-        $ActiveDTO->setActiveFromTime($activeTestDateEdit);
-        self::assertSame(
-            $activeTestDateEdit->format('Y-m-d H:i:s'),
-            $ActiveDTO->getActiveFromTime()->format('Y-m-d H:i:s')
-        );
-
-        //  Active To Date
-
-        self::assertEquals(
-            $activeTestDateNew->format('Y-m-d H:i:s'),
-            $ActiveDTO->getActiveTo()->format('Y-m-d H:i:s')
-        );
-        $ActiveDTO->setActiveTo($activeTestDateEdit);
-        self::assertSame(
-            $activeTestDateEdit->format('Y-m-d H:i:s'),
-            $ActiveDTO->getActiveTo()->format('Y-m-d H:i:s')
-        );
-
-        //  Active To Time
-        // Время присваивается из даты, новое время != New, === Edit
-
-        self::assertEquals(
-            $activeTestDateEdit->format('Y-m-d H:i:s'),
-            $ActiveDTO->getActiveToTime()->format('Y-m-d H:i:s')
-        );
-        $ActiveDTO->setActiveToTime($activeTestDateEdit);
-        self::assertSame(
-            $activeTestDateEdit->format('Y-m-d H:i:s'),
-            $ActiveDTO->getActiveToTime()->format('Y-m-d H:i:s')
-        );
 
 
         /** MaterialTransDTO */
@@ -303,9 +175,6 @@ class MaterialsEditTest extends KernelTestCase
             $MaterialOffersCollectionDTO->setValue('Test Edit Offer Value');
             self::assertSame('Test Edit Offer Value', $MaterialOffersCollectionDTO->getValue());
 
-            self::assertSame('Test New Offer Postfix', $MaterialOffersCollectionDTO->getPostfix());
-            $MaterialOffersCollectionDTO->setPostfix('Test Edit Offer Postfix');
-            self::assertSame('Test Edit Offer Postfix', $MaterialOffersCollectionDTO->getPostfix());
 
             $MaterialOfferPriceDTO = $MaterialOffersCollectionDTO->getPrice();
             self::assertTrue($MaterialOfferPriceDTO->getPrice()->equals(55.5));
@@ -383,17 +252,6 @@ class MaterialsEditTest extends KernelTestCase
                     $MaterialOffersVariationCollectionDTO->getValue()
                 );
 
-                self::assertSame(
-                    'Test New Variation Postfix',
-                    $MaterialOffersVariationCollectionDTO->getPostfix()
-                );
-
-                $MaterialOffersVariationCollectionDTO->setPostfix('Test Edit Variation Postfix');
-                self::assertSame(
-                    'Test Edit Variation Postfix',
-                    $MaterialOffersVariationCollectionDTO->getPostfix()
-                );
-
                 self::assertTrue(
                     $MaterialOffersVariationCollectionDTO
                         ->getCategoryVariation()
@@ -460,17 +318,6 @@ class MaterialsEditTest extends KernelTestCase
                     self::assertSame(
                         'Test Edit Modification Value',
                         $MaterialOffersVariationModificationCollectionDTO->getValue()
-                    );
-
-                    self::assertSame(
-                        'Test New Modification Postfix',
-                        $MaterialOffersVariationModificationCollectionDTO->getPostfix()
-                    );
-
-                    $MaterialOffersVariationModificationCollectionDTO->setPostfix('Test Edit Modification Postfix');
-                    self::assertSame(
-                        'Test Edit Modification Postfix',
-                        $MaterialOffersVariationModificationCollectionDTO->getPostfix()
                     );
 
                     self::assertTrue(

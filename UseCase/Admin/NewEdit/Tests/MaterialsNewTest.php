@@ -31,10 +31,7 @@ use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Active\ActiveDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\MaterialCategoryCollectionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Description\MaterialDescriptionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Info\MaterialInfoDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\MaterialHandler;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Image\MaterialOfferImageCollectionDTO;
@@ -48,21 +45,16 @@ use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Modificatio
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Price\MaterialVariationPriceDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Photo\MaterialPhotoCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Price\MaterialPriceDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Property\PropertyCollectionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Seo\MaterialSeoCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Trans\MaterialTransDTO;
 use BaksDev\Materials\Category\Type\Id\CategoryMaterialUid;
 use BaksDev\Materials\Category\Type\Offers\Id\CategoryMaterialOffersUid;
 use BaksDev\Materials\Category\Type\Offers\Modification\CategoryMaterialModificationUid;
 use BaksDev\Materials\Category\Type\Offers\Variation\CategoryMaterialVariationUid;
-use BaksDev\Materials\Category\Type\Section\Field\Id\CategoryMaterialSectionFieldUid;
 use BaksDev\Materials\Category\UseCase\Admin\NewEdit\CategoryMaterialDTO;
 use BaksDev\Materials\Category\UseCase\Admin\NewEdit\Tests\CategoryMaterialNewTest;
 use BaksDev\Products\Product\Type\Material\MaterialUid;
 use BaksDev\Reference\Currency\Type\Currency;
 use BaksDev\Reference\Money\Type\Money;
-use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
@@ -115,7 +107,6 @@ class MaterialsNewTest extends KernelTestCase
         $em->flush();
         $em->clear();
 
-
         /** Создаем тестовую категорию */
         CategoryMaterialNewTest::setUpBeforeClass();
         (new CategoryMaterialNewTest())->testUseCase();
@@ -160,26 +151,6 @@ class MaterialsNewTest extends KernelTestCase
         $MaterialDTO->addCategory($CategoryCollectionDTO);
 
 
-        /** SeoCollectionDTO */
-
-        $SeoCollection = $MaterialDTO->getSeo();
-
-        /** @var MaterialSeoCollectionDTO $SeoCollectionDTO */
-        foreach($SeoCollection as $SeoCollectionDTO)
-        {
-            $SeoCollectionDTO->setTitle('Test New Title');
-            self::assertSame('Test New Title', $SeoCollectionDTO->getTitle());
-
-            $SeoCollectionDTO->setKeywords('Test New Keywords');
-            self::assertSame('Test New Keywords', $SeoCollectionDTO->getKeywords());
-
-            $SeoCollectionDTO->setDescription('Test New Description');
-            self::assertSame('Test New Description', $SeoCollectionDTO->getDescription());
-        }
-
-        $MaterialDTO->addSeo($SeoCollectionDTO);
-
-
         /** PhotoCollectionDTO */
 
 
@@ -206,57 +177,6 @@ class MaterialsNewTest extends KernelTestCase
         $MaterialDTO->addPhoto($PhotoCollectionDTO);
 
 
-        /** PropertyCollectionDTO */
-
-        $PropertyCollectionDTO = new PropertyCollectionDTO();
-
-        $PropertyCollectionDTO->setSort(5);
-        self::assertSame(5, $PropertyCollectionDTO->getSort());
-
-        $PropertyCollectionDTO->setValue('Test New Property Value');
-        self::assertSame('Test New Property Value', $PropertyCollectionDTO->getValue());
-
-        $PropertyCollectionDTO->setField($categoryMaterialSectionFieldUid = new CategoryMaterialSectionFieldUid());
-        self::assertSame($categoryMaterialSectionFieldUid, $PropertyCollectionDTO->getField());
-
-        $PropertyCollectionDTO->setSection('Test New Property Section');
-        self::assertSame('Test New Property Section', $PropertyCollectionDTO->getSection());
-
-        $MaterialDTO->addProperty($PropertyCollectionDTO);
-
-        /** MaterialDescriptionDTO */
-
-        $materialDescription = $MaterialDTO->getDescription();
-
-        /** @var MaterialDescriptionDTO $materialDescriptionDto */
-        foreach($materialDescription as $materialDescriptionDto)
-        {
-            $materialDescriptionDto->setDescription('Test New Description');
-            self::assertSame('Test New Description', $materialDescriptionDto->getDescription());
-
-            $materialDescriptionDto->setPreview('Test New Preview');
-            self::assertSame('Test New Preview', $materialDescriptionDto->getPreview());
-        }
-
-
-        /** InfoDTO */
-
-        $InfoDTO = new MaterialInfoDTO();
-
-        $InfoDTO->setArticle('Test New Info Article');
-        self::assertSame('Test New Info Article', $InfoDTO->getArticle());
-
-        $InfoDTO->setSort(5);
-        self::assertSame(5, $InfoDTO->getSort());
-
-        $InfoDTO->setUrl('new_info_url');
-        self::assertSame('new_info_url', $InfoDTO->getUrl());
-
-        $InfoDTO->setProfile($UserProfileUid = new UserProfileUid());
-        self::assertSame($UserProfileUid, $InfoDTO->getProfile());
-
-        $MaterialDTO->setInfo($InfoDTO);
-
 
         /** PriceDTO */
 
@@ -275,33 +195,6 @@ class MaterialsNewTest extends KernelTestCase
         self::assertTrue($PriceDTO->getRequest());
 
         $MaterialDTO->setPrice($PriceDTO);
-
-
-        /** ActiveDTO */
-
-        $ActiveDTO = new ActiveDTO();
-
-        $ActiveDTO->setActive(true);
-        self::assertTrue($ActiveDTO->getActive());
-
-        $activeTestDateNew = new DateTimeImmutable('2024-09-15 15:12:00');
-
-        $ActiveDTO->setActiveFrom($activeTestDateNew);
-        self::assertSame($activeTestDateNew, $ActiveDTO->getActiveFrom());
-
-        $ActiveDTO->setActiveFromTime($activeTestDateNew);
-        self::assertSame($activeTestDateNew, $ActiveDTO->getActiveFromTime());
-
-        $ActiveDTO->setActive(false);
-        self::assertFalse($ActiveDTO->getActive());
-
-        $ActiveDTO->setActiveTo($activeTestDateNew);
-        self::assertSame($activeTestDateNew, $ActiveDTO->getActiveTo());
-
-        $ActiveDTO->setActiveToTime($activeTestDateNew);
-        self::assertSame($activeTestDateNew, $ActiveDTO->getActiveToTime());
-
-        $MaterialDTO->setActive($ActiveDTO);
 
 
         /** MaterialTransDTO */
@@ -327,8 +220,8 @@ class MaterialsNewTest extends KernelTestCase
         $MaterialOffersCollectionDTO->setValue(self::OFFER_VALUE);
         self::assertSame('100', $MaterialOffersCollectionDTO->getValue());
 
-        $MaterialOffersCollectionDTO->setPostfix('Test New Offer Postfix');
-        self::assertSame('Test New Offer Postfix', $MaterialOffersCollectionDTO->getPostfix());
+        //$MaterialOffersCollectionDTO->setPostfix('Test New Offer Postfix');
+        //self::assertSame('Test New Offer Postfix', $MaterialOffersCollectionDTO->getPostfix());
 
         $ModificationPriceMoney = new Money(55.5);
         self::assertSame(55.5, $ModificationPriceMoney->getValue());
@@ -407,8 +300,8 @@ class MaterialsNewTest extends KernelTestCase
         $MaterialOffersVariationCollectionDTO->setValue(self::VARIATION_VALUE);
         self::assertSame('200', $MaterialOffersVariationCollectionDTO->getValue());
 
-        $MaterialOffersVariationCollectionDTO->setPostfix('Test New Variation Postfix');
-        self::assertSame('Test New Variation Postfix', $MaterialOffersVariationCollectionDTO->getPostfix());
+        //$MaterialOffersVariationCollectionDTO->setPostfix('Test New Variation Postfix');
+        //self::assertSame('Test New Variation Postfix', $MaterialOffersVariationCollectionDTO->getPostfix());
 
         $MaterialOffersVariationCollectionDTO->setCategoryVariation(
             new CategoryMaterialVariationUid(CategoryMaterialVariationUid::TEST)
@@ -487,11 +380,11 @@ class MaterialsNewTest extends KernelTestCase
             $MaterialOffersVariationModificationCollectionDTO->getValue()
         );
 
-        $MaterialOffersVariationModificationCollectionDTO->setPostfix('Test New Modification Postfix');
-        self::assertSame(
-            'Test New Modification Postfix',
-            $MaterialOffersVariationModificationCollectionDTO->getPostfix()
-        );
+        //        $MaterialOffersVariationModificationCollectionDTO->setPostfix('Test New Modification Postfix');
+        //        self::assertSame(
+        //            'Test New Modification Postfix',
+        //            $MaterialOffersVariationModificationCollectionDTO->getPostfix()
+        //        );
 
         $MaterialOffersVariationModificationCollectionDTO->setCategoryModification(
             new CategoryMaterialModificationUid(CategoryMaterialModificationUid::TEST)

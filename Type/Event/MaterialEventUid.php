@@ -29,7 +29,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialEventUid extends Uid
 {
-    public const string TEST = '0188a99e-7e95-7385-a2d5-b6fb3d0ca89f';
+    public const string TEST = '9edb23d8-3732-7763-8fb1-dbc779dfa9f0';
 
     public const string TYPE = 'material_event';
 

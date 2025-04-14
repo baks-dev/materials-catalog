@@ -33,74 +33,34 @@ use BaksDev\Materials\Catalog\Type\Offers\Variation\Id\MaterialVariationUid;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\Id\MaterialModificationUid;
 use BaksDev\Products\Product\Type\Material\MaterialUid;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
-final class CurrentMaterialDTO
+#[Exclude]
+final readonly class CurrentMaterialResult
 {
-    /** ID сырья */
-    private MaterialUid $material;
-
-    /** ID события сырья */
-    private MaterialEventUid $event;
-
-    /** Торговое предложение */
-    private MaterialOfferUid|null|false $offer = null;
-    private MaterialOfferConst|null|false $offerConst = null;
-
-    /** Множественный вариант торгового предложения */
-    private MaterialVariationUid|null|false $variation = null;
-    private MaterialVariationConst|null|false $variationConst = null;
-
-    /** Модификация множественного варианта торгового предложения */
-    private MaterialModificationUid|null|false $modification = null;
-    private MaterialModificationConst|null|false $modificationConst = null;
-
     public function __construct(
-        string $id,
-        string $event,
+        private string $id,
+        private string $event,
 
         /** Торговое предложение */
-        ?string $offer = null,
-        ?string $offer_const = null,
+        private ?string $offer = null,
+        private ?string $offer_const = null,
 
         /** Множественный вариант торгового предложения */
-        ?string $variation = null,
-        ?string $variation_const = null,
+        private ?string $variation = null,
+        private ?string $variation_const = null,
 
         /** Модификация множественного варианта торгового предложения */
-        ?string $modification = null,
-        ?string $modification_const = null,
-    )
-    {
-
-        $this->material = new MaterialUid($id);
-        $this->event = new MaterialEventUid($event);
-
-        if($offer)
-        {
-            $this->offer = new MaterialOfferUid($offer);
-            $this->offerConst = new MaterialOfferConst($offer_const);
-        }
-
-        if($variation)
-        {
-            $this->variation = new MaterialVariationUid($variation);
-            $this->variationConst = new MaterialVariationConst($variation_const);
-        }
-
-        if($modification)
-        {
-            $this->modification = new MaterialModificationUid($modification);
-            $this->modificationConst = new MaterialModificationConst($modification_const);
-        }
-
-    }
+        private ?string $modification = null,
+        private ?string $modification_const = null,
+    ) {}
 
     /**
      * Material
      */
     public function getMaterial(): MaterialUid
     {
-        return $this->material;
+        return new MaterialUid($this->id);
     }
 
     /**
@@ -108,7 +68,7 @@ final class CurrentMaterialDTO
      */
     public function getEvent(): MaterialEventUid
     {
-        return $this->event;
+        return new MaterialEventUid($this->event);
     }
 
     /**
@@ -116,7 +76,7 @@ final class CurrentMaterialDTO
      */
     public function getOffer(): MaterialOfferUid|false
     {
-        return $this->offer ?: false;
+        return $this->offer ? new MaterialOfferUid($this->offer) : false;
     }
 
     /**
@@ -124,7 +84,7 @@ final class CurrentMaterialDTO
      */
     public function getOfferConst(): MaterialOfferConst|false
     {
-        return $this->offerConst ?: false;
+        return $this->offer_const ? new MaterialOfferConst($this->offer_const) : false;
     }
 
     /**
@@ -132,7 +92,7 @@ final class CurrentMaterialDTO
      */
     public function getVariation(): MaterialVariationUid|false
     {
-        return $this->variation ?: false;
+        return $this->variation ? new MaterialVariationUid($this->variation) : false;
     }
 
     /**
@@ -140,7 +100,7 @@ final class CurrentMaterialDTO
      */
     public function getVariationConst(): MaterialVariationConst|false
     {
-        return $this->variationConst ?: false;
+        return $this->variation_const ? new MaterialVariationConst($this->variation_const) : false;
     }
 
     /**
@@ -148,7 +108,7 @@ final class CurrentMaterialDTO
      */
     public function getModification(): MaterialModificationUid|false
     {
-        return $this->modification ?: false;
+        return $this->modification ? new MaterialModificationUid($this->modification) : false;
     }
 
     /**
@@ -156,6 +116,6 @@ final class CurrentMaterialDTO
      */
     public function getModificationConst(): MaterialModificationConst|false
     {
-        return $this->modificationConst ?: false;
+        return $this->modification_const ? new MaterialModificationConst($this->modification_const) : false;
     }
 }

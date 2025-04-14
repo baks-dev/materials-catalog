@@ -25,7 +25,16 @@ declare(strict_types=1);
 
 namespace BaksDev\Materials\Catalog\Repository\CurrentMaterialByArticle\Tests;
 
+use BaksDev\Materials\Catalog\Repository\CurrentMaterialByArticle\CurrentMaterialDTO;
 use BaksDev\Materials\Catalog\Repository\CurrentMaterialByArticle\MaterialConstByArticleInterface;
+use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
+use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
+use BaksDev\Materials\Catalog\Type\Offers\Id\MaterialOfferUid;
+use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
+use BaksDev\Materials\Catalog\Type\Offers\Variation\Id\MaterialVariationUid;
+use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
+use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\Id\MaterialModificationUid;
+use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
@@ -41,18 +50,49 @@ class MaterialConstByArticleTest extends KernelTestCase
         /** @var MaterialConstByArticleInterface $MaterialConstByArticle */
         $MaterialConstByArticle = self::getContainer()->get(MaterialConstByArticleInterface::class);
 
-        $CurrentMaterialDTO = $MaterialConstByArticle->find('TH202-16-195-45-84W');
-        self::assertNotFalse($CurrentMaterialDTO);
+        $CurrentMaterialDTO = $MaterialConstByArticle->find('LS-W-WHITE-XS');
 
-        /*dd(sprintf(
-            'https://bundles.baks.dev/admin/material/edit/%s?offfer=%s&variation=%s&modification=%s',
-            $CurrentMaterialDTO->getEvent(),
-            $CurrentMaterialDTO->getOfferConst(),
-            $CurrentMaterialDTO->getVariationConst(),
-            $CurrentMaterialDTO->getModificationConst()
-        ));*/
+        self::assertNotFalse($CurrentMaterialDTO);
+        self::assertInstanceOf(CurrentMaterialDTO::class, $CurrentMaterialDTO);
+        self::assertInstanceOf(MaterialUid::class, $CurrentMaterialDTO->getMaterial());
+        self::assertInstanceOf(MaterialEventUid::class, $CurrentMaterialDTO->getEvent());
+
+        /**
+         * MaterialOffer
+         */
+
+        $CurrentMaterialDTO->getOffer() ?
+            self::assertInstanceOf(MaterialOfferUid::class, $CurrentMaterialDTO->getOffer()) :
+            self::assertNull($CurrentMaterialDTO->getOffer());
+
+        $CurrentMaterialDTO->getOfferConst() ?
+            self::assertInstanceOf(MaterialOfferConst::class, $CurrentMaterialDTO->getOfferConst()) :
+            self::assertNull($CurrentMaterialDTO->getOfferConst());
+
+        /**
+         * MaterialVariation
+         */
+
+        $CurrentMaterialDTO->getVariation() ?
+            self::assertInstanceOf(MaterialVariationUid::class, $CurrentMaterialDTO->getVariation()) :
+            self::assertNull($CurrentMaterialDTO->getVariation());
+
+        $CurrentMaterialDTO->getVariationConst() ?
+            self::assertInstanceOf(MaterialVariationConst::class, $CurrentMaterialDTO->getVariationConst()) :
+            self::assertNull($CurrentMaterialDTO->getVariationConst());
+
+        /**
+         * MaterialModification
+         */
+
+        $CurrentMaterialDTO->getModification() ?
+            self::assertInstanceOf(MaterialModificationUid::class, $CurrentMaterialDTO->getModification()) :
+            self::assertNull($CurrentMaterialDTO->getModification());
+
+        $CurrentMaterialDTO->getModificationConst() ?
+            self::assertInstanceOf(MaterialModificationConst::class, $CurrentMaterialDTO->getModificationConst()) :
+            self::assertNull($CurrentMaterialDTO->getModificationConst());
+
 
     }
-
-
 }

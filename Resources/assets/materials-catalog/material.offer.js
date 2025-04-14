@@ -1004,6 +1004,11 @@ function articleGenerate()
     generate = generate.replace(/800080/gi, 'VIOLET');
     generate = generate.replace(/FFA500/gi, 'ORANGE');
     generate = generate.replace(/FFFF00/gi, 'YELLOW');
+    generate = generate.replace(/947862/gi, "KHAKI");
+    generate = generate.replace(/008000/gi, "GREEN");
+    generate = generate.replace(/0000FF/gi, "BLUE");
+    generate = generate.replace(/F5F5DC/gi, "BEIGE");
+
 
     result = document.getElementById(this.dataset.id);
 

@@ -38,5 +38,5 @@ interface CurrentIdentifierMaterialByValueInterface
     /**
      * Метод возвращает активные идентификаторы сырья
      */
-    public function find(): CurrentMaterialDTO|false;
+    public function find(): CurrentMaterialResult|false;
 }

@@ -31,7 +31,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialModificationConst extends Uid
 {
-    public const string TEST = '0188a99f-f8f7-753f-a8f1-62ea0ad1d29a';
+    public const string TEST = '0ffccb33-c944-75f4-9f3a-ae434a91502a';
 
     public const string TYPE = 'material_modification_const';
 

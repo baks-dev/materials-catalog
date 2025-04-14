@@ -25,13 +25,20 @@ declare(strict_types=1);
 
 namespace BaksDev\Materials\Catalog\Repository\MaterialDetail\Tests;
 
+use BaksDev\Core\Doctrine\DBALQueryBuilder;
+use BaksDev\Materials\Catalog\Entity\Material;
+use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffer;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\MaterialVariation;
+use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\MaterialModification;
 use BaksDev\Materials\Catalog\Repository\MaterialDetail\MaterialDetailByConstInterface;
-use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
-use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
-use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
 use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\DependencyInjection\Attribute\When;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 
 /**
@@ -40,54 +47,104 @@ use Symfony\Component\DependencyInjection\Attribute\When;
 #[When(env: 'test')]
 class MaterialDetailByConstTest extends KernelTestCase
 {
+    private static array|false $result;
+
+    public static function setUpBeforeClass(): void
+    {
+        // Бросаем событие консольной комманды
+        $dispatcher = self::getContainer()->get(EventDispatcherInterface::class);
+        $event = new ConsoleCommandEvent(new Command(), new StringInput(''), new NullOutput());
+        $dispatcher->dispatch($event, 'console.command');
+
+        $DBALQueryBuilder = self::getContainer()->get(DBALQueryBuilder::class);
+
+        /** @var DBALQueryBuilder $dbal */
+        $dbal = $DBALQueryBuilder->createQueryBuilder(self::class);
+
+        $dbal
+            ->select('material.id AS id')
+            ->addSelect('material.event AS event')
+            ->from(Material::class, 'material');
+
+        $dbal
+            ->addSelect('offer.id AS offer')
+            ->addSelect('offer.const AS offer_const')
+            ->leftJoin('material', MaterialOffer::class, 'offer', 'offer.event = material.event');
+
+        $dbal
+            ->addSelect('variation.id AS variation')
+            ->addSelect('variation.const AS variation_const')
+            ->leftJoin('offer', MaterialVariation::class, 'variation', 'variation.offer = offer.id');
+
+
+        $dbal
+            ->addSelect('modification.id AS modification')
+            ->addSelect('modification.const AS modification_const')
+            ->leftJoin('variation', MaterialModification::class, 'modification', 'modification.variation = variation.id');
+
+
+        $dbal->setMaxResults(1);
+
+        self::$result = $dbal->fetchAssociative();
+    }
+
+
     public function testUseCase(): void
     {
+
+        if(false === self::$result)
+        {
+            self::assertFalse(self::$result);
+            return;
+        }
+
+
+
         /** @var MaterialDetailByConstInterface $OneMaterialDetailByConst */
         $OneMaterialDetailByConst = self::getContainer()->get(MaterialDetailByConstInterface::class);
 
         $current = $OneMaterialDetailByConst
-            ->material(new MaterialUid('01876b34-ed23-7c18-ba48-9071e8646a08'))
-            ->offerConst(new MaterialOfferConst('01876b34-eccb-7188-887f-0738cae05232'))
-            ->variationConst(new MaterialVariationConst('01876b34-ecce-7c46-9f63-fc184b6527ee'))
-            ->modificationConst(new MaterialModificationConst('01876b34-ecd2-762c-9834-b6a914a020ba'))
+            ->material(self::$result['id'])
+            ->offerConst(self::$result['offer_const'])
+            ->variationConst(self::$result['variation_const'])
+            ->modificationConst(self::$result['modification_const'])
             ->find();
 
 
         $array_keys = [
             "id",
             "event",
-            "active",
-            'active_from',
-            'active_to',
             "material_name",
-            'material_preview',
-            'material_description',
-            "material_url",
+
             "material_offer_uid",
             "material_offer_const",
             "material_offer_value",
             "material_offer_reference",
             "material_offer_name",
+
             "material_variation_uid",
             "material_variation_const",
             "material_variation_value",
             "material_variation_reference",
             "material_variation_name",
+
             "material_modification_uid",
             "material_modification_const",
             "material_modification_value",
             "material_modification_reference",
             "material_modification_name",
+
             "material_article",
             "material_image",
             "material_image_ext",
             "material_image_cdn",
+
             "category_name",
-            "category_url",
+
             "material_quantity",
             "material_price",
             "material_currency",
-            "category_section_field",
+
         ];
 
 
@@ -101,37 +158,5 @@ class MaterialDetailByConstTest extends KernelTestCase
             self::assertTrue(array_key_exists($key, $current), sprintf('Неизвестный новый ключ %s', $key));
         }
 
-
-        /**
-         * category_section_field
-         */
-
-
-        self::assertTrue(json_validate($current['category_section_field']));
-        $current = json_decode($current['category_section_field'], true);
-        $current = current($current);
-
-        $array_keys = [
-            '0',
-            "field_uid",
-            "field_card",
-            "field_name",
-            "field_type",
-            "field_const",
-            "field_trans",
-            "field_value",
-            "field_public",
-            "field_alternative",
-        ];
-
-        foreach($current as $key => $value)
-        {
-            self::assertTrue(in_array($key, $array_keys), sprintf('Появился новый ключ %s', $key));
-        }
-
-        foreach($array_keys as $key)
-        {
-            self::assertTrue(array_key_exists($key, $current), sprintf('Неизвестный новый ключ %s', $key));
-        }
     }
 }

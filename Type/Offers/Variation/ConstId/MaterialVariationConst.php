@@ -31,7 +31,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialVariationConst extends Uid
 {
-    public const string TEST = '0188a99f-862a-7bb9-b656-90f5ec6f7655';
+    public const string TEST = 'ccdfb476-cbf7-7cec-b905-87ab3804b290';
 
     public const string TYPE = 'material_variation_const';
 

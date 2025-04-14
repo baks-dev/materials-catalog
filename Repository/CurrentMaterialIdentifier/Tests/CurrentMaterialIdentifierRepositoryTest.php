@@ -73,18 +73,18 @@ class CurrentMaterialIdentifierRepositoryTest extends KernelTestCase
         $dbal
             ->addSelect('offer.id AS offer')
             ->addSelect('offer.const AS offer_const')
-            ->join('material', MaterialOffer::class, 'offer', 'offer.event = material.event');
+            ->leftJoin('material', MaterialOffer::class, 'offer', 'offer.event = material.event');
 
         $dbal
             ->addSelect('variation.id AS variation')
             ->addSelect('variation.const AS variation_const')
-            ->join('offer', MaterialVariation::class, 'variation', 'variation.offer = offer.id');
+            ->leftJoin('offer', MaterialVariation::class, 'variation', 'variation.offer = offer.id');
 
 
         $dbal
             ->addSelect('modification.id AS modification')
             ->addSelect('modification.const AS modification_const')
-            ->join('variation', MaterialModification::class, 'modification', 'modification.variation = variation.id');
+            ->leftJoin('variation', MaterialModification::class, 'modification', 'modification.variation = variation.id');
 
 
         $dbal->setMaxResults(1);
@@ -138,14 +138,17 @@ class CurrentMaterialIdentifierRepositoryTest extends KernelTestCase
     public static function testEvent(): void
     {
         /** @var CurrentIdentifierMaterialInterface $CurrentMaterialIdentifier */
-        $CurrentMaterialIdentifier = self::getContainer()->get(CurrentIdentifierMaterialInterface::class);
+        $CurrentMaterialIdentifier = self::getContainer()
+            ->get(CurrentIdentifierMaterialInterface::class);
 
         $result = $CurrentMaterialIdentifier
             ->forEvent(self::$result['event'])
             ->find();
 
         self::assertNotFalse($result);
-        self::assertSame(self::$new['event'], $result['event']);
+
+        self::assertTrue($result->getMaterial()->equals(self::$new['id']));
+        self::assertTrue($result->getEvent()->equals(self::$new['event']));
 
     }
 
@@ -163,8 +166,16 @@ class CurrentMaterialIdentifierRepositoryTest extends KernelTestCase
 
         self::assertNotFalse($result);
 
-        self::assertSame(self::$new['event'], $result['event']);
-        self::assertSame(self::$new['offer'], $result['offer']);
+        self::assertTrue($result->getMaterial()->equals(self::$new['id']));
+        self::assertTrue($result->getEvent()->equals(self::$new['event']));
+
+        self::$new['offer'] ?
+            self::assertTrue($result->getOffer()->equals(self::$new['offer'])) :
+            self::assertFalse($result->getOffer());
+
+        self::$new['offer_const'] ?
+            self::assertTrue($result->getOfferConst()->equals(self::$new['offer_const'])) :
+            self::assertFalse($result->getOfferConst());
 
     }
 
@@ -185,9 +196,25 @@ class CurrentMaterialIdentifierRepositoryTest extends KernelTestCase
 
         self::assertNotFalse($result);
 
-        self::assertSame(self::$new['event'], $result['event']);
-        self::assertSame(self::$new['offer'], $result['offer']);
-        self::assertSame(self::$new['variation'], $result['variation']);
+        self::assertTrue($result->getMaterial()->equals(self::$new['id']));
+        self::assertTrue($result->getEvent()->equals(self::$new['event']));
+
+
+        self::$new['offer'] ?
+            self::assertTrue($result->getOffer()->equals(self::$new['offer'])) :
+            self::assertFalse($result->getOffer());
+
+        self::$new['offer_const'] ?
+            self::assertTrue($result->getOfferConst()->equals(self::$new['offer_const'])) :
+            self::assertFalse($result->getOfferConst());
+
+        self::$new['variation'] ?
+            self::assertTrue($result->getVariation()->equals(self::$new['variation'])) :
+            self::assertFalse($result->getVariation());
+
+        self::$new['variation_const'] ?
+            self::assertTrue($result->getVariationConst()->equals(self::$new['variation_const'])) :
+            self::assertFalse($result->getVariationConst());
     }
 
 
@@ -208,10 +235,33 @@ class CurrentMaterialIdentifierRepositoryTest extends KernelTestCase
 
         self::assertNotFalse($result);
 
-        self::assertSame(self::$new['event'], $result['event']);
-        self::assertSame(self::$new['offer'], $result['offer']);
-        self::assertSame(self::$new['variation'], $result['variation']);
-        self::assertSame(self::$new['modification'], $result['modification']);
+        self::assertTrue($result->getMaterial()->equals(self::$new['id']));
+        self::assertTrue($result->getEvent()->equals(self::$new['event']));
+
+        self::$new['offer'] ?
+            self::assertTrue($result->getOffer()->equals(self::$new['offer'])) :
+            self::assertFalse($result->getOffer());
+
+        self::$new['offer_const'] ?
+            self::assertTrue($result->getOfferConst()->equals(self::$new['offer_const'])) :
+            self::assertFalse($result->getOfferConst());
+
+        self::$new['variation'] ?
+            self::assertTrue($result->getVariation()->equals(self::$new['variation'])) :
+            self::assertFalse($result->getVariation());
+
+        self::$new['variation_const'] ?
+            self::assertTrue($result->getVariationConst()->equals(self::$new['variation_const'])) :
+            self::assertFalse($result->getVariationConst());
+
+
+        self::$new['modification'] ?
+            self::assertTrue($result->getModification()->equals(self::$new['modification'])) :
+            self::assertFalse($result->getModification());
+
+        self::$new['modification_const'] ?
+            self::assertTrue($result->getModificationConst()->equals(self::$new['modification_const'])) :
+            self::assertFalse($result->getModificationConst());
 
     }
 }

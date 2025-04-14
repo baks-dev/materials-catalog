@@ -119,7 +119,7 @@ final class CurrentIdentifierMaterialByConstRepository implements CurrentIdentif
     /**
      * Метод возвращает активные идентификаторы сырья по событию и идентификаторов торгового предложения
      */
-    public function execute(): CurrentMaterialDTO|false
+    public function find(): CurrentMaterialResult|false
     {
         if(!$this->material instanceof MaterialUid)
         {
@@ -202,7 +202,7 @@ final class CurrentIdentifierMaterialByConstRepository implements CurrentIdentif
 
         return $current
             ->enableCache('materials-catalog', 60)
-            ->fetchHydrate(CurrentMaterialDTO::class);
+            ->fetchHydrate(CurrentMaterialResult::class);
 
     }
 }

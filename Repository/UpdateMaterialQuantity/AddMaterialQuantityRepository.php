@@ -35,6 +35,7 @@ use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\Quantity\Mate
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Quantity\MaterialsVariationQuantity;
 use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
 use BaksDev\Materials\Catalog\Repository\CurrentMaterialIdentifier\CurrentIdentifierMaterialInterface;
+use BaksDev\Materials\Catalog\Repository\CurrentMaterialIdentifier\CurrentMaterialResult;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
 use BaksDev\Materials\Catalog\Type\Offers\Id\MaterialOfferUid;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Id\MaterialVariationUid;
@@ -179,15 +180,19 @@ final class AddMaterialQuantityRepository implements AddMaterialQuantityInterfac
         }
 
 
-        $result = $this->currentMaterialIdentifier
+        $CurrentMaterialResult = $this->currentMaterialIdentifier
             ->forEvent($this->event)
             ->forOffer($this->offer)
             ->forVariation($this->variation)
             ->forModification($this->modification)
             ->find();
 
-        /** Если идентификатор события не определен - не выполняем обновление (сырьё не найден) */
-        if(!isset($result['event']))
+        if(false === ($CurrentMaterialResult instanceof CurrentMaterialResult))
+        {
+            return false;
+        }
+
+        if(false === ($CurrentMaterialResult->getEvent() instanceof MaterialEventUid))
         {
             return false;
         }
@@ -199,44 +204,44 @@ final class AddMaterialQuantityRepository implements AddMaterialQuantityInterfac
             ->where('event = :event')
             ->setParameter(
                 'event',
-                $result['event'],
+                $CurrentMaterialResult->getEvent(),
                 MaterialEventUid::TYPE
             );
 
 
-        if($this->offer && isset($result['offer']))
+        if($this->offer && ($CurrentMaterialResult->getOffer() instanceof MaterialOfferUid))
         {
             $dbal
                 ->update(MaterialOfferQuantity::class)
                 ->where('offer = :offer')
                 ->setParameter(
                     'offer',
-                    $result['offer'],
+                    $CurrentMaterialResult->getOffer(),
                     MaterialOfferUid::TYPE
                 );
         }
 
-        if($this->variation && isset($result['variation']))
+        if($this->variation && ($CurrentMaterialResult->getVariation() instanceof MaterialVariationUid))
         {
             $dbal
                 ->update(MaterialsVariationQuantity::class)
                 ->where('variation = :variation')
                 ->setParameter(
                     'variation',
-                    $result['variation'],
+                    $CurrentMaterialResult->getVariation(),
                     MaterialVariationUid::TYPE
                 );
         }
 
 
-        if($this->variation && isset($result['modification']))
+        if($this->variation && ($CurrentMaterialResult->getModification() instanceof MaterialModificationUid))
         {
             $dbal
                 ->update(MaterialModificationQuantity::class)
                 ->where('modification = :modification')
                 ->setParameter(
                     'modification',
-                    $result['modification'],
+                    $CurrentMaterialResult->getModification(),
                     MaterialModificationUid::TYPE
                 );
         }

@@ -45,5 +45,5 @@ interface CurrentIdentifierMaterialInterface
     /**
      * Метод возвращает активные идентификаторы сырья
      */
-    public function find(): array|false;
+    public function find(): CurrentMaterialResult|false;
 }

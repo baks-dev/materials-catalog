@@ -65,8 +65,14 @@ final class AllMaterialsIdentifierRepository implements AllMaterialsIdentifierIn
         return $this;
     }
 
-    public function forOfferConst(MaterialOfferConst|string $offerConst): self
+    public function forOfferConst(MaterialOfferConst|string|null|false $offerConst): self
     {
+        if(empty($offerConst))
+        {
+            $this->offerConst = false;
+            return $this;
+        }
+
         if(is_string($offerConst))
         {
             $offerConst = new MaterialOfferConst($offerConst);
@@ -77,8 +83,14 @@ final class AllMaterialsIdentifierRepository implements AllMaterialsIdentifierIn
         return $this;
     }
 
-    public function forVariationConst(MaterialVariationConst|string $offerVariation): self
+    public function forVariationConst(MaterialVariationConst|string|null|false $offerVariation): self
     {
+        if(empty($offerVariation))
+        {
+            $this->offerVariation = false;
+            return $this;
+        }
+
         if(is_string($offerVariation))
         {
             $offerVariation = new MaterialVariationConst($offerVariation);
@@ -89,8 +101,14 @@ final class AllMaterialsIdentifierRepository implements AllMaterialsIdentifierIn
         return $this;
     }
 
-    public function forModificationConst(MaterialModificationConst|string $offerModification): self
+    public function forModificationConst(MaterialModificationConst|string|null|false $offerModification): self
     {
+        if(empty($offerModification))
+        {
+            $this->offerModification = false;
+            return $this;
+        }
+
         if(is_string($offerModification))
         {
             $offerModification = new MaterialModificationConst($offerModification);

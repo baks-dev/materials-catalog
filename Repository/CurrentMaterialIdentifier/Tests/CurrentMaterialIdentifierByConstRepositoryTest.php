@@ -73,24 +73,30 @@ class CurrentMaterialIdentifierByConstRepositoryTest extends KernelTestCase
         $dbal
             ->addSelect('offer.id AS offer')
             ->addSelect('offer.const AS offer_const')
-            ->join('material', MaterialOffer::class, 'offer', 'offer.event = material.event');
+            ->leftJoin('material', MaterialOffer::class, 'offer', 'offer.event = material.event');
 
         $dbal
             ->addSelect('variation.id AS variation')
             ->addSelect('variation.const AS variation_const')
-            ->join('offer', MaterialVariation::class, 'variation', 'variation.offer = offer.id');
+            ->leftJoin('offer', MaterialVariation::class, 'variation', 'variation.offer = offer.id');
 
 
         $dbal
             ->addSelect('modification.id AS modification')
             ->addSelect('modification.const AS modification_const')
-            ->join('variation', MaterialModification::class, 'modification', 'modification.variation = variation.id');
+            ->leftJoin('variation', MaterialModification::class, 'modification', 'modification.variation = variation.id');
 
 
         $dbal->setMaxResults(1);
         $dbal->orderBy('material.id', 'DESC');
 
         self::$result = $dbal->fetchAssociative();
+
+        if(false === self::$result)
+        {
+            echo PHP_EOL.'Честного знака на сырье не найдено'.PHP_EOL;
+            return;
+        }
 
 
         /**
@@ -139,12 +145,18 @@ class CurrentMaterialIdentifierByConstRepositoryTest extends KernelTestCase
 
     public static function testEvent(): void
     {
+        if(false === self::$result)
+        {
+            self::assertFalse(self::$result);
+            return;
+        }
+
         /** @var CurrentIdentifierMaterialByConstInterface $CurrentMaterialIdentifierByConstInterface */
         $CurrentMaterialIdentifierByConstInterface = self::getContainer()->get(CurrentIdentifierMaterialByConstInterface::class);
 
         $result = $CurrentMaterialIdentifierByConstInterface
             ->forMaterial(self::$result['id'])
-            ->execute();
+            ->find();
 
         self::assertTrue($result->getMaterial()->equals(self::$new['id']));
         self::assertTrue($result->getEvent()->equals(self::$new['event']));
@@ -155,6 +167,13 @@ class CurrentMaterialIdentifierByConstRepositoryTest extends KernelTestCase
 
     public static function testOffer(): void
     {
+        if(false === self::$result)
+        {
+            self::assertFalse(self::$result);
+            return;
+        }
+
+
         /** @var CurrentIdentifierMaterialByConstInterface $CurrentMaterialIdentifierByConstInterface */
         $CurrentMaterialIdentifierByConstInterface = self::getContainer()->get(CurrentIdentifierMaterialByConstInterface::class);
 
@@ -162,13 +181,20 @@ class CurrentMaterialIdentifierByConstRepositoryTest extends KernelTestCase
         $result = $CurrentMaterialIdentifierByConstInterface
             ->forMaterial(self::$result['id'])
             ->forOfferConst(self::$result['offer_const'])
-            ->execute();
+            ->find();
+
 
         self::assertTrue($result->getMaterial()->equals(self::$new['id']));
         self::assertTrue($result->getEvent()->equals(self::$new['event']));
-        self::assertTrue($result->getOffer()->equals(self::$new['offer']));
-        self::assertTrue($result->getOfferConst()->equals(self::$new['offer_const']));
 
+
+        self::$new['offer'] ?
+            self::assertTrue($result->getOffer()->equals(self::$new['offer'])) :
+            self::assertFalse($result->getOffer());
+
+        self::$new['offer_const'] ?
+            self::assertTrue($result->getOfferConst()->equals(self::$new['offer_const'])) :
+            self::assertFalse($result->getOfferConst());
     }
 
 
@@ -177,6 +203,12 @@ class CurrentMaterialIdentifierByConstRepositoryTest extends KernelTestCase
 
     public static function testVariation(): void
     {
+        if(false === self::$result)
+        {
+            self::assertFalse(self::$result);
+            return;
+        }
+
         /** @var CurrentIdentifierMaterialByConstInterface $CurrentMaterialIdentifierByConstInterface */
         $CurrentMaterialIdentifierByConstInterface = self::getContainer()->get(CurrentIdentifierMaterialByConstInterface::class);
 
@@ -184,14 +216,28 @@ class CurrentMaterialIdentifierByConstRepositoryTest extends KernelTestCase
             ->forMaterial(self::$result['id'])
             ->forOfferConst(self::$result['offer_const'])
             ->forVariationConst(self::$result['variation_const'])
-            ->execute();
+            ->find();
 
         self::assertTrue($result->getMaterial()->equals(self::$new['id']));
         self::assertTrue($result->getEvent()->equals(self::$new['event']));
-        self::assertTrue($result->getOffer()->equals(self::$new['offer']));
-        self::assertTrue($result->getOfferConst()->equals(self::$new['offer_const']));
-        self::assertTrue($result->getVariation()->equals(self::$new['variation']));
-        self::assertTrue($result->getVariationConst()->equals(self::$new['variation_const']));
+
+
+        self::$new['offer'] ?
+            self::assertTrue($result->getOffer()->equals(self::$new['offer'])) :
+            self::assertFalse($result->getOffer());
+
+        self::$new['offer_const'] ?
+            self::assertTrue($result->getOfferConst()->equals(self::$new['offer_const'])) :
+            self::assertFalse($result->getOfferConst());
+
+        self::$new['variation'] ?
+            self::assertTrue($result->getVariation()->equals(self::$new['variation'])) :
+            self::assertFalse($result->getVariation());
+
+        self::$new['variation_const'] ?
+            self::assertTrue($result->getVariationConst()->equals(self::$new['variation_const'])) :
+            self::assertFalse($result->getVariationConst());
+
     }
 
 
@@ -200,6 +246,12 @@ class CurrentMaterialIdentifierByConstRepositoryTest extends KernelTestCase
 
     public static function testModification(): void
     {
+        if(false === self::$result)
+        {
+            self::assertFalse(self::$result);
+            return;
+        }
+
         /** @var CurrentIdentifierMaterialByConstInterface $CurrentMaterialIdentifierByConstInterface */
         $CurrentMaterialIdentifierByConstInterface = self::getContainer()->get(CurrentIdentifierMaterialByConstInterface::class);
 
@@ -209,16 +261,36 @@ class CurrentMaterialIdentifierByConstRepositoryTest extends KernelTestCase
             ->forOfferConst(self::$result['offer_const'])
             ->forVariationConst(self::$result['variation_const'])
             ->forModificationConst(self::$result['modification_const'])
-            ->execute();
+            ->find();
+
 
         self::assertTrue($result->getMaterial()->equals(self::$new['id']));
         self::assertTrue($result->getEvent()->equals(self::$new['event']));
-        self::assertTrue($result->getOffer()->equals(self::$new['offer']));
-        self::assertTrue($result->getOfferConst()->equals(self::$new['offer_const']));
-        self::assertTrue($result->getVariation()->equals(self::$new['variation']));
-        self::assertTrue($result->getVariationConst()->equals(self::$new['variation_const']));
-        self::assertTrue($result->getModification()->equals(self::$new['modification']));
-        self::assertTrue($result->getModificationConst()->equals(self::$new['modification_const']));
+
+        self::$new['offer'] ?
+            self::assertTrue($result->getOffer()->equals(self::$new['offer'])) :
+            self::assertFalse($result->getOffer());
+
+        self::$new['offer_const'] ?
+            self::assertTrue($result->getOfferConst()->equals(self::$new['offer_const'])) :
+            self::assertFalse($result->getOfferConst());
+
+        self::$new['variation'] ?
+            self::assertTrue($result->getVariation()->equals(self::$new['variation'])) :
+            self::assertFalse($result->getVariation());
+
+        self::$new['variation_const'] ?
+            self::assertTrue($result->getVariationConst()->equals(self::$new['variation_const'])) :
+            self::assertFalse($result->getVariationConst());
+
+
+        self::$new['modification'] ?
+            self::assertTrue($result->getModification()->equals(self::$new['modification'])) :
+            self::assertFalse($result->getModification());
+
+        self::$new['modification_const'] ?
+            self::assertTrue($result->getModificationConst()->equals(self::$new['modification_const'])) :
+            self::assertFalse($result->getModificationConst());
 
     }
 }

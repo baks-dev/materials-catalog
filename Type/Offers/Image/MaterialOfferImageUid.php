@@ -29,7 +29,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialOfferImageUid extends Uid
 {
-    public const string TEST = '0188a99f-63ab-74fa-89f0-7027d99613a5';
+    public const string TEST = '3011f099-3c45-7b24-968b-a234238470dc';
 
     public const string TYPE = 'material_offer_image';
 

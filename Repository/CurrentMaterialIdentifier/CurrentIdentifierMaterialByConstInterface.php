@@ -41,5 +41,5 @@ interface CurrentIdentifierMaterialByConstInterface
     /**
      * Метод возвращает активные идентификаторы сырья
      */
-    public function execute(): CurrentMaterialDTO|false;
+    public function find(): CurrentMaterialResult|false;
 }

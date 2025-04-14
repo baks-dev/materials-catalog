@@ -29,7 +29,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialOfferUid extends Uid
 {
-    public const string TEST = '0188a99f-3b80-73b7-afe9-e00ffa1b53f2';
+    public const string TEST = '40ac2bb0-8c43-7d38-92c9-e0b300cdea72';
 
     public const string TYPE = 'material_offer';
 

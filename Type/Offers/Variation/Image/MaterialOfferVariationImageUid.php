@@ -31,7 +31,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialOfferVariationImageUid extends Uid
 {
-    public const string TEST = '0188a99f-d5c5-74f3-8d4f-40437ccd43a2';
+    public const string TEST = '7361670f-c57b-7654-9d8e-a9381c48890e';
 
     public const string TYPE = 'material_variation_image';
 

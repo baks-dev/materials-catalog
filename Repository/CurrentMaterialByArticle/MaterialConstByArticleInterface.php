@@ -27,7 +27,7 @@ interface MaterialConstByArticleInterface
 {
     /**
      * Метод возвращает идентификаторы сырья по артикулу
-     * @see CurrentMaterialDTO
+     * @see CurrentMaterialResult
      */
     public function find(string $article): CurrentMaterialDTO|false;
 }

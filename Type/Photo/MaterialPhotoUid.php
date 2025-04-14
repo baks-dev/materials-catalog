@@ -29,7 +29,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialPhotoUid extends Uid
 {
-    public const string TEST = '0188a9a0-7667-73c5-9de0-fb018d7e614c';
+    public const string TEST = 'a200b68d-4ab5-7069-82f1-36d483450caf';
 
     public const string TYPE = 'material_photo';
 

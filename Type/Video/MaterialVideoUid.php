@@ -29,7 +29,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 final class MaterialVideoUid extends Uid
 {
-    public const string TEST = '0188a9a0-a210-7103-9d30-c851eec16a1b';
+    public const string TEST = 'eceb4158-0e11-7801-b69b-f1c8d079693d';
 
     public const string TYPE = 'material_video';
 

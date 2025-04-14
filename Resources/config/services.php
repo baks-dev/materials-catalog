@@ -39,6 +39,7 @@ return static function(ContainerConfigurator $container) {
     $services->load(BaksDevMaterialsCatalogBundle::NAMESPACE, BaksDevMaterialsCatalogBundle::PATH)
         ->exclude([
             BaksDevMaterialsCatalogBundle::PATH.'{Entity,Resources,Type}',
+            BaksDevMaterialsCatalogBundle::PATH.'**'.DIRECTORY_SEPARATOR.'*Result.php',
             BaksDevMaterialsCatalogBundle::PATH.'**'.DIRECTORY_SEPARATOR.'*Message.php',
             BaksDevMaterialsCatalogBundle::PATH.'**'.DIRECTORY_SEPARATOR.'*DTO.php',
         ]);

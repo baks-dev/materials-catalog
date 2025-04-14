@@ -140,7 +140,7 @@ final class CurrentIdentifierMaterialRepository implements CurrentIdentifierMate
     /**
      * Метод возвращает активные идентификаторы сырья по событию и идентификаторов торгового предложения
      */
-    public function find(): array|false
+    public function find(): CurrentMaterialResult|false
     {
         if(!$this->event instanceof MaterialEventUid)
         {
@@ -254,6 +254,7 @@ final class CurrentIdentifierMaterialRepository implements CurrentIdentifierMate
 
         return $dbal
             ->enableCache('materials-catalog', 60)
-            ->fetchAssociative();
+            ->fetchHydrate(CurrentMaterialResult::class);
+
     }
 }
