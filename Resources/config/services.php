@@ -42,6 +42,7 @@ return static function(ContainerConfigurator $container) {
             BaksDevMaterialsCatalogBundle::PATH.'**'.DIRECTORY_SEPARATOR.'*Result.php',
             BaksDevMaterialsCatalogBundle::PATH.'**'.DIRECTORY_SEPARATOR.'*Message.php',
             BaksDevMaterialsCatalogBundle::PATH.'**'.DIRECTORY_SEPARATOR.'*DTO.php',
+            BaksDevMaterialsCatalogBundle::PATH.'**'.DIRECTORY_SEPARATOR.'*Test.php',
         ]);
 
     $services->set(MaterialsChoiceInterface::class)->class(MaterialsChoiceRepository::class);
