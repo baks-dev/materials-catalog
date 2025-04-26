@@ -997,18 +997,24 @@ function articleGenerate()
 
     /** Замена HEX на цвет */
 
-    generate = generate.replace(/000000/gi, 'BLACK');
-    generate = generate.replace(/FFFFFF/gi, 'WHITE');
-    generate = generate.replace(/808080/gi, 'GRAY');
-    generate = generate.replace(/FF0000/gi, 'RED');
-    generate = generate.replace(/800080/gi, 'VIOLET');
-    generate = generate.replace(/FFA500/gi, 'ORANGE');
-    generate = generate.replace(/FFFF00/gi, 'YELLOW');
-    generate = generate.replace(/947862/gi, "KHAKI");
-    generate = generate.replace(/008000/gi, "GREEN");
-    generate = generate.replace(/0000FF/gi, "BLUE");
-    generate = generate.replace(/F5F5DC/gi, "BEIGE");
+    const colorMap = {
+        "000000" : "BLACK",
+        "FFFFFF" : "WHITE",
+        "808080" : "GRAY",
+        "FF0000" : "RED",
+        "800080" : "VIOLET",
+        "FFA500" : "ORANGE",
+        "FFFF00" : "YELLOW",
+        "947862" : "KHAKI",
+        "008000" : "GREEN",
+        "0000FF" : "BLUE",
+        "F5F5DC" : "BEIGE",
+        "D2691E" : "CHOCO",
+    };
 
+    generate = generate.replace(/([0-9A-F]{6})/gi, match =>
+        colorMap[match.toUpperCase()] || match,
+    );
 
     result = document.getElementById(this.dataset.id);
 

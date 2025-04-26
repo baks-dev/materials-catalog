@@ -130,18 +130,6 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
         );
 
         $qb->join(
-            MaterialActive::class,
-            'active',
-            'WITH',
-            '
-            active.event = material.event AND
-            active.active = true AND
-            active.activeFrom < CURRENT_TIMESTAMP() AND
-            (active.activeTo IS NULL OR active.activeTo > CURRENT_TIMESTAMP())
-		'
-        );
-
-        $qb->join(
             MaterialTrans::class,
             'trans',
             'WITH',
@@ -150,7 +138,7 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
 
 
         /* Кешируем результат ORM */
-        return $qb->enableCache('materials-catalog', 86400)->getResult();
+        return $qb->getResult();
 
     }
 

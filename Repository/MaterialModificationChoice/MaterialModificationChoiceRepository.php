@@ -66,7 +66,11 @@ final class MaterialModificationChoiceRepository implements MaterialModification
         $dbal
             ->from(MaterialVariation::class, 'variation')
             ->where('variation.const = :const')
-            ->setParameter('const', $const, MaterialVariationConst::TYPE);
+            ->setParameter(
+                key: 'const',
+                value: $const,
+                type: MaterialVariationConst::TYPE
+            );
 
         $dbal->join(
             'variation',
@@ -141,9 +145,14 @@ final class MaterialModificationChoiceRepository implements MaterialModification
 
         $qb->select($select);
 
-        $qb->from(MaterialVariation::class, 'variation');
-        $qb->where('variation.id = :variation');
-        $qb->setParameter('variation', $variation, MaterialVariationUid::TYPE);
+        $qb
+            ->from(MaterialVariation::class, 'variation')
+            ->where('variation.id = :variation')
+            ->setParameter(
+                key: 'variation',
+                value: $variation,
+                type: MaterialVariationUid::TYPE
+            );
 
         $qb->join(
             MaterialOffer::class,
@@ -184,7 +193,7 @@ final class MaterialModificationChoiceRepository implements MaterialModification
         );
 
         /* Кешируем результат ORM */
-        return $qb->enableCache('materials-catalog', 86400)->getResult();
+        return $qb->getResult();
 
     }
 
@@ -206,7 +215,11 @@ final class MaterialModificationChoiceRepository implements MaterialModification
         $dbal
             ->from(MaterialVariation::class, 'variation')
             ->where('variation.id = :variation')
-            ->setParameter('variation', $variation, MaterialVariationUid::TYPE);
+            ->setParameter(
+                key: 'variation',
+                value: $variation,
+                type: MaterialVariationUid::TYPE
+            );
 
         $dbal->join(
             'variation',
@@ -261,7 +274,6 @@ final class MaterialModificationChoiceRepository implements MaterialModification
         /** Свойства конструктора объекта гидрации */
 
         $dbal->addSelect('modification.id AS value');
-
         $dbal->addSelect('category_modification_trans.name AS property');
         $dbal->addSelect('category_modification.reference AS characteristic');
 

@@ -33,7 +33,6 @@ use BaksDev\Materials\Catalog\Entity\Offers\Quantity\MaterialOfferQuantity;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Category\Entity\Offers\CategoryMaterialOffers;
 use BaksDev\Products\Product\Type\Material\MaterialUid;
-use Doctrine\ORM\EntityManagerInterface;
 
 final class MaterialOfferQuantityRepository implements MaterialOfferQuantityInterface
 {
@@ -50,7 +49,11 @@ final class MaterialOfferQuantityRepository implements MaterialOfferQuantityInte
         $qb
             ->from(Material::class, 'material')
             ->where('material.id = :material')
-            ->setParameter('material', $material, MaterialUid::TYPE);
+            ->setParameter(
+                key: 'material',
+                value: $material,
+                type: MaterialUid::TYPE
+            );
 
         $qb->join(
             MaterialEvent::class,
@@ -68,9 +71,9 @@ final class MaterialOfferQuantityRepository implements MaterialOfferQuantityInte
             'offer.event = event.id AND offer.const = :offer_const'
         )
             ->setParameter(
-                'offer_const',
-                $offer,
-                MaterialOfferConst::TYPE
+                key: 'offer_const',
+                value: $offer,
+                type: MaterialOfferConst::TYPE
             );
 
 

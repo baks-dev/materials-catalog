@@ -38,8 +38,6 @@ use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Catalog\Type\Offers\Id\MaterialOfferUid;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Id\MaterialVariationUid;
-use BaksDev\Materials\Category\Entity\Offers\CategoryMaterialOffers;
-use BaksDev\Materials\Category\Entity\Offers\Trans\CategoryMaterialOffersTrans;
 use BaksDev\Materials\Category\Entity\Offers\Variation\CategoryMaterialVariation;
 use BaksDev\Materials\Category\Entity\Offers\Variation\Trans\CategoryMaterialVariationTrans;
 use Generator;
@@ -138,8 +136,14 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
 
         $qb->select($select);
 
-        $qb->from(MaterialOffer::class, 'offer');
-
+        $qb
+            ->from(MaterialOffer::class, 'offer')
+            ->where('offer.id = :offer')
+            ->setParameter(
+                key: 'offer',
+                value: $offer,
+                type: MaterialOfferUid::TYPE
+            );
 
         $qb->join(
             Material::class,
@@ -172,12 +176,9 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
             'trans.variation = category_variation.id AND trans.local = :local'
         );
 
-        $qb->where('offer.id = :offer');
-
-        $qb->setParameter('offer', $offer, MaterialOfferUid::TYPE);
 
         /* Кешируем результат ORM */
-        return $qb->enableCache('materials-catalog', 86400)->getResult();
+        return $qb->enableCache('materials-catalog', '1 day')->getResult();
 
     }
 
@@ -199,7 +200,11 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
         $dbal
             ->from(MaterialOffer::class, 'material_offer')
             ->where('material_offer.id = :offer')
-            ->setParameter('offer', $offer, MaterialOfferUid::TYPE);
+            ->setParameter(
+                key: 'offer',
+                value: $offer,
+                type: MaterialOfferUid::TYPE
+            );
 
         $dbal->join(
             'material_offer',

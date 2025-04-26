@@ -49,10 +49,14 @@ final class MaterialVariationQuantityRepository implements MaterialVariationQuan
     {
         $qb = $this->ORMQueryBuilder->createQueryBuilder(self::class);
 
-
-        $qb->from(Material::class, 'material');
-        $qb->where('material.id = :material');
-        $qb->setParameter('material', $material, MaterialUid::TYPE);
+        $qb
+            ->from(Material::class, 'material')
+            ->where('material.id = :material')
+            ->setParameter(
+                key: 'material',
+                value: $material,
+                type: MaterialUid::TYPE
+            );
 
         $qb->join(
             MaterialEvent::class,
@@ -71,9 +75,9 @@ final class MaterialVariationQuantityRepository implements MaterialVariationQuan
                 'offer.event = event.id AND offer.const = :offer_const'
             )
             ->setParameter(
-                'offer_const',
-                $offer,
-                MaterialOfferConst::TYPE
+                key: 'offer_const',
+                value: $offer,
+                type: MaterialOfferConst::TYPE
             );
 
         // Множественный вариант
@@ -86,9 +90,9 @@ final class MaterialVariationQuantityRepository implements MaterialVariationQuan
                 'variation.offer = offer.id AND variation.const = :variation_const'
             )
             ->setParameter(
-                'variation_const',
-                $variation,
-                MaterialVariationConst::TYPE
+                key: 'variation_const',
+                value: $variation,
+                type: MaterialVariationConst::TYPE
             );
 
 
@@ -111,6 +115,6 @@ final class MaterialVariationQuantityRepository implements MaterialVariationQuan
             'category_variation.id = variation.categoryVariation AND category_variation.quantitative = true'
         );
 
-        return $qb->getQuery()->getOneOrNullResult();
+        return $qb->getOneOrNullResult();
     }
 }

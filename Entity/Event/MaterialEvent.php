@@ -69,44 +69,44 @@ class MaterialEvent extends EntityEvent
 
     /** Категории */
     #[Assert\Valid]
-    #[ORM\OneToMany(targetEntity: MaterialCategory::class, mappedBy: 'event', cascade: ['all'])]
+    #[ORM\OneToMany(targetEntity: MaterialCategory::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
     private Collection $category;
 
     /**
      * Информация о сырья
      */
-    #[ORM\OneToOne(targetEntity: MaterialInfo::class, mappedBy: 'event', cascade: ['all'])]
+    #[ORM\OneToOne(targetEntity: MaterialInfo::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
     private ?MaterialInfo $info = null;
 
     /** Базовые Стоимость и наличие */
     #[Assert\Valid]
-    #[ORM\OneToOne(targetEntity: MaterialPrice::class, mappedBy: 'event', cascade: ['all'])]
+    #[ORM\OneToOne(targetEntity: MaterialPrice::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
     private ?MaterialPrice $price = null;
 
     /** Модификатор */
-    #[ORM\OneToOne(targetEntity: MaterialModify::class, mappedBy: 'event', cascade: ['all'])]
+    #[ORM\OneToOne(targetEntity: MaterialModify::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
     private MaterialModify $modify;
 
     /** Перевод */
     #[Assert\Valid]
-    #[ORM\OneToMany(targetEntity: MaterialTrans::class, mappedBy: 'event', cascade: ['all'])]
+    #[ORM\OneToMany(targetEntity: MaterialTrans::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
     private Collection $translate;
 
     /** Фото сырья */
     #[Assert\Valid]
-    #[ORM\OneToMany(targetEntity: MaterialPhoto::class, mappedBy: 'event', cascade: ['all'])]
+    #[ORM\OneToMany(targetEntity: MaterialPhoto::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
     #[ORM\OrderBy(['root' => 'DESC'])]
     private Collection $photo;
 
     /** Файлы (документы) сырья */
     #[Assert\Valid]
-    #[ORM\OneToMany(targetEntity: MaterialFiles::class, mappedBy: 'event', cascade: ['all'])]
+    #[ORM\OneToMany(targetEntity: MaterialFiles::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
     private Collection $file;
 
     /** Тоговые предложения */
     #[Assert\Valid]
     #[ORM\OrderBy(['value' => 'ASC'])]
-    #[ORM\OneToMany(targetEntity: MaterialOffer::class, mappedBy: 'event', cascade: ['all'])]
+    #[ORM\OneToMany(targetEntity: MaterialOffer::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
     private Collection $offer;
 
     public function __construct()

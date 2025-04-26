@@ -45,7 +45,11 @@ final class MaterialQuantityRepository implements MaterialQuantityInterface
         $qb
             ->from(Material::class, 'material')
             ->where('material.id = :material')
-            ->setParameter('material', $material, MaterialUid::TYPE);
+            ->setParameter(
+                key: 'material',
+                value: $material,
+                type: MaterialUid::TYPE
+            );
 
         $qb->join(
             MaterialEvent::class,

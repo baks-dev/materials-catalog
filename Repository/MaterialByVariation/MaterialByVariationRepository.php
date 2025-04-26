@@ -32,7 +32,6 @@ use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffer;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\MaterialVariation;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Id\MaterialVariationUid;
-use Doctrine\ORM\EntityManagerInterface;
 
 final class MaterialByVariationRepository implements MaterialByVariationInterface
 {
@@ -51,7 +50,11 @@ final class MaterialByVariationRepository implements MaterialByVariationInterfac
                 ->addSelect('variation.id AS variation_id')
                 ->from(MaterialVariation::class, 'variation')
                 ->where('variation.const = :const')
-                ->setParameter('const', $variation, MaterialVariationConst::TYPE);
+                ->setParameter(
+                    key: 'const',
+                    value: $variation,
+                    type: MaterialVariationConst::TYPE
+                );
         }
 
         if($variation instanceof MaterialVariationUid)
@@ -59,7 +62,11 @@ final class MaterialByVariationRepository implements MaterialByVariationInterfac
             $qb
                 ->from(MaterialVariation::class, 'var')
                 ->where('var.id = :variation')
-                ->setParameter('variation', $variation, MaterialVariationUid::TYPE);
+                ->setParameter(
+                    key: 'variation',
+                    value: $variation,
+                    type: MaterialVariationUid::TYPE
+                );
 
             $qb
                 ->join(

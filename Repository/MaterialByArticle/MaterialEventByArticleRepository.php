@@ -38,7 +38,7 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
     public function __construct(private readonly ORMQueryBuilder $ORMQueryBuilder) {}
 
     /**
-     * Метод возвращает по артикулу событие сырья
+     * Метод возвращает по артикулу активное событие сырья
      */
     public function findMaterialEventByArticle(string $article): MaterialEvent|false
     {
@@ -54,7 +54,10 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
             'WITH',
             'material.id = info.material'
         )
-            ->setParameter('article', $article);
+            ->setParameter(
+                key: 'article',
+                value: $article
+            );
 
         $qb
             ->select('event')
@@ -72,7 +75,6 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
         {
             return $MaterialEvent;
         }
-
 
         /**
          * Поиск по артикулу в торговом предложении
@@ -114,7 +116,10 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
         $qb
             ->from(MaterialVariation::class, 'variation')
             ->where('variation.article = :article')
-            ->setParameter('article', $article);
+            ->setParameter(
+                key: 'article',
+                value: $article
+            );
 
         $qb->join(MaterialOffer::class, 'offer', 'WITH', 'offer.id = variation.offer');
 
@@ -147,7 +152,10 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
         $qb
             ->from(MaterialModification::class, 'modification')
             ->where('modification.article = :article')
-            ->setParameter('article', $article);
+            ->setParameter(
+                key: 'article',
+                value: $article
+            );
 
         $qb->join(MaterialVariation::class, 'variation', 'WITH', 'variation.id = modification.variation');
         $qb->join(MaterialOffer::class, 'offer', 'WITH', 'offer.id = variation.offer');
@@ -163,6 +171,6 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
 
         $qb->join(Material::class, 'material', 'WITH', 'material.event = event.id');
 
-        return $qb->getQuery()->getOneOrNullResult() ?: false;
+        return $qb->getOneOrNullResult() ?: false;
     }
 }

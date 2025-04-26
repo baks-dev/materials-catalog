@@ -76,17 +76,17 @@ class MaterialModification extends EntityEvent
 
     /** Стоимость модификации */
     #[Assert\Valid]
-    #[ORM\OneToOne(targetEntity: Price\MaterialModificationPrice::class, mappedBy: 'modification', cascade: ['all'])]
+    #[ORM\OneToOne(targetEntity: Price\MaterialModificationPrice::class, mappedBy: 'modification', cascade: ['all'], fetch: 'EAGER')]
     private ?Price\MaterialModificationPrice $price = null;
 
     /** Количественный учет */
     #[Assert\Valid]
-    #[ORM\OneToOne(targetEntity: Quantity\MaterialModificationQuantity::class, mappedBy: 'modification', cascade: ['all'])]
+    #[ORM\OneToOne(targetEntity: Quantity\MaterialModificationQuantity::class, mappedBy: 'modification', cascade: ['all'], fetch: 'EAGER')]
     private ?Quantity\MaterialModificationQuantity $quantity = null;
 
     /** Дополнительные фото модификации */
     #[Assert\Valid]
-    #[ORM\OneToMany(targetEntity: Image\MaterialModificationImage::class, mappedBy: 'modification', cascade: ['all'])]
+    #[ORM\OneToMany(targetEntity: Image\MaterialModificationImage::class, mappedBy: 'modification', cascade: ['all'], fetch: 'EAGER')]
     #[ORM\OrderBy(['root' => 'DESC'])]
     private Collection $image;
 

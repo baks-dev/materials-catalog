@@ -52,11 +52,13 @@ final class MaterialModificationQuantityRepository implements MaterialModificati
     {
         $qb = $this->ORMQueryBuilder->createQueryBuilder(self::class);
 
-
         $qb
             ->from(Material::class, 'material')
             ->where('material.id = :material')
-            ->setParameter('material', $material, MaterialUid::TYPE);
+            ->setParameter(
+                key: 'material',
+                value: $material,
+                type: MaterialUid::TYPE);
 
         $qb->join(
             MaterialEvent::class,
@@ -75,9 +77,9 @@ final class MaterialModificationQuantityRepository implements MaterialModificati
                 'offer.event = event.id AND offer.const = :offer_const'
             )
             ->setParameter(
-                'offer_const',
-                $offer,
-                MaterialOfferConst::TYPE
+                key: 'offer_const',
+                value: $offer,
+                type: MaterialOfferConst::TYPE
             );
 
         // Множественный вариант
@@ -90,9 +92,9 @@ final class MaterialModificationQuantityRepository implements MaterialModificati
                 'variation.offer = offer.id AND variation.const = :variation_const'
             )
             ->setParameter(
-                'variation_const',
-                $variation,
-                MaterialVariationConst::TYPE
+                key: 'variation_const',
+                value: $variation,
+                type: MaterialVariationConst::TYPE
             );
 
         // Модификация множественного варианта
@@ -105,9 +107,9 @@ final class MaterialModificationQuantityRepository implements MaterialModificati
                 'modification.variation = variation.id AND modification.const = :modification_const'
             )
             ->setParameter(
-                'modification_const',
-                $modification,
-                MaterialModificationConst::TYPE
+                key: 'modification_const',
+                value: $modification,
+                type: MaterialModificationConst::TYPE
             );
 
         $qb

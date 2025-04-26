@@ -77,24 +77,24 @@ class MaterialOffer extends EntityEvent
 
     /** Стоимость торгового предложения */
     #[Assert\Valid]
-    #[ORM\OneToOne(targetEntity: Price\MaterialOfferPrice::class, mappedBy: 'offer', cascade: ['all'])]
+    #[ORM\OneToOne(targetEntity: Price\MaterialOfferPrice::class, mappedBy: 'offer', cascade: ['all'], fetch: 'EAGER')]
     private ?Price\MaterialOfferPrice $price = null;
 
     /** Количественный учет */
     #[Assert\Valid]
-    #[ORM\OneToOne(targetEntity: Quantity\MaterialOfferQuantity::class, mappedBy: 'offer', cascade: ['all'])]
+    #[ORM\OneToOne(targetEntity: Quantity\MaterialOfferQuantity::class, mappedBy: 'offer', cascade: ['all'], fetch: 'EAGER')]
     private ?Quantity\MaterialOfferQuantity $quantity = null;
 
     /** Дополнительные фото торгового предложения */
     #[Assert\Valid]
-    #[ORM\OneToMany(targetEntity: Image\MaterialOfferImage::class, mappedBy: 'offer', cascade: ['all'])]
+    #[ORM\OneToMany(targetEntity: Image\MaterialOfferImage::class, mappedBy: 'offer', cascade: ['all'], fetch: 'EAGER')]
     #[ORM\OrderBy(['root' => 'DESC'])]
     private Collection $image;
 
     /** Коллекция вариаций в торговом предложении  */
     #[Assert\Valid]
     #[ORM\OrderBy(['value' => 'ASC'])]
-    #[ORM\OneToMany(targetEntity: Variation\MaterialVariation::class, mappedBy: 'offer', cascade: ['all'])]
+    #[ORM\OneToMany(targetEntity: Variation\MaterialVariation::class, mappedBy: 'offer', cascade: ['all'], fetch: 'EAGER')]
     private Collection $variation;
 
     public function __construct(MaterialEvent $event)
