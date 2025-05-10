@@ -23,82 +23,67 @@
 
 namespace BaksDev\Materials\Catalog\Controller\Admin\Tests;
 
-use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsNewTest;
 use BaksDev\Users\User\Tests\TestUserAccount;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
 /**
- * @group materials-catalog
- *
- * @depends BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsNewTest::class
+ * @group materials-sign
  */
 #[When(env: 'test')]
-final class EditControllerTest extends WebTestCase
+final class NewAdminControllerTest extends WebTestCase
 {
-    private const string URL = '/admin/material/edit/%s';
-    private const string ROLE = 'ROLE_MATERIAL_EDIT';
+    private const string URL = '/admin/material/new';
+    private const string ROLE = 'ROLE_MATERIAL_NEW';
 
-
-    /** Доступ по роли */
+    /** Доступ по роли  */
     public function testRoleSuccessful(): void
     {
-
-        self::ensureKernelShutdown();
         $client = static::createClient();
 
         $usr = TestUserAccount::getModer(self::ROLE);
 
         $client->loginUser($usr, 'user');
-        $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
+        $client->request('GET', self::URL);
 
         self::assertResponseIsSuccessful();
 
     }
 
-    // доступ по роли ROLE_ADMIN
+    /** Доступ по роли ROLE_ADMIN */
     public function testRoleAdminSuccessful(): void
     {
-
-
-        self::ensureKernelShutdown();
         $client = static::createClient();
 
         $usr = TestUserAccount::getAdmin();
 
         $client->loginUser($usr, 'user');
-        $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
+        $client->request('GET', self::URL);
 
         self::assertResponseIsSuccessful();
-
     }
 
-    // доступ по роли ROLE_USER
-    public function testRoleUserDeny(): void
+    /** Доступ по роли ROLE_USER */
+    public function testRoleUserFiled(): void
     {
-
-        self::ensureKernelShutdown();
         $client = static::createClient();
 
         $usr = TestUserAccount::getUsr();
         $client->loginUser($usr, 'user');
-        $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
+        $client->request('GET', self::URL);
 
         self::assertResponseStatusCodeSame(403);
-
     }
 
     /** Доступ по без роли */
     public function testGuestFiled(): void
     {
-
         self::ensureKernelShutdown();
         $client = static::createClient();
-        $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
+        $client->request('GET', self::URL);
 
         // Full authentication is required to access this resource
         self::assertResponseStatusCodeSame(401);
-
     }
+
 }

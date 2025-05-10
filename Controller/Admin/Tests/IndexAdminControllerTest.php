@@ -31,7 +31,7 @@ use Symfony\Component\DependencyInjection\Attribute\When;
  * @group materials-catalog
  */
 #[When(env: 'test')]
-final class IndexControllerTest extends WebTestCase
+final class IndexAdminControllerTest extends WebTestCase
 {
     private const string URL = '/admin/materials';
     private const string ROLE = 'ROLE_MATERIAL';

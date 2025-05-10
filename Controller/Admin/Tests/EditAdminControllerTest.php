@@ -24,22 +24,21 @@
 namespace BaksDev\Materials\Catalog\Controller\Admin\Tests;
 
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsNewTest;
 use BaksDev\Users\User\Tests\TestUserAccount;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
 /**
  * @group materials-catalog
  *
- * @depends BaksDev\Materials\Catalog\Controller\Admin\Tests\EditControllerTest::class
+ * @depends BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsNewTest::class
  */
 #[When(env: 'test')]
-final class DeleteControllerTest extends WebTestCase
+final class EditAdminControllerTest extends WebTestCase
 {
-    private const string URL = '/admin/material/delete/%s';
-
-    private const string ROLE = 'ROLE_MATERIAL_DELETE';
+    private const string URL = '/admin/material/edit/%s';
+    private const string ROLE = 'ROLE_MATERIAL_EDIT';
 
 
     /** Доступ по роли */
@@ -49,16 +48,12 @@ final class DeleteControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        foreach(TestUserAccount::getDevice() as $device)
-        {
-            $client->setServerParameter('HTTP_USER_AGENT', $device);
-            $usr = TestUserAccount::getModer(self::ROLE);
+        $usr = TestUserAccount::getModer(self::ROLE);
 
-            $client->loginUser($usr, 'user');
-            $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
+        $client->loginUser($usr, 'user');
+        $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
 
-            self::assertResponseIsSuccessful();
-        }
+        self::assertResponseIsSuccessful();
 
     }
 
@@ -66,19 +61,17 @@ final class DeleteControllerTest extends WebTestCase
     public function testRoleAdminSuccessful(): void
     {
 
+
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        foreach(TestUserAccount::getDevice() as $device)
-        {
-            $usr = TestUserAccount::getAdmin();
+        $usr = TestUserAccount::getAdmin();
 
-            $client->setServerParameter('HTTP_USER_AGENT', $device);
-            $client->loginUser($usr, 'user');
-            $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
+        $client->loginUser($usr, 'user');
+        $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
 
-            self::assertResponseIsSuccessful();
-        }
+        self::assertResponseIsSuccessful();
+
     }
 
     // доступ по роли ROLE_USER
@@ -88,16 +81,11 @@ final class DeleteControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        foreach(TestUserAccount::getDevice() as $device)
-        {
-            $usr = TestUserAccount::getUsr();
+        $usr = TestUserAccount::getUsr();
+        $client->loginUser($usr, 'user');
+        $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
 
-            $client->setServerParameter('HTTP_USER_AGENT', $device);
-            $client->loginUser($usr, 'user');
-            $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
-
-            self::assertResponseStatusCodeSame(403);
-        }
+        self::assertResponseStatusCodeSame(403);
 
     }
 
@@ -107,16 +95,10 @@ final class DeleteControllerTest extends WebTestCase
 
         self::ensureKernelShutdown();
         $client = static::createClient();
+        $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
 
-        foreach(TestUserAccount::getDevice() as $device)
-        {
-            $client->setServerParameter('HTTP_USER_AGENT', $device);
-            $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));
-
-            // Full authentication is required to access this resource
-            self::assertResponseStatusCodeSame(401);
-
-        }
+        // Full authentication is required to access this resource
+        self::assertResponseStatusCodeSame(401);
 
     }
 }
