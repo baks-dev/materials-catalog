@@ -5,7 +5,7 @@
     <shop>
         <name>{{ settings.title is defined ?: 'Company name' }}</name>
         <company>{{ settings.description is defined ?: 'Добро пожаловать' }}</company>
-        <url>{{ absolute_url(path('core:user.homepage')) }}</url>
+        <url>{{ absolute_url(path('core:public.homepage')) }}</url>
         <platform>Symfony</platform>
         <version>1.0</version>
 
