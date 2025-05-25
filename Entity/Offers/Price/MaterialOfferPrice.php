@@ -85,10 +85,10 @@ class MaterialOfferPrice extends EntityEvent
     {
         if($dto instanceof MaterialOfferPriceInterface || $dto instanceof self)
         {
-            if(empty($dto->getPrice()?->getValue()))
-            {
-                return false;
-            }
+            //            if(empty($dto->getPrice()?->getValue()))
+            //            {
+            //                return false;
+            //            }
 
             return parent::setEntity($dto);
         }

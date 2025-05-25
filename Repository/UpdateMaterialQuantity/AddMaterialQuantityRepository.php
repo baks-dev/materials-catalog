@@ -211,6 +211,8 @@ final class AddMaterialQuantityRepository implements AddMaterialQuantityInterfac
 
         if($this->offer && ($CurrentMaterialResult->getOffer() instanceof MaterialOfferUid))
         {
+            $dbal = $this->DBALQueryBuilder->createQueryBuilder(self::class);
+
             $dbal
                 ->update(MaterialOfferQuantity::class)
                 ->where('offer = :offer')
@@ -223,6 +225,8 @@ final class AddMaterialQuantityRepository implements AddMaterialQuantityInterfac
 
         if($this->variation && ($CurrentMaterialResult->getVariation() instanceof MaterialVariationUid))
         {
+            $dbal = $this->DBALQueryBuilder->createQueryBuilder(self::class);
+
             $dbal
                 ->update(MaterialsVariationQuantity::class)
                 ->where('variation = :variation')
@@ -236,6 +240,8 @@ final class AddMaterialQuantityRepository implements AddMaterialQuantityInterfac
 
         if($this->variation && ($CurrentMaterialResult->getModification() instanceof MaterialModificationUid))
         {
+            $dbal = $this->DBALQueryBuilder->createQueryBuilder(self::class);
+
             $dbal
                 ->update(MaterialModificationQuantity::class)
                 ->where('modification = :modification')
@@ -245,7 +251,6 @@ final class AddMaterialQuantityRepository implements AddMaterialQuantityInterfac
                     MaterialModificationUid::TYPE
                 );
         }
-
 
         /** Если указан остаток - добавляем */
         if($this->quantity)

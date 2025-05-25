@@ -82,10 +82,10 @@ class MaterialModificationQuantity extends EntityEvent
     {
         if($dto instanceof MaterialModificationQuantityInterface || $dto instanceof self)
         {
-            if(empty($dto->getQuantity()) && empty($dto->getReserve()))
-            {
-                return false;
-            }
+            //            if(empty($dto->getQuantity()) && empty($dto->getReserve()))
+            //            {
+            //                return false;
+            //            }
 
             return parent::setEntity($dto);
         }
