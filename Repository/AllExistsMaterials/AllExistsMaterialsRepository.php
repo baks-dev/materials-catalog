@@ -49,7 +49,7 @@ use BaksDev\Materials\Category\Entity\Offers\Variation\CategoryMaterialVariation
 use BaksDev\Materials\Category\Entity\Offers\Variation\Modification\CategoryMaterialModification;
 use BaksDev\Materials\Category\Entity\Trans\CategoryMaterialTrans;
 use BaksDev\Materials\Category\Type\Id\CategoryMaterialUid;
-use BaksDev\Users\Profile\UserProfile\Entity\Personal\UserProfilePersonal;
+use BaksDev\Users\Profile\UserProfile\Entity\Event\Personal\UserProfilePersonal;
 use BaksDev\Users\Profile\UserProfile\Entity\UserProfile;
 
 final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
