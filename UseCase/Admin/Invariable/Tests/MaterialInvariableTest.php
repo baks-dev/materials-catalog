@@ -35,14 +35,12 @@ use BaksDev\Materials\Catalog\UseCase\Admin\Invariable\MaterialInvariableDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\Invariable\MaterialInvariableHandler;
 use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-
-/**
- * @group materials-catalog
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 class MaterialInvariableTest extends KernelTestCase
 {
     public static function setUpBeforeClass(): void

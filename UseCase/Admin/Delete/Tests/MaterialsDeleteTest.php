@@ -25,14 +25,18 @@ declare(strict_types=1);
 
 namespace BaksDev\Materials\Catalog\UseCase\Admin\Delete\Tests;
 
+use BaksDev\Materials\Catalog\Controller\Admin\Tests\DeleteAdminControllerTest;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Repository\CurrentMaterialEvent\CurrentMaterialEventInterface;
 use BaksDev\Materials\Catalog\UseCase\Admin\Delete\MaterialDeleteDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\Delete\MaterialDeleteHandler;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsEditTest;
 use BaksDev\Materials\Category\UseCase\Admin\NewEdit\Tests\CategoryMaterialNewTest;
 use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -41,15 +45,8 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @group materials-catalog
- * @group materials-catalog-usecase
- *
- * @depends BaksDev\Materials\Catalog\Controller\Admin\Tests\DeleteControllerTest::class
- * @depends BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsMaterialEditTest::class
- *
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 class MaterialsDeleteTest extends KernelTestCase
 {
     public static function tearDownAfterClass(): void
@@ -81,6 +78,8 @@ class MaterialsDeleteTest extends KernelTestCase
         CategoryMaterialNewTest::setUpBeforeClass();
     }
 
+    #[DependsOnClass(MaterialsEditTest::class)]
+    #[DependsOnClass(DeleteAdminControllerTest::class)]
     public function testUseCase(): void
     {
         // Бросаем событие консольной комманды

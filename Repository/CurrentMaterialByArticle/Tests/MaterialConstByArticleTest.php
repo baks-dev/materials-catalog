@@ -35,13 +35,12 @@ use BaksDev\Materials\Catalog\Type\Offers\Variation\Id\MaterialVariationUid;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\Id\MaterialModificationUid;
 use BaksDev\Products\Product\Type\Material\MaterialUid;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group materials-catalog
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 class MaterialConstByArticleTest extends KernelTestCase
 {
 

@@ -36,13 +36,12 @@ use BaksDev\Materials\Catalog\Entity\Offers\Variation\Quantity\MaterialsVariatio
 use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
 use BaksDev\Materials\Catalog\Repository\UpdateMaterialQuantity\AddMaterialQuantityInterface;
 use BaksDev\Materials\Catalog\Repository\UpdateMaterialQuantity\SubMaterialQuantityInterface;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group materials-catalog
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 class AddSubMaterialQuantityRepositoryTest extends KernelTestCase
 {
     private static array|false $result;

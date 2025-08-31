@@ -28,13 +28,12 @@ namespace BaksDev\Materials\Catalog\Repository\AllMaterialsIdentifier\Tests;
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Materials\Catalog\Repository\AllMaterialsIdentifier\AllMaterialsIdentifierInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group materials-catalog
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 class AllMaterialsIdentifierRepositoryTest extends KernelTestCase
 {
     private static array|false $data;

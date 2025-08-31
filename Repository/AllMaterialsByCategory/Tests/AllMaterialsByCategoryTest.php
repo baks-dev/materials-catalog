@@ -26,14 +26,12 @@ declare(strict_types=1);
 namespace BaksDev\Materials\Catalog\Repository\AllMaterialsByCategory\Tests;
 
 use BaksDev\Materials\Catalog\Repository\AllMaterialsByCategory\AllMaterialsByCategoryInterface;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-
-/**
- * @group materials-catalog
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 class AllMaterialsByCategoryTest extends KernelTestCase
 {
     public function testUseCase(): void

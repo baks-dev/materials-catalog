@@ -26,14 +26,13 @@ declare(strict_types=1);
 namespace BaksDev\Materials\Catalog\Type\Event\Tests;
 
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\Uid\Uuid;
 
-/**
- * @group materials-catalog
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 final class MaterialEventUidTests extends TestCase
 {
     public function testConstructor()

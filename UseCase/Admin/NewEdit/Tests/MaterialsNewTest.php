@@ -56,6 +56,7 @@ use BaksDev\Products\Product\Type\Material\MaterialUid;
 use BaksDev\Reference\Currency\Type\Currency;
 use BaksDev\Reference\Money\Type\Money;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -67,11 +68,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 
-/**
- * @group materials-catalog
- * @group materials-catalog-usecase
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 class MaterialsNewTest extends KernelTestCase
 {
     public const string OFFER_VALUE = '100';

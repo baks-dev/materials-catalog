@@ -47,6 +47,8 @@ use BaksDev\Materials\Category\Type\Section\Field\Id\CategoryMaterialSectionFiel
 use BaksDev\Products\Product\Type\Material\MaterialUid;
 use BaksDev\Reference\Currency\Type\Currency;
 use BaksDev\Reference\Money\Type\Money;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -55,15 +57,12 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @group materials-catalog
- * @group materials-catalog-usecase
- *
- * @depends BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialMaterialNewTest::class
- */
+
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 class MaterialsEditTest extends KernelTestCase
 {
+    #[DependsOnClass(MaterialsNewTest::class)]
     public function testUseCase(): void
     {
         // Бросаем событие консольной комманды

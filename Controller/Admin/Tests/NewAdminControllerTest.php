@@ -24,13 +24,12 @@
 namespace BaksDev\Materials\Catalog\Controller\Admin\Tests;
 
 use BaksDev\Users\User\Tests\TestUserAccount;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group materials-sign
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 final class NewAdminControllerTest extends WebTestCase
 {
     private const string URL = '/admin/material/new';

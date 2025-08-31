@@ -26,25 +26,22 @@ namespace BaksDev\Materials\Catalog\Controller\Admin\Tests;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsNewTest;
 use BaksDev\Users\User\Tests\TestUserAccount;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group materials-catalog
- *
- * @depends BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsNewTest::class
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 final class EditAdminControllerTest extends WebTestCase
 {
     private const string URL = '/admin/material/edit/%s';
     private const string ROLE = 'ROLE_MATERIAL_EDIT';
 
-
     /** Доступ по роли */
+    #[DependsOnClass(MaterialsNewTest::class)]
     public function testRoleSuccessful(): void
     {
-
         self::ensureKernelShutdown();
         $client = static::createClient();
 
@@ -58,10 +55,9 @@ final class EditAdminControllerTest extends WebTestCase
     }
 
     // доступ по роли ROLE_ADMIN
+    #[DependsOnClass(MaterialsNewTest::class)]
     public function testRoleAdminSuccessful(): void
     {
-
-
         self::ensureKernelShutdown();
         $client = static::createClient();
 
@@ -75,9 +71,9 @@ final class EditAdminControllerTest extends WebTestCase
     }
 
     // доступ по роли ROLE_USER
+    #[DependsOnClass(MaterialsNewTest::class)]
     public function testRoleUserDeny(): void
     {
-
         self::ensureKernelShutdown();
         $client = static::createClient();
 
@@ -90,9 +86,9 @@ final class EditAdminControllerTest extends WebTestCase
     }
 
     /** Доступ по без роли */
+    #[DependsOnClass(MaterialsNewTest::class)]
     public function testGuestFiled(): void
     {
-
         self::ensureKernelShutdown();
         $client = static::createClient();
         $client->request('GET', sprintf(self::URL, MaterialEventUid::TEST));

@@ -32,6 +32,7 @@ use BaksDev\Materials\Catalog\Entity\Offers\Variation\MaterialVariation;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\MaterialModification;
 use BaksDev\Materials\Catalog\Repository\MaterialDetail\MaterialDetailByConstInterface;
 use BaksDev\Products\Product\Type\Material\MaterialUid;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -40,11 +41,8 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-
-/**
- * @group materials-catalog
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 class MaterialDetailByConstTest extends KernelTestCase
 {
     private static array|false $result;

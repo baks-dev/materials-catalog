@@ -27,14 +27,13 @@ namespace BaksDev\Materials\Catalog\Type\Barcode\Tests;
 
 use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
 use BaksDev\Products\Product\Type\Material\MaterialUid;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\Uid\UuidV7;
 
-/**
- * @group materials-catalog
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 final class MaterialBarcodeTest extends TestCase
 {
     public function testBarcodeGeneration()

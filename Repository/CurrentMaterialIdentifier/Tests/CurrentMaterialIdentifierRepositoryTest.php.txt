@@ -43,9 +43,6 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @group materials-catalog
- */
 #[When(env: 'test')]
 class CurrentMaterialIdentifierRepositoryTest extends KernelTestCase
 {

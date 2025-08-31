@@ -26,15 +26,13 @@ namespace BaksDev\Materials\Catalog\Controller\Admin\Tests;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
 use BaksDev\Users\User\Tests\TestUserAccount;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group materials-catalog
- *
- * @depends BaksDev\Materials\Catalog\Controller\Admin\Tests\EditControllerTest::class
- */
 #[When(env: 'test')]
+#[Group('materials-catalog')]
 final class DeleteAdminControllerTest extends WebTestCase
 {
     private const string URL = '/admin/material/delete/%s';
@@ -43,6 +41,7 @@ final class DeleteAdminControllerTest extends WebTestCase
 
 
     /** Доступ по роли */
+    #[DependsOnClass(EditAdminControllerTest::class)]
     public function testRoleSuccessful(): void
     {
 
@@ -63,6 +62,7 @@ final class DeleteAdminControllerTest extends WebTestCase
     }
 
     // доступ по роли ROLE_ADMIN
+    #[DependsOnClass(EditAdminControllerTest::class)]
     public function testRoleAdminSuccessful(): void
     {
 
@@ -82,6 +82,7 @@ final class DeleteAdminControllerTest extends WebTestCase
     }
 
     // доступ по роли ROLE_USER
+    #[DependsOnClass(EditAdminControllerTest::class)]
     public function testRoleUserDeny(): void
     {
 
@@ -102,6 +103,7 @@ final class DeleteAdminControllerTest extends WebTestCase
     }
 
     /** Доступ по без роли */
+    #[DependsOnClass(EditAdminControllerTest::class)]
     public function testGuestFiled(): void
     {
 
