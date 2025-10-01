@@ -12,8 +12,8 @@
 {# ---- CSS ------------------------------------------------------------ #}
 {% block stylesheets %}
     {# <link href="{{ path(app.request.attributes.get('_route')~'.css') }}" rel="stylesheet"> #}
-    <link href="/assets/plugins/datepicker/datepicker.min.css" rel="stylesheet">
-    <link href="/assets/plugins/nice-select2/nice-select2.min.css" rel="stylesheet">
+    <link href="/assets/{{ version }}/plugins/datepicker/datepicker.min.css" rel="stylesheet">
+    <link href="/assets/{{ version }}/plugins/nice-select2/nice-select2.min.css" rel="stylesheet">
 {% endblock %}
 
 
@@ -23,33 +23,33 @@
 {% endblock %}
 
 {% block javascript %}
-<script nonce='{{ csp_nonce() }}' async data-src="/assets/plugins/ckeditor/ckeditor.min.js?v={{ version }}"
+<script nonce='{{ csp_nonce() }}' async data-src="/assets/{{ version }}/plugins/ckeditor/ckeditor.min.js?v={{ version }}"
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/plugins/ckeditor/classic.min.js?v={{ version }}"
-            class='lazy'></script>
-
-    <script nonce='{{ csp_nonce() }}' async data-src='/assets/plugins/semantic/semantic.min.js?v={{ version }}'
-            class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src='/assets/plugins/nice-select2/nice-select2.min.js?v={{ version }}'
-            class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src='/assets/plugins/datepicker/datepicker.min.js?v={{ version }}'
-            class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src='/assets/js/radio.input.min.js?v={{ version }}'
-            class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src='/assets/js/image.input.min.js?v={{ version }}'
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/{{ version }}/plugins/ckeditor/classic.min.js?v={{ version }}"
             class='lazy'></script>
 
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/material.main.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src='/assets/{{ version }}/plugins/semantic/semantic.min.js?v={{ version }}'
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/material.category.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src='/assets/{{ version }}/plugins/nice-select2/nice-select2.min.js?v={{ version }}'
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/material.photo.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src='/assets/{{ version }}/plugins/datepicker/datepicker.min.js?v={{ version }}'
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/material.files.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src='/assets/{{ version }}/js/radio.input.min.js?v={{ version }}'
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/material.video.min.js?v={{ version }}"
+    <script nonce='{{ csp_nonce() }}' async data-src='/assets/{{ version }}/js/image.input.min.js?v={{ version }}'
             class='lazy'></script>
-    <script nonce='{{ csp_nonce() }}' async data-src="/assets/materials-catalog/material.offer.min.js?v={{ version }}"
+
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/{{ version }}/materials-catalog/material.main.min.js?v={{ version }}"
+            class='lazy'></script>
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/{{ version }}/materials-catalog/material.category.min.js?v={{ version }}"
+            class='lazy'></script>
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/{{ version }}/materials-catalog/material.photo.min.js?v={{ version }}"
+            class='lazy'></script>
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/{{ version }}/materials-catalog/material.files.min.js?v={{ version }}"
+            class='lazy'></script>
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/{{ version }}/materials-catalog/material.video.min.js?v={{ version }}"
+            class='lazy'></script>
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/{{ version }}/materials-catalog/material.offer.min.js?v={{ version }}"
             class='lazy'></script>
 
 {% endblock %}

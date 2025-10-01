@@ -19,7 +19,7 @@
                 <div class="item-collection-photo">
 
                     {# Обложка  #}
-                    {% set image_path = '/assets/img/blank.svg' %}
+                    {% set image_path = '/assets/'~version~'/img/blank.svg' %}
 
                     {% if photo.vars.data.ext is defined and photo.vars.data.ext is not null %}
                         {% set img_host =  photo.vars.data.cdn == true  ? CDN_HOST : '' %}

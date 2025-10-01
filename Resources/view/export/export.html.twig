@@ -55,7 +55,7 @@
                     <categoryId>{{ card.category }}</categoryId>
 
                     {# Обложка  #}
-                    {% set image_path = '/assets/img/empty.png' %}
+                    {% set image_path = '/assets/{{ version }}/img/empty.png' %}
 
                     {% if card.material_image_ext is defined and card.material_image_ext is not null %}
                         {% set img_host =  card.material_image_cdn == true  ? CDN_HOST : '' %}

@@ -6,7 +6,7 @@
 <div id='item_{{ image.vars.id }}'>
 
     {# Обложка  #}
-    {% set image_path = '/assets/img/blank.svg' %}
+    {% set image_path = '/assets/'~version~'/img/blank.svg' %}
 
     {% if image.vars.data.ext is defined and image.vars.data.ext is not null %}
         {% set img_host = image.vars.data.cdn  == true  ? CDN_HOST : '' %}
