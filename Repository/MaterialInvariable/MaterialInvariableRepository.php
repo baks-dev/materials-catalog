@@ -72,6 +72,7 @@ final class MaterialInvariableRepository implements MaterialInvariableInterface
         if(empty($offer))
         {
             $this->offer = false;
+            return $this;
         }
 
         if($offer instanceof MaterialOfferConst)
@@ -92,6 +93,7 @@ final class MaterialInvariableRepository implements MaterialInvariableInterface
         if(empty($variation))
         {
             $this->variation = false;
+            return $this;
         }
 
         if($variation instanceof MaterialVariationConst)
@@ -112,6 +114,7 @@ final class MaterialInvariableRepository implements MaterialInvariableInterface
         if(empty($modification))
         {
             $this->modification = false;
+            return $this;
         }
 
         if($modification instanceof MaterialModificationConst)
@@ -132,7 +135,7 @@ final class MaterialInvariableRepository implements MaterialInvariableInterface
      */
     public function find(): MaterialInvariableUid|false
     {
-        if($this->material === false)
+        if(false === ($this->material instanceof MaterialUid))
         {
             throw new InvalidArgumentException('Material not found.');
         }
