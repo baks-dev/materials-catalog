@@ -26,9 +26,7 @@ namespace BaksDev\Materials\Catalog\Repository\AllMaterials;
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Core\Form\Search\SearchDTO;
 use BaksDev\Core\Services\Paginator\PaginatorInterface;
-use BaksDev\Elastic\Api\Index\ElasticGetIndex;
 use BaksDev\Materials\Catalog\Entity\Category\MaterialCategory;
-use BaksDev\Materials\Catalog\Entity\Description\MaterialDescription;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Info\MaterialInfo;
 use BaksDev\Materials\Catalog\Entity\Material;
@@ -49,7 +47,6 @@ use BaksDev\Materials\Catalog\Entity\Price\MaterialPrice;
 use BaksDev\Materials\Catalog\Entity\Trans\MaterialTrans;
 use BaksDev\Materials\Catalog\Forms\MaterialFilter\Admin\MaterialFilterDTO;
 use BaksDev\Materials\Category\Entity\CategoryMaterial;
-use BaksDev\Materials\Category\Entity\Info\CategoryMaterialInfo;
 use BaksDev\Materials\Category\Entity\Offers\CategoryMaterialOffers;
 use BaksDev\Materials\Category\Entity\Offers\Variation\CategoryMaterialVariation;
 use BaksDev\Materials\Category\Entity\Offers\Variation\Modification\CategoryMaterialModification;
@@ -70,7 +67,6 @@ final class AllMaterialsRepository implements AllMaterialsInterface
     public function __construct(
         private readonly DBALQueryBuilder $DBALQueryBuilder,
         private readonly PaginatorInterface $paginator,
-        private ?ElasticGetIndex $elasticGetIndex = null
     ) {}
 
     public function search(SearchDTO $search): self
@@ -521,26 +517,6 @@ final class AllMaterialsRepository implements AllMaterialsInterface
 
         if($this->search->getQuery())
         {
-            /** Поиск по модификации */
-            $result = $this->elasticGetIndex ? $this->elasticGetIndex->handle(MaterialModification::class, $this->search->getQuery(), 1) : false;
-
-            if($result)
-            {
-                $counter = $result['hits']['total']['value'];
-
-                if($counter)
-                {
-                    /** Идентификаторы */
-                    $data = array_column($result['hits']['hits'], "_source");
-
-                    $dbal
-                        ->createSearchQueryBuilder($this->search)
-                        ->addSearchInArray('material_modification.id', array_column($data, "id"));
-
-                    return $this->paginator->fetchAllAssociative($dbal);
-                }
-            }
-
             $dbal
                 ->createSearchQueryBuilder($this->search)
                 ->addSearchEqualUid('material.id')
@@ -833,27 +809,6 @@ final class AllMaterialsRepository implements AllMaterialsInterface
 
         if($this->search->getQuery())
         {
-
-            /** Поиск по сырья */
-            $result = $this->elasticGetIndex ? $this->elasticGetIndex->handle(Material::class, $this->search->getQuery(), 1) : false;
-
-            if($result)
-            {
-                $counter = $result['hits']['total']['value'];
-
-                if($counter)
-                {
-                    /** Идентификаторы */
-                    $data = array_column($result['hits']['hits'], "_source");
-
-                    $dbal
-                        ->createSearchQueryBuilder($this->search)
-                        ->addSearchInArray('material.id', array_column($data, "id"));
-
-                    return $this->paginator->fetchAllAssociative($dbal);
-                }
-            }
-
 
             $dbal
                 ->createSearchQueryBuilder($this->search)
