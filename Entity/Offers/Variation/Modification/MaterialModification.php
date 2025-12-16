@@ -21,10 +21,13 @@
  *  THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification;
 
 use BaksDev\Core\Entity\EntityEvent;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\MaterialVariation;
+use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\Id\MaterialModificationUid;
 use BaksDev\Materials\Category\Type\Offers\Modification\CategoryMaterialModificationUid;
@@ -40,6 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'material_modification')]
 #[ORM\Index(columns: ['const'])]
 #[ORM\Index(columns: ['article'])]
+#[ORM\Index(columns: ['barcode'])]
 class MaterialModification extends EntityEvent
 {
     /** ID модификации множественного варианта */
@@ -60,6 +64,10 @@ class MaterialModification extends EntityEvent
     #[Assert\Uuid]
     #[ORM\Column(type: MaterialModificationConst::TYPE)]
     private readonly MaterialModificationConst $const;
+
+    /** Штрихкод */
+    #[ORM\Column(type: MaterialBarcode::TYPE, nullable: true)]
+    private ?MaterialBarcode $barcode = null;
 
     /** ID модификации категории */
     #[Assert\Uuid]
@@ -159,5 +167,10 @@ class MaterialModification extends EntityEvent
     public function getImage(): Collection
     {
         return $this->image;
+    }
+
+    public function getBarcode(): ?MaterialBarcode
+    {
+        return $this->barcode;
     }
 }

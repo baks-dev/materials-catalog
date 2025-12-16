@@ -21,10 +21,13 @@
  *  THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace BaksDev\Materials\Catalog\Entity\Offers\Variation;
 
 use BaksDev\Core\Entity\EntityEvent;
 use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffer;
+use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Id\MaterialVariationUid;
 use BaksDev\Materials\Category\Type\Offers\Variation\CategoryMaterialVariationUid;
@@ -40,6 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'material_variation')]
 #[ORM\Index(columns: ['const'])]
 #[ORM\Index(columns: ['article'])]
+#[ORM\Index(columns: ['barcode'])]
 class MaterialVariation extends EntityEvent
 {
     /** ID варианта торгового предложения */
@@ -60,6 +64,10 @@ class MaterialVariation extends EntityEvent
     #[Assert\Uuid]
     #[ORM\Column(type: MaterialVariationConst::TYPE)]
     private readonly MaterialVariationConst $const;
+
+    /** Штрихкод */
+    #[ORM\Column(type: MaterialBarcode::TYPE, nullable: true)]
+    private ?MaterialBarcode $barcode = null;
 
     /** ID торгового предложения категории */
     #[Assert\Uuid]
@@ -173,4 +181,8 @@ class MaterialVariation extends EntityEvent
         return $this->modification;
     }
 
+    public function getBarcode(): ?MaterialBarcode
+    {
+        return $this->barcode;
+    }
 }

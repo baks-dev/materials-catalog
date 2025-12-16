@@ -45,7 +45,24 @@ interface AllMaterialsIdentifierInterface
     public function forModificationConst(MaterialModificationConst|string $offerModification): self;
 
     /**
-     * Метод возвращает все идентификаторы сырья с её торговыми предложениями
+     * Метод возвращает все идентификаторы сырья с её торговыми предложениями в виде массива
+     * @return Generator<array{
+     *  "material_id",
+     *  "material_event" ,
+     *  "offer_id" ,
+     *  "offer_const",
+     *  "variation_id" ,
+     *  "variation_const" ,
+     *  "modification_id",
+     *  "modification_const"}
+     *  >|false }
+ * @deprecated
      */
     public function findAll(): Generator|false;
+
+    /**
+     * Метод возвращает все идентификаторы сырья с её торговыми предложениями в виде резалта
+     * @return Generator<AllMaterialsIdentifierResult>
+     */
+    public function findAllResult(): Generator;
 }

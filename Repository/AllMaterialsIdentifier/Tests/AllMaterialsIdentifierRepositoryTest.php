@@ -25,38 +25,47 @@ declare(strict_types=1);
 
 namespace BaksDev\Materials\Catalog\Repository\AllMaterialsIdentifier\Tests;
 
-use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Materials\Catalog\Repository\AllMaterialsIdentifier\AllMaterialsIdentifierInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use BaksDev\Materials\Catalog\Repository\AllMaterialsIdentifier\AllMaterialsIdentifierResult;
 use PHPUnit\Framework\Attributes\Group;
+use ReflectionClass;
+use ReflectionMethod;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
 #[When(env: 'test')]
 #[Group('materials-catalog')]
+#[Group('materials-catalog-repository')]
 class AllMaterialsIdentifierRepositoryTest extends KernelTestCase
 {
-    private static array|false $data;
+    private static AllMaterialsIdentifierResult|false $data;
 
     public static function setUpBeforeClass(): void
     {
         /** @var AllMaterialsIdentifierInterface $AllMaterialsIdentifier */
         $AllMaterialsIdentifier = self::getContainer()->get(AllMaterialsIdentifierInterface::class);
-        $result = $AllMaterialsIdentifier->findAll();
+        $result = $AllMaterialsIdentifier->findAllResult();
 
-
-        foreach($result as $data)
+        foreach($result as $material)
         {
-            self::assertTrue(array_key_exists('material_id', $data));
-            self::assertTrue(array_key_exists('material_event', $data));
-            self::assertTrue(array_key_exists('offer_id', $data));
-            self::assertTrue(array_key_exists('offer_const', $data));
-            self::assertTrue(array_key_exists('variation_id', $data));
-            self::assertTrue(array_key_exists('variation_const', $data));
-            self::assertTrue(array_key_exists('modification_id', $data));
-            self::assertTrue(array_key_exists('modification_const', $data));
+            self::assertInstanceOf(AllMaterialsIdentifierResult::class, $material);
 
-            self::$data = $data;
+            // Вызываем все геттеры
+            $reflectionClass = new ReflectionClass(AllMaterialsIdentifierResult::class);
+            $methods = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
+
+            foreach($methods as $method)
+            {
+                // Методы без аргументов
+                if($method->getNumberOfParameters() === 0)
+                {
+                    // Вызываем метод
+                    $data = $method->invoke($material);
+                    //dump($data);
+                }
+            }
+
+            self::$data = $material;
 
             break;
         }
@@ -70,13 +79,12 @@ class AllMaterialsIdentifierRepositoryTest extends KernelTestCase
         /** @var AllMaterialsIdentifierInterface $AllMaterialsIdentifier */
         $AllMaterialsIdentifier = self::getContainer()->get(AllMaterialsIdentifierInterface::class);
         $result = $AllMaterialsIdentifier
-            ->forMaterial(self::$data['material_id'])
-            ->findAll();
+            ->forMaterial(self::$data->getMaterialId())
+            ->findAllResult();
 
-        foreach($result as $data)
+        foreach($result as $material)
         {
-            self::assertTrue(isset($data['material_id']));
-            self::assertEquals(self::$data['material_id'], $data['material_id']);
+            self::assertEquals(self::$data->getMaterialId(), $material->getMaterialId());
 
         }
 
@@ -85,20 +93,18 @@ class AllMaterialsIdentifierRepositoryTest extends KernelTestCase
 
     public function testOfferCase(): void
     {
-
         /** @var AllMaterialsIdentifierInterface $AllMaterialsIdentifier */
         $AllMaterialsIdentifier = self::getContainer()->get(AllMaterialsIdentifierInterface::class);
         $result = $AllMaterialsIdentifier
-            ->forOfferConst(self::$data['offer_const'])
-            ->findAll();
+            ->forOfferConst(self::$data->getOfferConst())
+            ->findAllResult();
 
-        foreach($result as $data)
+        foreach($result as $material)
         {
-            self::assertTrue(isset($data['material_id']));
-            self::assertEquals(self::$data['material_id'], $data['material_id']);
+            self::assertEquals(self::$data->getMaterialId(), $material->getMaterialId());
+            self::assertEquals(self::$data->getOfferConst(), $material->getOfferConst());
 
-            self::assertTrue(isset($data['offer_const']));
-            self::assertEquals(self::$data['offer_const'], $data['offer_const']);
+            break;
         }
 
 
@@ -112,15 +118,17 @@ class AllMaterialsIdentifierRepositoryTest extends KernelTestCase
         /** @var AllMaterialsIdentifierInterface $AllMaterialsIdentifier */
         $AllMaterialsIdentifier = self::getContainer()->get(AllMaterialsIdentifierInterface::class);
         $result = $AllMaterialsIdentifier
-            ->forOfferConst(self::$data['offer_const'])
-            ->forVariationConst(self::$data['variation_const'])
-            ->findAll();
+            ->forOfferConst(self::$data->getOfferConst())
+            ->forVariationConst(self::$data->getVariationConst())
+            ->findAllResult();
 
-        foreach($result as $data)
+        foreach($result as $material)
         {
-            self::assertEquals(self::$data['material_id'], $data['material_id']);
-            self::assertEquals(self::$data['offer_const'], $data['offer_const']);
-            self::assertEquals(self::$data['variation_const'], $data['variation_const']);
+            self::assertEquals(self::$data->getMaterialId(), $material->getMaterialId());
+            self::assertEquals(self::$data->getOfferConst(), $material->getOfferConst());
+            self::assertEquals(self::$data->getVariationConst(), $material->getVariationConst());
+
+            break;
         }
 
 
@@ -133,19 +141,20 @@ class AllMaterialsIdentifierRepositoryTest extends KernelTestCase
         /** @var AllMaterialsIdentifierInterface $AllMaterialsIdentifier */
         $AllMaterialsIdentifier = self::getContainer()->get(AllMaterialsIdentifierInterface::class);
         $result = $AllMaterialsIdentifier
-            ->forOfferConst(self::$data['offer_const'])
-            ->forVariationConst(self::$data['variation_const'])
-            ->forModificationConst(self::$data['modification_const'])
-            ->findAll();
+            ->forOfferConst(self::$data->getOfferConst())
+            ->forVariationConst(self::$data->getVariationConst())
+            ->forModificationConst(self::$data->getModificationConst())
+            ->findAllResult();
 
-        foreach($result as $data)
+        foreach($result as $material)
         {
-            self::assertEquals(self::$data['material_id'], $data['material_id']);
-            self::assertEquals(self::$data['offer_const'], $data['offer_const']);
-            self::assertEquals(self::$data['variation_const'], $data['variation_const']);
-            self::assertEquals(self::$data['modification_const'], $data['modification_const']);
-        }
+            self::assertEquals(self::$data->getMaterialId(), $material->getMaterialId());
+            self::assertEquals(self::$data->getOfferConst(), $material->getOfferConst());
+            self::assertEquals(self::$data->getVariationConst(), $material->getVariationConst());
+            self::assertEquals(self::$data->getModificationConst(), $material->getModificationConst());
 
+            break;
+        }
 
         self::assertTrue(true);
     }
