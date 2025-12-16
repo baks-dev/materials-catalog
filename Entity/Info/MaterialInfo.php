@@ -115,4 +115,9 @@ class MaterialInfo extends EntityReadonly
 
         throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
     }
+
+    public function getBarcode(): ?MaterialBarcode
+    {
+        return $this->barcode;
+    }
 }

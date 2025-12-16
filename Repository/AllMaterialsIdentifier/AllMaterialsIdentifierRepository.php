@@ -119,20 +119,7 @@ final class AllMaterialsIdentifierRepository implements AllMaterialsIdentifierIn
         return $this;
     }
 
-    /**
-     * Метод возвращает все идентификаторы сырья с её торговыми предложениями
-     * @return Generator<array{
-     *  "material_id",
-     *  "material_event" ,
-     *  "offer_id" ,
-     *  "offer_const",
-     *  "variation_id" ,
-     *  "variation_const" ,
-     *  "modification_id",
-     *  "modification_const"}
-     *  >|false }
-     */
-    public function findAll(): Generator|false
+    private function builder(): DBALQueryBuilder
     {
         $dbal = $this->DBALQueryBuilder->createQueryBuilder(self::class);
 
@@ -241,6 +228,37 @@ final class AllMaterialsIdentifierRepository implements AllMaterialsIdentifierIn
                 );
         }
 
+        return $dbal;
+    }
+
+    /**
+     * Метод возвращает все идентификаторы сырья с её торговыми предложениями
+     * @return Generator<array{
+     *  "material_id",
+     *  "material_event" ,
+     *  "offer_id" ,
+     *  "offer_const",
+     *  "variation_id" ,
+     *  "variation_const" ,
+     *  "modification_id",
+     *  "modification_const"}
+     *  >|false }
+     */
+    public function findAll(): Generator|false
+    {
+        $dbal = $this->builder();
+
         return $dbal->fetchAllGenerator();
+    }
+
+    /**
+     * Метод возвращает все идентификаторы сырья с её торговыми предложениями в виде резалта
+     * @return Generator<AllMaterialsIdentifierResult>
+     */
+    public function findAllResult(): Generator
+    {
+        $dbal = $this->builder();
+
+        return $dbal->fetchAllHydrate(AllMaterialsIdentifierResult::class);
     }
 }
