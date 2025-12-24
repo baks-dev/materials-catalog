@@ -24,6 +24,7 @@
 namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation;
 
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\MaterialVariationInterface;
+use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
 use BaksDev\Materials\Category\Type\Offers\Variation\CategoryMaterialVariationUid;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -40,6 +41,9 @@ final class MaterialVariationCollectionDTO implements MaterialVariationInterface
     #[Assert\NotBlank]
     #[Assert\Uuid]
     private readonly MaterialVariationConst $const;
+
+    /** Штрихкод товара */
+    private MaterialBarcode $barcode;
 
     /** Заполненное значение */
     private ?string $value = null;
@@ -78,6 +82,11 @@ final class MaterialVariationCollectionDTO implements MaterialVariationInterface
         if(!(new ReflectionProperty(self::class, 'const'))->isInitialized($this))
         {
             $this->const = new MaterialVariationConst();
+
+            if(false === (new ReflectionProperty(self::class, 'barcode')->isInitialized($this)))
+            {
+                $this->barcode = new MaterialBarcode(MaterialBarcode::generate());
+            }
         }
 
         return $this->const;
@@ -92,6 +101,29 @@ final class MaterialVariationCollectionDTO implements MaterialVariationInterface
         }
     }
 
+    /**
+     * Barcode
+     */
+    public function getBarcode(): MaterialBarcode
+    {
+        if(false === (new ReflectionProperty(self::class, 'barcode')->isInitialized($this)))
+        {
+            $this->barcode = new MaterialBarcode(MaterialBarcode::generate());
+        }
+
+        return $this->barcode;
+    }
+
+    public function setBarcode(?MaterialBarcode $barcode): self
+    {
+        if(is_null($barcode))
+        {
+            $barcode = new MaterialBarcode(MaterialBarcode::generate());
+        }
+
+        $this->barcode = $barcode;
+        return $this;
+    }
 
     /** Заполненное значение */
 

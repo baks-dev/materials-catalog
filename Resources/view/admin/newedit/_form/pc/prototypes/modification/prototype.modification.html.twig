@@ -58,6 +58,17 @@
         </div>
     {% endif %}
 
+    {# Штрихкод #}
+    {% if modification_first.barcode is defined %}
+
+        <div class='w-50'>
+            {{ form_row(form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.barcode,
+                { label : false, attr:  { placeholder : 'Штрихкод' } }
+            ) }}
+        </div>
+
+    {% endif %}
+
     {% if modification_first.price is defined %}
         <div class="input-group mb-3 w-75">
 
@@ -81,18 +92,6 @@
 
         <div class="w-50">{{ form_row(form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.price.currency) }}</div>
     {% endif %}
-
-
-    {# {% if modification_first.quantity is defined %}
-        <div class="w-75">
-            {{ form_row(form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.quantity.quantity, { attr: { placeholder: 'Наличие'|trans, min: 0 } }) }}
-        </div>
-
-        <div class="w-75">
-            {{ form_row(form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.quantity.reserve, { attr: { placeholder: 'Резерв'|trans, min: 0 } }) }}
-        </div>
-
-    {% endif %} #}
 
 </div>
 

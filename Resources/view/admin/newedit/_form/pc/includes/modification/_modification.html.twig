@@ -65,6 +65,17 @@
 
     {% endif %}
 
+    {# Barcode #}
+    {% if modification.barcode is defined %}
+
+        <div class='w-50'>
+            {{ form_row(modification.barcode,
+                modification.barcode.vars.data and loop.first ? { label : 'Штрихкод' } : { label : false, attr:  { placeholder : 'Штрихкод' } }
+            ) }}
+        </div>
+
+    {% endif %}
+
     {% if modification.price is defined %}
         <div class="input-group mb-3 w-75">
 
@@ -88,22 +99,6 @@
 
         <div class="w-50">{{ form_row(modification.price.currency) }}</div>
     {% endif %}
-
-
-    {# {% if modification.quantity is defined %}
-		<div class="w-75">
-			{{ form_row(modification.quantity.quantity,
-				loop.first ? { label : 'Наличие', attr: { min: 0 } } : { label : false, attr : { placeholder : 'Наличие', min: 0 }}
-			) }}
-		</div>
-
-		<div class="w-75">
-			{{ form_row(modification.quantity.reserve,
-				loop.first ? { label : 'Резерв', attr: { min: 0 } } : { label : false, attr : { placeholder : 'Резерв', min: 0 }}
-			) }}
-		</div>
-
-	{% endif %} #}
 
 </div>
 
