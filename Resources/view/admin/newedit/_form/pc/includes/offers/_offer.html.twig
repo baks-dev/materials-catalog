@@ -81,9 +81,18 @@
                             {{ form_row(offer.article, offer.article.vars.data ? { label : 'Артикул' } : { label : false, attr : { placeholder : 'Артикул' }} ) }}
                         </div>
 
-
                     {% endif %}
 
+                    {# Штрихкод #}
+                    {% if offer.barcode is defined %}
+
+                        <div class='w-100'>
+                            {{ form_row(offer.barcode,
+                                offer.barcode.vars.data and loop.first ? { label : 'Штрихкод' } : { label : 'Штрихкод', attr:  { placeholder : 'Штрихкод' } }
+                            ) }}
+                        </div>
+
+                    {% endif %}
 
                     {% if offer.price is defined %}
                         <div class="input-group mb-3 w-75">
@@ -107,20 +116,6 @@
                         <div class="w-50">{{ form_row(offer.price.currency) }}</div>
                     {% endif %}
 
-
-                    {# {% if offer.quantity is defined %}
-						<div class="w-75">
-
-							{{ form_row(offer.quantity.quantity, offer.quantity.quantity.vars.data ? { label : 'Наличие', attr: { min: 0 } } : { label : false, attr : { placeholder : 'Наличие', min: 0 }} ) }}
-						</div>
-
-						<div class="w-75">
-
-							{{ form_row(offer.quantity.reserve, offer.quantity.reserve.vars.data ? { label : 'Резерв', attr: { min: 0 } } : { label : false, attr : { placeholder : 'Резерв', min: 0 }} ) }}
-						</div>
-
-					{% endif %} #}
-
                 </div>
 
 
@@ -138,7 +133,6 @@
 
 
         {# Если у торгового предложения имеются множественные варианты #}
-
         {% if variation_first %}
 
             <div class="card w-100 border-light">

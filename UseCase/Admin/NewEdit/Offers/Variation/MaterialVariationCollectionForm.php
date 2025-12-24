@@ -24,7 +24,10 @@
 namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation;
 
 use BaksDev\Core\Services\Reference\ReferenceChoice;
+use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\ConstId\MaterialVariationConst;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Price\MaterialOfferVariationPriceForm;
+use BaksDev\Materials\Category\Repository\CategoryVariationForm\CategoryMaterialVariationFormDTO;
 use BaksDev\Materials\Category\Type\Offers\Variation\CategoryMaterialVariationUid;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -86,7 +89,24 @@ final class MaterialVariationCollectionForm extends AbstractType
 
         $builder->add('value', TextType::class, ['label' => $variation->name, 'attr' => ['class' => 'mb-3']]);
 
-        $builder->add('price', Price\MaterialOfferVariationPriceForm::class, ['label' => false]);
+        $builder->add('price', MaterialOfferVariationPriceForm::class, ['label' => false]);
+
+        /** Штрихкод - для конкретной вложенности */
+        if($variation instanceof CategoryMaterialVariationFormDTO && null === $modification)
+        {
+            $builder->add('barcode', TextType::class, ['required' => true]);
+
+            $builder->get('barcode')->addModelTransformer(
+                new CallbackTransformer(
+                    function(?MaterialBarcode $barcode) {
+                        return $barcode instanceof MaterialBarcode ? $barcode : new MaterialBarcode(MaterialBarcode::generate());
+                    },
+                    function(?string $barcode) {
+                        return null === $barcode ? new MaterialBarcode(MaterialBarcode::generate()) : new MaterialBarcode($barcode);
+                    }
+                )
+            );
+        }
 
         /** Торговые предложения */
         $builder->add('image', CollectionType::class, [
@@ -109,10 +129,6 @@ final class MaterialVariationCollectionForm extends AbstractType
 
                 if($data)
                 {
-
-                    /* Получаем данные торговые предложения категории */
-                    //$offerCat = $data->getOffer();
-
                     /* Если ТП - справочник - перобразуем поле ChoiceType   */
                     if($variation->reference)
                     {
@@ -127,8 +143,6 @@ final class MaterialVariationCollectionForm extends AbstractType
                                 [
                                     'label' => $variation->name,
                                     'required' => false,
-                                    //'mapped' => false,
-                                    //'attr' => [ 'data-select' => 'select2' ],
                                 ]
                             );
 

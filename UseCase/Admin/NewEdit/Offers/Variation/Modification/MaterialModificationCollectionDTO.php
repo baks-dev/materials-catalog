@@ -21,9 +21,12 @@
  *  THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Modification;
 
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\MaterialModificationInterface;
+use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
 use BaksDev\Materials\Category\Type\Offers\Modification\CategoryMaterialModificationUid;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -40,6 +43,9 @@ final class MaterialModificationCollectionDTO implements MaterialModificationInt
     #[Assert\NotBlank]
     #[Assert\Uuid]
     private readonly MaterialModificationConst $const;
+
+    /** Штрихкод товара */
+    private MaterialBarcode $barcode;
 
     /** Заполненное значение */
     private ?string $value = null;
@@ -74,6 +80,11 @@ final class MaterialModificationCollectionDTO implements MaterialModificationInt
         if(!(new ReflectionProperty(self::class, 'const'))->isInitialized($this))
         {
             $this->const = new MaterialModificationConst();
+
+            if(false === (new ReflectionProperty(self::class, 'barcode')->isInitialized($this)))
+            {
+                $this->barcode = new MaterialBarcode(MaterialBarcode::generate());
+            }
         }
 
         return $this->const;
@@ -87,6 +98,29 @@ final class MaterialModificationCollectionDTO implements MaterialModificationInt
         }
     }
 
+    /**
+     * Barcode
+     */
+    public function getBarcode(): MaterialBarcode
+    {
+        if(false === (new ReflectionProperty(self::class, 'barcode')->isInitialized($this)))
+        {
+            $this->barcode = new MaterialBarcode(MaterialBarcode::generate());
+        }
+
+        return $this->barcode;
+    }
+
+    public function setBarcode(?MaterialBarcode $barcode): self
+    {
+        if(is_null($barcode))
+        {
+            $barcode = new MaterialBarcode(MaterialBarcode::generate());
+        }
+
+        $this->barcode = $barcode;
+        return $this;
+    }
 
     /** Заполненное значение */
 

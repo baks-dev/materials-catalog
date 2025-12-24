@@ -21,10 +21,14 @@
  *  THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Modification;
 
 use BaksDev\Core\Services\Reference\ReferenceChoice;
+use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
 use BaksDev\Materials\Catalog\Type\Offers\Variation\Modification\ConstId\MaterialModificationConst;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\Variation\Modification\Price\MaterialOfferVariationModificationPriceForm;
 use BaksDev\Materials\Category\Type\Offers\Modification\CategoryMaterialModificationUid;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -85,9 +89,21 @@ final class MaterialModificationCollectionForm extends AbstractType
 
         $builder->add('value', TextType::class, ['label' => $modification->name, 'attr' => ['class' => 'mb-3']]);
 
-        $builder->add('price', Price\MaterialOfferVariationModificationPriceForm::class, ['label' => false]);
+        $builder->add('price', MaterialOfferVariationModificationPriceForm::class, ['label' => false]);
 
-        //$builder->add('quantity', Quantity\MaterialOfferVariationModificationQuantityForm::class, ['label' => false]);
+        /** Штрихкод - для конкретной вложенности  */
+        $builder->add('barcode', TextType::class, ['required' => true]);
+
+        $builder->get('barcode')->addModelTransformer(
+            new CallbackTransformer(
+                function(?MaterialBarcode $barcode) {
+                    return $barcode instanceof MaterialBarcode ? $barcode : new MaterialBarcode(MaterialBarcode::generate());
+                },
+                function(?string $barcode) {
+                    return null === $barcode ? new MaterialBarcode(MaterialBarcode::generate()) : new MaterialBarcode($barcode);
+                }
+            )
+        );
 
         /** Торговые предложения */
         $builder->add('image', CollectionType::class, [

@@ -25,8 +25,10 @@ namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers;
 
 use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffer;
 use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffersInterface;
+use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
 use BaksDev\Materials\Category\Type\Offers\Id\CategoryMaterialOffersUid;
+use BaksDev\Products\Product\Type\Barcode\ProductBarcode;
 use Doctrine\Common\Collections\ArrayCollection;
 use ReflectionProperty;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -41,6 +43,9 @@ final class MaterialOffersCollectionDTO implements MaterialOffersInterface
     #[Assert\NotBlank]
     #[Assert\Uuid]
     private readonly MaterialOfferConst $const;
+
+    /** Штрихкод товара */
+    private MaterialBarcode $barcode;
 
     /** Заполненное значение */
     private ?string $value = null;
@@ -81,6 +86,11 @@ final class MaterialOffersCollectionDTO implements MaterialOffersInterface
         if(!(new ReflectionProperty(self::class, 'const'))->isInitialized($this))
         {
             $this->const = new MaterialOfferConst();
+
+            if(false === (new ReflectionProperty(self::class, 'barcode')->isInitialized($this)))
+            {
+                $this->barcode = new MaterialBarcode(MaterialBarcode::generate());
+            }
         }
 
         return $this->const;
@@ -92,6 +102,31 @@ final class MaterialOffersCollectionDTO implements MaterialOffersInterface
         {
             $this->const = $const;
         }
+    }
+
+    /**
+     * Barcode
+     */
+    public function getBarcode(): MaterialBarcode
+    {
+        if(false === (new ReflectionProperty(self::class, 'barcode')->isInitialized($this)))
+        {
+            $this->barcode = new MaterialBarcode(MaterialBarcode::generate());
+        }
+
+        return $this->barcode;
+    }
+
+    public function setBarcode(?MaterialBarcode $barcode): self
+    {
+        if(is_null($barcode))
+        {
+            $barcode = new MaterialBarcode(MaterialBarcode::generate());
+        }
+
+
+        $this->barcode = $barcode;
+        return $this;
     }
 
     /** Артикул */
@@ -166,7 +201,7 @@ final class MaterialOffersCollectionDTO implements MaterialOffersInterface
         $filter = $this->variation->filter(function(Variation\MaterialVariationCollectionDTO $element) use (
             $variation
         ) {
-            return $variation->getValue() === $element->getValue();
+            return $variation->getValue() === $element->getValue() && $variation->getBarcode() === $element->getBarcode();
         });
 
         if($filter->isEmpty())

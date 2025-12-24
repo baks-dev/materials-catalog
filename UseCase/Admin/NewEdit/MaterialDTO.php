@@ -23,20 +23,16 @@
 
 namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit;
 
-use ArrayIterator;
-use BaksDev\Core\Type\Device\Device;
 use BaksDev\Core\Type\Locale\Locale;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEventInterface;
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Active\ActiveDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Category\MaterialCategoryCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Files\MaterialFilesCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Info\MaterialInfoDTO;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers\MaterialOffersCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Photo\MaterialPhotoCollectionDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Price\MaterialPriceDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Property\PropertyCollectionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Seo\MaterialSeoCollectionDTO;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Video\MaterialVideoCollectionDTO;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Trans\MaterialTransDTO;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -186,11 +182,11 @@ final class MaterialDTO implements MaterialEventInterface
     }
 
 
-    public function addOffer(Offers\MaterialOffersCollectionDTO $offer): void
+    public function addOffer(MaterialOffersCollectionDTO $offer): void
     {
 
         $filter = $this->offer->filter(function(Offers\MaterialOffersCollectionDTO $element) use ($offer) {
-            return $offer->getValue() === $element->getValue();
+            return $offer->getValue() === $element->getValue() && $offer->getBarcode() === $element->getBarcode();
         });
 
         if($filter->isEmpty())
@@ -262,24 +258,6 @@ final class MaterialDTO implements MaterialEventInterface
         $this->price = $price;
     }
 
-
-    /* PROPERTIES */
-    public function getProperty(): ArrayIterator
-    {
-
-        $iterator = $this->property->getIterator();
-
-        $iterator->uasort(function($first, $second) {
-
-            return $first->getSort() > $second->getSort() ? 1 : -1;
-        });
-
-        return $iterator;
-    }
-
-
-
-
     /* TRANS */
 
     public function getTranslate(): ArrayCollection
@@ -287,7 +265,7 @@ final class MaterialDTO implements MaterialEventInterface
         /* Вычисляем расхождение и добавляем неопределенные локали */
         foreach(Locale::diffLocale($this->translate) as $locale)
         {
-            $MaterialTransDTO = new Trans\MaterialTransDTO();
+            $MaterialTransDTO = new MaterialTransDTO();
             $MaterialTransDTO->setLocal($locale);
             $this->addTranslate($MaterialTransDTO);
         }

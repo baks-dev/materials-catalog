@@ -21,6 +21,8 @@
  *  THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace BaksDev\Materials\Catalog\Type\Barcode;
 
 use BaksDev\Core\Type\UidType\Uid;
