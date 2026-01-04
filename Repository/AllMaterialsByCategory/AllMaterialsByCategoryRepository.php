@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -155,31 +155,6 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category_trans',
                 'category_trans.event = category_event.id AND category_trans.local = :local'
             );
-
-        $dbal->leftJoin(
-            'category',
-            CategoryMaterialSection::class,
-            'category_section',
-            'category_section.event = category.event'
-        );
-
-
-        /** Свойства, участвующие в карточке */
-
-        $dbal->leftJoin(
-            'category_section',
-            CategoryMaterialSectionField::class,
-            'category_section_field',
-            'category_section_field.section = category_section.id AND (category_section_field.card = TRUE OR category_section_field.photo = TRUE OR category_section_field.name = TRUE )'
-        );
-
-        $dbal->leftJoin(
-            'category_section_field',
-            CategoryMaterialSectionFieldTrans::class,
-            'category_section_field_trans',
-            'category_section_field_trans.field = category_section_field.id AND category_section_field_trans.local = :local'
-        );
-
 
         /** Категория сырья */
 
@@ -721,32 +696,6 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			END AS material_quantity
 		");
 
-
-        $dbal->leftJoin(
-            'material',
-            MaterialProperty::class,
-            'material_property',
-            'material_property.event = material.event AND material_property.field = category_section_field.const'
-        );
-
-
-        $dbal->addSelect("JSON_AGG ( DISTINCT
-			
-				JSONB_BUILD_OBJECT
-				(
-					'0', category_section_field.sort,
-					'field_name', category_section_field.name,
-					'field_card', category_section_field.card,
-					'field_photo', category_section_field.photo,
-					'field_type', category_section_field.type,
-					'field_trans', category_section_field_trans.name,
-					'field_value', material_property.value
-				)
-			
-		)
-			AS category_section_field"
-        );
-
         $dbal->addOrderBy('material_info.sort', 'DESC');
 
         $dbal->allGroupByExclude();
@@ -822,30 +771,6 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category_trans',
                 'category_trans.event = category_event.id AND category_trans.local = :local'
             );
-
-        $dbal->leftJoin(
-            'category',
-            CategoryMaterialSection::class,
-            'category_section',
-            'category_section.event = category.event'
-        );
-
-
-        /** Свойства, участвующие в карточке */
-
-        $dbal->leftJoin(
-            'category_section',
-            CategoryMaterialSectionField::class,
-            'category_section_field',
-            'category_section_field.section = category_section.id AND (category_section_field.card = TRUE OR category_section_field.photo = TRUE OR category_section_field.name = TRUE )'
-        );
-
-        $dbal->leftJoin(
-            'category_section_field',
-            CategoryMaterialSectionFieldTrans::class,
-            'category_section_field_trans',
-            'category_section_field_trans.field = category_section_field.id AND category_section_field_trans.local = :local'
-        );
 
 
         /** Категория сырья */
@@ -1402,33 +1327,6 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 		");
 
 
-        $dbal->leftJoin(
-            'material',
-            MaterialProperty::class,
-            'material_property',
-            'material_property.event = material.event AND material_property.field = category_section_field.const'
-        );
-
-
-        $dbal->addSelect(
-            "JSON_AGG
-		( DISTINCT
-			
-				JSONB_BUILD_OBJECT
-				(
-					'0', category_section_field.sort,
-					'field_name', category_section_field.name,
-					'field_card', category_section_field.card,
-					'field_photo', category_section_field.photo,
-					'field_type', category_section_field.type,
-					'field_trans', category_section_field_trans.name,
-					'field_value', material_property.value
-				)
-			
-		)
-			AS category_section_field"
-        );
-
         $dbal->addOrderBy('material_info.sort', 'DESC');
 
         $dbal->allGroupByExclude();
@@ -1848,39 +1746,6 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category_trans.event = category.event AND category_trans.local = :local'
             );
 
-        $dbal->leftJoin(
-            'category',
-            CategoryMaterialSection::class,
-            'category_section',
-            'category_section.event = category.event'
-        );
-
-
-        $dbal->leftJoin(
-            'category_section',
-            CategoryMaterialSectionField::class,
-            'category_section_field',
-            'category_section_field.section = category_section.id 
-            AND category_section_field.card = TRUE'
-        );
-
-        $dbal->leftJoin(
-            'category_section_field',
-            CategoryMaterialSectionFieldTrans::class,
-            'category_section_field_trans',
-            'category_section_field_trans.field = category_section_field.id 
-            AND category_section_field_trans.local = :local'
-        );
-
-
-        $dbal->leftJoin(
-            'category_section_field',
-            MaterialProperty::class,
-            'material_property',
-            'material_property.event = material.event 
-            AND material_property.field = category_section_field.const'
-        );
-
 
         /* Артикул сырья */
 
@@ -1915,51 +1780,6 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			END AS material_barcode
 		'
         );
-
-
-        $dbal->addSelect(
-            "JSON_AGG
-		( DISTINCT
-
-				JSONB_BUILD_OBJECT
-				(
-					'0', category_section_field.sort,
-					'field_uid', category_section_field.id,
-					'field_const', category_section_field.const,
-					'field_name', category_section_field.name,
-					'field_card', category_section_field.card,
-					'field_type', category_section_field.type,
-					'field_trans', category_section_field_trans.name,
-					'field_value', material_property.value
-				)
-
-		)
-			AS category_section_field"
-        );
-
-
-        /**  Вес товара  */
-
-        if(class_exists(BaksDevDeliveryTransportBundle::class))
-        {
-
-            $dbal
-                ->addSelect('material_parameter.length AS material_parameter_length')
-                ->addSelect('material_parameter.width AS material_parameter_width')
-                ->addSelect('material_parameter.height AS material_parameter_height')
-                ->addSelect('material_parameter.weight AS material_parameter_weight')
-                ->leftJoin(
-                    'material_modification',
-                    DeliveryPackageMaterialParameter::class,
-                    'material_parameter',
-                    'material_parameter.material = material.id AND
-            (material_parameter.offer IS NULL OR material_parameter.offer = material_offer.const) AND
-            (material_parameter.variation IS NULL OR material_parameter.variation = material_variation.const) AND
-            (material_parameter.modification IS NULL OR material_parameter.modification = material_modification.const)
-
-        '
-                );
-        }
 
         $dbal->addOrderBy('material_info.sort', 'DESC');
 

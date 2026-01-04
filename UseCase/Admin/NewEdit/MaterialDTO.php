@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
 
 namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit;
 
-use ArrayIterator;
 use BaksDev\Core\Type\Device\Device;
 use BaksDev\Core\Type\Locale\Locale;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEventInterface;
@@ -263,19 +262,19 @@ final class MaterialDTO implements MaterialEventInterface
     }
 
 
-    /* PROPERTIES */
-    public function getProperty(): ArrayIterator
-    {
-
-        $iterator = $this->property->getIterator();
-
-        $iterator->uasort(function($first, $second) {
-
-            return $first->getSort() > $second->getSort() ? 1 : -1;
-        });
-
-        return $iterator;
-    }
+    //    /* PROPERTIES */
+    //    public function getProperty(): ArrayIterator
+    //    {
+    //
+    //        $iterator = $this->property->getIterator();
+    //
+    //        $iterator->uasort(function($first, $second) {
+    //
+    //            return $first->getSort() > $second->getSort() ? 1 : -1;
+    //        });
+    //
+    //        return $iterator;
+    //    }
 
 
 

@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Repository\CurrentMaterialEvent\CurrentMaterialEventInterface;
 use BaksDev\Materials\Catalog\UseCase\Admin\Delete\MaterialDeleteDTO;
 use BaksDev\Materials\Catalog\UseCase\Admin\Delete\MaterialDeleteHandler;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsEditTest;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsCatalogEditTest;
 use BaksDev\Materials\Category\UseCase\Admin\NewEdit\Tests\CategoryMaterialNewTest;
 use BaksDev\Products\Product\Type\Material\MaterialUid;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,7 +78,7 @@ class MaterialsDeleteTest extends KernelTestCase
         CategoryMaterialNewTest::setUpBeforeClass();
     }
 
-    #[DependsOnClass(MaterialsEditTest::class)]
+    #[DependsOnClass(MaterialsCatalogEditTest::class)]
     #[DependsOnClass(DeleteAdminControllerTest::class)]
     public function testUseCase(): void
     {

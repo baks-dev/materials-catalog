@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -70,7 +70,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 #[When(env: 'test')]
 #[Group('materials-catalog')]
-class MaterialsNewTest extends KernelTestCase
+class MaterialsCatalogNewTest extends KernelTestCase
 {
     public const string OFFER_VALUE = '100';
     public const string VARIATION_VALUE = '200';
@@ -107,7 +107,7 @@ class MaterialsNewTest extends KernelTestCase
 
         /** Создаем тестовую категорию */
         CategoryMaterialNewTest::setUpBeforeClass();
-        (new CategoryMaterialNewTest())->testUseCase();
+        (new CategoryMaterialNewTest(''))->testUseCase();
 
     }
 
@@ -158,9 +158,9 @@ class MaterialsNewTest extends KernelTestCase
         $fileSystem->copy(
             BaksDevCoreBundle::PATH.implode(
                 DIRECTORY_SEPARATOR,
-                ['Resources', 'assets', 'img', 'empty.webp']
+                ['Resources', 'assets', 'img', 'empty.webp'],
             ),
-            $testUploadDir.DIRECTORY_SEPARATOR.'photo.webp'
+            $testUploadDir.DIRECTORY_SEPARATOR.'photo.webp',
         );
 
         $filePhoto = new File($testUploadDir.DIRECTORY_SEPARATOR.'photo.webp', false);
@@ -173,7 +173,6 @@ class MaterialsNewTest extends KernelTestCase
         self::assertTrue($PhotoCollectionDTO->getRoot());
 
         $MaterialDTO->addPhoto($PhotoCollectionDTO);
-
 
 
         /** PriceDTO */
@@ -189,8 +188,8 @@ class MaterialsNewTest extends KernelTestCase
         $PriceDTO->setCurrency($Currency = new Currency());
         self::assertSame($Currency, $PriceDTO->getCurrency());
 
-        $PriceDTO->setRequest(true);
-        self::assertTrue($PriceDTO->getRequest());
+        //        $PriceDTO->setRequest(true);
+        //        self::assertTrue($PriceDTO->getRequest());
 
         $MaterialDTO->setPrice($PriceDTO);
 
@@ -250,9 +249,9 @@ class MaterialsNewTest extends KernelTestCase
         $fileSystem->copy(
             BaksDevCoreBundle::PATH.implode(
                 DIRECTORY_SEPARATOR,
-                ['Resources', 'assets', 'img', 'empty.webp']
+                ['Resources', 'assets', 'img', 'empty.webp'],
             ),
-            $testUploadDir.DIRECTORY_SEPARATOR.'offer.webp'
+            $testUploadDir.DIRECTORY_SEPARATOR.'offer.webp',
         );
 
         $MaterialOfferImage = new File($testUploadDir.DIRECTORY_SEPARATOR.'offer.webp', false);
@@ -302,7 +301,7 @@ class MaterialsNewTest extends KernelTestCase
         //self::assertSame('Test New Variation Postfix', $MaterialOffersVariationCollectionDTO->getPostfix());
 
         $MaterialOffersVariationCollectionDTO->setCategoryVariation(
-            new CategoryMaterialVariationUid(CategoryMaterialVariationUid::TEST)
+            new CategoryMaterialVariationUid(CategoryMaterialVariationUid::TEST),
         );
 
 
@@ -315,9 +314,9 @@ class MaterialsNewTest extends KernelTestCase
         $fileSystem->copy(
             BaksDevCoreBundle::PATH.implode(
                 DIRECTORY_SEPARATOR,
-                ['Resources', 'assets', 'img', 'empty.webp']
+                ['Resources', 'assets', 'img', 'empty.webp'],
             ),
-            $testUploadDir.DIRECTORY_SEPARATOR.'variation.webp'
+            $testUploadDir.DIRECTORY_SEPARATOR.'variation.webp',
         );
 
         $MaterialVariationImage = new File($testUploadDir.DIRECTORY_SEPARATOR.'variation.webp', false);
@@ -354,28 +353,28 @@ class MaterialsNewTest extends KernelTestCase
         $MaterialOffersVariationModificationCollectionDTO->setPrice($MaterialModificationPriceDTO);
         self::assertSame(
             $MaterialModificationPriceDTO,
-            $MaterialOffersVariationModificationCollectionDTO->getPrice()
+            $MaterialOffersVariationModificationCollectionDTO->getPrice(),
         );
 
         $MaterialOffersVariationModificationCollectionDTO->setConst(
-            $MaterialModificationConst = new MaterialModificationConst()
+            $MaterialModificationConst = new MaterialModificationConst(),
         );
         self::assertSame(
             $MaterialModificationConst,
-            $MaterialOffersVariationModificationCollectionDTO->getConst()
+            $MaterialOffersVariationModificationCollectionDTO->getConst(),
         );
 
         $MaterialOffersVariationModificationCollectionDTO->setArticle('Test New Modification Article');
         self::assertSame(
             'Test New Modification Article',
-            $MaterialOffersVariationModificationCollectionDTO->getArticle()
+            $MaterialOffersVariationModificationCollectionDTO->getArticle(),
         );
 
 
         $MaterialOffersVariationModificationCollectionDTO->setValue(self::MODIFICATION_VALUE);
         self::assertSame(
             '300',
-            $MaterialOffersVariationModificationCollectionDTO->getValue()
+            $MaterialOffersVariationModificationCollectionDTO->getValue(),
         );
 
         //        $MaterialOffersVariationModificationCollectionDTO->setPostfix('Test New Modification Postfix');
@@ -385,7 +384,7 @@ class MaterialsNewTest extends KernelTestCase
         //        );
 
         $MaterialOffersVariationModificationCollectionDTO->setCategoryModification(
-            new CategoryMaterialModificationUid(CategoryMaterialModificationUid::TEST)
+            new CategoryMaterialModificationUid(CategoryMaterialModificationUid::TEST),
         );
 
         $MaterialModificationImageCollectionDTO = new MaterialModificationImageCollectionDTO();
@@ -397,9 +396,9 @@ class MaterialsNewTest extends KernelTestCase
         $fileSystem->copy(
             BaksDevCoreBundle::PATH.implode(
                 DIRECTORY_SEPARATOR,
-                ['Resources', 'assets', 'img', 'empty.webp']
+                ['Resources', 'assets', 'img', 'empty.webp'],
             ),
-            $testUploadDir.DIRECTORY_SEPARATOR.'modification.webp'
+            $testUploadDir.DIRECTORY_SEPARATOR.'modification.webp',
         );
 
         $MaterialModificationImage = new File($testUploadDir.DIRECTORY_SEPARATOR.'modification.webp', false);
@@ -410,7 +409,7 @@ class MaterialsNewTest extends KernelTestCase
         $MaterialOffersVariationModificationCollectionDTO->addImage($MaterialModificationImageCollectionDTO);
         self::assertSame(
             $MaterialModificationImageCollectionDTO,
-            $MaterialOffersVariationModificationCollectionDTO->getImage()->current()
+            $MaterialOffersVariationModificationCollectionDTO->getImage()->current(),
         );
 
         $MaterialOffersVariationCollectionDTO->addModification($MaterialOffersVariationModificationCollectionDTO);

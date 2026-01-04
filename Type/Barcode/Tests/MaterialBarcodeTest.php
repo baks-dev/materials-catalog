@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ use Symfony\Component\Uid\UuidV7;
 #[Group('materials-catalog')]
 final class MaterialBarcodeTest extends TestCase
 {
-    public function testBarcodeGeneration()
+    public function testBarcodeGeneration(): void
     {
         $barcode = new MaterialBarcode();
         $this->assertMatchesRegularExpression('/^\d{13}$/', $barcode->getValue());
@@ -85,7 +85,7 @@ final class MaterialBarcodeTest extends TestCase
 
     }
 
-    public function testBarcodeEncoding()
+    public function testBarcodeEncoding(): void
     {
         $article = 'TestArticle';
         $expected = '4601895645651';

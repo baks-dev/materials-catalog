@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -638,52 +638,6 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'category_trans.event = category.event AND category_trans.local = :local'
             );
 
-        $dbal->leftJoin(
-            'category',
-            CategoryMaterialSection::class,
-            'category_section',
-            'category_section.event = category.event'
-        );
-
-        /** Свойства, участвующие в карточке */
-        $dbal->leftJoin(
-            'category_section',
-            CategoryMaterialSectionField::class,
-            'category_section_field',
-            'category_section_field.section = category_section.id AND (category_section_field.card = TRUE OR category_section_field.photo = TRUE OR category_section_field.name = TRUE )'
-        );
-
-        $dbal->leftJoin(
-            'category_section_field',
-            CategoryMaterialSectionFieldTrans::class,
-            'category_section_field_trans',
-            'category_section_field_trans.field = category_section_field.id AND category_section_field_trans.local = :local'
-        );
-
-        $dbal->leftJoin(
-            'category_section_field',
-            MaterialProperty::class,
-            'material_property',
-            'material_property.event = material.event AND material_property.field = category_section_field.const'
-        );
-
-        $dbal->addSelect("JSON_AGG
-		( DISTINCT
-			
-				JSONB_BUILD_OBJECT
-				(
-					'field_sort', category_section_field.sort,
-					'field_name', category_section_field.name,
-					'field_card', category_section_field.card,
-					'field_photo', category_section_field.photo,
-					'field_type', category_section_field.type,
-					'field_trans', category_section_field_trans.name,
-					'field_value', material_property.value
-				)
-			
-		)
-			AS category_section_field"
-        );
 
         /** Только с ценой */
         $dbal->andWhere("

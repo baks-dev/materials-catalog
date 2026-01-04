@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -166,26 +166,26 @@ final class MaterialForm extends AbstractType
                     {
                         $new = true;
 
-                        foreach($data->getProperty() as $fieldProperty)
-                        {
-
-                            /* Если поле уже заполнено - не объявляем */
-                            if($propCat->fieldUid->equals($fieldProperty->getField()))
-                            {
-                                $fieldProperty->setSection($propCat->sectionUid);
-                                $fieldProperty->setSort($sort);
-
-                                $new = false;
-                                break;
-                            }
-
-                            /* Удаляем свойства, Которые были удалены из категории */
-                            if(!isset($propertyCategory[(string) $fieldProperty->getField()]))
-                            {
-                                $data->removeProperty($fieldProperty);
-                            }
-
-                        }
+                        //                        foreach($data->getProperty() as $fieldProperty)
+                        //                        {
+                        //
+                        //                            /* Если поле уже заполнено - не объявляем */
+                        //                            if($propCat->fieldUid->equals($fieldProperty->getField()))
+                        //                            {
+                        //                                $fieldProperty->setSection($propCat->sectionUid);
+                        //                                $fieldProperty->setSort($sort);
+                        //
+                        //                                $new = false;
+                        //                                break;
+                        //                            }
+                        //
+                        //                            /* Удаляем свойства, Которые были удалены из категории */
+                        //                            if(!isset($propertyCategory[(string) $fieldProperty->getField()]))
+                        //                            {
+                        //                                $data->removeProperty($fieldProperty);
+                        //                            }
+                        //
+                        //                        }
 
                         /* Если поле не заполнено ранее - создаем */
                         if($new)

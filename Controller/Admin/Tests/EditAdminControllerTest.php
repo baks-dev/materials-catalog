@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 namespace BaksDev\Materials\Catalog\Controller\Admin\Tests;
 
 use BaksDev\Materials\Catalog\Type\Event\MaterialEventUid;
-use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsNewTest;
+use BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Tests\MaterialsCatalogNewTest;
 use BaksDev\Users\User\Tests\TestUserAccount;
 use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\Group;
@@ -39,7 +39,7 @@ final class EditAdminControllerTest extends WebTestCase
     private const string ROLE = 'ROLE_MATERIAL_EDIT';
 
     /** Доступ по роли */
-    #[DependsOnClass(MaterialsNewTest::class)]
+    #[DependsOnClass(MaterialsCatalogNewTest::class)]
     public function testRoleSuccessful(): void
     {
         self::ensureKernelShutdown();
@@ -55,7 +55,7 @@ final class EditAdminControllerTest extends WebTestCase
     }
 
     // доступ по роли ROLE_ADMIN
-    #[DependsOnClass(MaterialsNewTest::class)]
+    #[DependsOnClass(MaterialsCatalogNewTest::class)]
     public function testRoleAdminSuccessful(): void
     {
         self::ensureKernelShutdown();
@@ -71,7 +71,7 @@ final class EditAdminControllerTest extends WebTestCase
     }
 
     // доступ по роли ROLE_USER
-    #[DependsOnClass(MaterialsNewTest::class)]
+    #[DependsOnClass(MaterialsCatalogNewTest::class)]
     public function testRoleUserDeny(): void
     {
         self::ensureKernelShutdown();
@@ -86,7 +86,7 @@ final class EditAdminControllerTest extends WebTestCase
     }
 
     /** Доступ по без роли */
-    #[DependsOnClass(MaterialsNewTest::class)]
+    #[DependsOnClass(MaterialsCatalogNewTest::class)]
     public function testGuestFiled(): void
     {
         self::ensureKernelShutdown();

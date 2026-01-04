@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -467,30 +467,6 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
             }
         }
 
-        /**
-         * СВОЙСТВА, УЧАСТВУЮЩИЕ В ПРЕВЬЮ
-         */
-
-        $dbal->leftJoin(
-            'category_section',
-            CategoryMaterialSectionField::class,
-            'category_section_field',
-            'category_section_field.section = category_section.id AND category_section_field.card = TRUE'
-        );
-
-        $dbal->leftJoin(
-            'category_section_field',
-            CategoryMaterialSectionFieldTrans::class,
-            'category_section_field_trans',
-            'category_section_field_trans.field = category_section_field.id AND category_section_field_trans.local = :local'
-        );
-
-        $dbal->leftJoin(
-            'category_section_field',
-            MaterialProperty::class,
-            'category_material_property',
-            'category_material_property.event = material.event AND category_material_property.field = category_section_field.const'
-        );
 
         $dbal->addSelect(
             "JSON_AGG
@@ -501,8 +477,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
 				
 					'0', category_section_field.sort,
 					'field_type', category_section_field.type,
-					'field_trans', category_section_field_trans.name,
-					'field_value', category_material_property.value
+					'field_trans', category_section_field_trans.name
 				)
 			
 		)
