@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,9 @@
 namespace BaksDev\Materials\Catalog\UseCase\Admin\NewEdit\Offers;
 
 use BaksDev\Core\Services\Reference\ReferenceChoice;
+use BaksDev\Materials\Catalog\Type\Barcode\MaterialBarcode;
 use BaksDev\Materials\Catalog\Type\Offers\ConstId\MaterialOfferConst;
+use BaksDev\Materials\Category\Repository\CategoryOffersForm\CategoryMaterialOffersFormDTO;
 use BaksDev\Materials\Category\Type\Offers\Id\CategoryMaterialOffersUid;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -88,7 +90,22 @@ final class MaterialOffersCollectionForm extends AbstractType
 
         $builder->add('price', Price\MaterialOfferPriceForm::class, ['label' => false]);
 
-        //$builder->add('quantity', Quantity\MaterialOfferQuantityForm::class, ['label' => false]);
+        /** Штрихкод - для конкретной вложенности */
+        if($offer instanceof CategoryMaterialOffersFormDTO && null === $variation && null === $modification)
+        {
+            $builder->add('barcode', TextType::class, ['required' => true]);
+
+            $builder->get('barcode')->addModelTransformer(
+                new CallbackTransformer(
+                    function(?MaterialBarcode $barcode) {
+                        return $barcode instanceof MaterialBarcode ? $barcode : new MaterialBarcode(MaterialBarcode::generate());
+                    },
+                    function(?string $barcode) {
+                        return null === $barcode ? new MaterialBarcode(MaterialBarcode::generate()) : new MaterialBarcode($barcode);
+                    },
+                ),
+            );
+        }
 
         /** Торговые предложения */
         $builder->add('image', CollectionType::class, [
@@ -125,8 +142,6 @@ final class MaterialOffersCollectionForm extends AbstractType
                                 [
                                     'label' => $offer?->name,
                                     'required' => false,
-                                    //'mapped' => false,
-                                    //'attr' => [ 'data-select' => 'select2' ],
                                 ]
                             );
                         }

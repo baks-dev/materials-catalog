@@ -30,6 +30,15 @@
         {{ form_widget(form.offer.vars.prototype.variation.vars.prototype.value) }}
     </div>
 
+    {# Штрихкод #}
+    {% if variation_first.barcode is defined %}
+
+        <div class='w-100'>
+            {{ form_row(form.offer.vars.prototype.variation.vars.prototype.barcode, { label: false, attr : { placeholder : 'Штрихкод' }}) }}
+        </div>
+
+    {% endif %}
+
     {% if variation_first.article is defined %}
         <div class='w-100 d-flex align-items-end'>
 
@@ -84,18 +93,6 @@
 
         <div class="w-50">{{ form_row(form.offer.vars.prototype.variation.vars.prototype.price.currency) }}</div>
     {% endif %}
-
-
-    {# {% if variation_first.quantity is defined %}
-		<div class="w-75">
-			{{ form_row(form.offer.vars.prototype.variation.vars.prototype.quantity.quantity, { attr: { placeholder: 'Наличие'|trans, min: 0 } }) }}
-		</div>
-
-		<div class="w-75">
-			{{ form_row(form.offer.vars.prototype.variation.vars.prototype.quantity.reserve, { attr: { placeholder: 'Резерв'|trans, min: 0 } }) }}
-		</div>
-
-	{% endif %} #}
 
 </div>
 

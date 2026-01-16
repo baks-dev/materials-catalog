@@ -21,6 +21,8 @@
  *  THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace BaksDev\Materials\Catalog\Type\Barcode;
 
 use BaksDev\Core\Type\UidType\Uid;
@@ -36,16 +38,12 @@ final class MaterialBarcode
 
     public function __construct(?string $value = null)
     {
+        /** Делаем проверку строки, не передан ли код маркировки «Честный знак» */
+        preg_match_all('/\((\d{2})\)((?:(?!\(\d{2}\)).)*)/', $value, $matches, PREG_SET_ORDER);
 
-        if(false === empty($value))
+        if(count($matches) === 4 && isset($matches[0][2]))
         {
-            /** Делаем проверку строки, не передан ли код маркировки «Честный знак» */
-            preg_match_all('/\((\d{2})\)((?:(?!\(\d{2}\)).)*)/', $value, $matches, PREG_SET_ORDER);
-
-            if(count($matches) === 4 && isset($matches[0][2]))
-            {
-                $value = $matches[0][2];
-            }
+            $value = $matches[0][2];
         }
 
         if($value)
