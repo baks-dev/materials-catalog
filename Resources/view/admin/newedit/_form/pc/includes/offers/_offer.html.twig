@@ -83,14 +83,13 @@
 
                         {# Штрихкод #}
 
-
-                        <div class='w-100'>
-                            {{ form_row(offer.barcode,
-                                offer.barcode.vars.data and loop.first ? { label : 'Штрихкод' } : { label : 'Штрихкод', attr:  { placeholder : 'Штрихкод' } }
-                            ) }}
-                        </div>
-
-
+                        {% if offer.barcode is defined %}
+                            <div class='w-100'>
+                                {{ form_row(offer.barcode,
+                                    offer.barcode.vars.data and loop.first ? { label : 'Штрихкод' } : { label : 'Штрихкод', attr:  { placeholder : 'Штрихкод' } }
+                                ) }}
+                            </div>
+                        {% endif %}
 
                     {% endif %}
 

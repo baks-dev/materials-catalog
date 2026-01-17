@@ -65,19 +65,21 @@
                 ) }}
             </div>
 
+            {# Штрихкод #}
+            {% if variation.barcode is defined %}
+
+                <div class='w-100'>
+                    {{ form_row(variation.barcode,
+                        variation.barcode.vars.data and loop.first ? { label : 'Штрихкод' } : { label : false, attr:  { placeholder : 'Штрихкод' } }
+                    ) }}
+                </div>
+
+            {% endif %}
+
         </div>
 
 
-        {# Штрихкод #}
-        {# {% if variation.barcode is defined %} #}
 
-        <div class='w-100'>
-            {{ form_row(variation.barcode,
-                variation.barcode.vars.data and loop.first ? { label : 'Штрихкод' } : { label : false, attr:  { placeholder : 'Штрихкод' } }
-            ) }}
-        </div>
-
-        {# {% endif %} #}
 
 
 

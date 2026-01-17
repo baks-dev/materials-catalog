@@ -64,14 +64,14 @@
 
         {# Barcode #}
 
+        {% if modification.barcode is defined %}
+            <div class='w-50'>
+                {{ form_row(modification.barcode,
+                    modification.barcode.vars.data and loop.first ? { label : 'Штрихкод' } : { label : false, attr:  { placeholder : 'Штрихкод' } }
+                ) }}
+            </div>
 
-        <div class='w-50'>
-            {{ form_row(modification.barcode,
-                modification.barcode.vars.data and loop.first ? { label : 'Штрихкод' } : { label : false, attr:  { placeholder : 'Штрихкод' } }
-            ) }}
-        </div>
-
-
+        {% endif %}
 
     {% endif %}
 
