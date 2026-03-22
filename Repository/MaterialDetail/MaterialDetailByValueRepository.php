@@ -104,7 +104,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material',
                 MaterialActive::class,
                 'material_active',
-                'material_active.event = material.event'
+                'material_active.event = material.event',
             );
 
         $dbal
@@ -115,7 +115,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material',
                 MaterialSeo::class,
                 'material_seo',
-                'material_seo.event = material.event AND material_seo.local = :local'
+                'material_seo.event = material.event AND material_seo.local = :local',
             );
 
 
@@ -125,7 +125,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material.event AND material_trans.local = :local'
+                'material_trans.event = material.event AND material_trans.local = :local',
             );
 
 
@@ -136,7 +136,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material',
                 MaterialDescription::class,
                 'material_desc',
-                'material_desc.event = material.event AND material_desc.device = :device '
+                'material_desc.event = material.event AND material_desc.device = :device ',
             )->setParameter('device', 'pc');
 
 
@@ -145,7 +145,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material.event'
+            'material_price.event = material.event',
         );
 
         /* MaterialInfo */
@@ -155,7 +155,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material.id '
+                'material_info.material = material.id ',
             );
 
         /* Торговое предложение */
@@ -169,7 +169,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 MaterialOffer::class,
                 'material_offer',
                 'material_offer.event = material.event '.
-                ($offer ? ' AND material_offer.value = :material_offer_value' : '')
+                ($offer ? ' AND material_offer.value = :material_offer_value' : ''),
             );
 
 
@@ -183,7 +183,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_offer',
             MaterialOfferPrice::class,
             'material_offer_price',
-            'material_offer_price.offer = material_offer.id'
+            'material_offer_price.offer = material_offer.id',
         );
 
         /* Получаем тип торгового предложения */
@@ -193,7 +193,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material_offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = material_offer.category_offer'
+                'category_offer.id = material_offer.category_offer',
             );
 
         /* Получаем название торгового предложения */
@@ -203,7 +203,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'category_offer',
                 CategoryMaterialOffersTrans::class,
                 'category_offer_trans',
-                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local'
+                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local',
             );
 
         /* Наличие и резерв торгового предложения */
@@ -211,7 +211,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_offer',
             MaterialOfferQuantity::class,
             'material_offer_quantity',
-            'material_offer_quantity.offer = material_offer.id'
+            'material_offer_quantity.offer = material_offer.id',
         );
 
         //MaterialCategoryOffers
@@ -229,7 +229,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 MaterialVariation::class,
                 'material_variation',
                 'material_variation.offer = material_offer.id'.
-                ($variation ? ' AND material_variation.value = :material_variation_value' : '')
+                ($variation ? ' AND material_variation.value = :material_variation_value' : ''),
             );
 
         if($variation)
@@ -242,7 +242,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_variation',
             MaterialVariationPrice::class,
             'material_variation_price',
-            'material_variation_price.variation = material_variation.id'
+            'material_variation_price.variation = material_variation.id',
         );
 
         /* Получаем тип множественного варианта */
@@ -252,7 +252,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material_variation',
                 CategoryMaterialVariation::class,
                 'category_variation',
-                'category_variation.id = material_variation.category_variation'
+                'category_variation.id = material_variation.category_variation',
             );
 
         /* Получаем название множественного варианта */
@@ -262,7 +262,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'category_variation',
                 CategoryMaterialVariationTrans::class,
                 'category_variation_trans',
-                'category_variation_trans.variation = category_variation.id AND category_variation_trans.local = :local'
+                'category_variation_trans.variation = category_variation.id AND category_variation_trans.local = :local',
             );
 
         /* Наличие и резерв множественного варианта */
@@ -270,7 +270,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'category_variation',
             MaterialsVariationQuantity::class,
             'material_variation_quantity',
-            'material_variation_quantity.variation = material_variation.id'
+            'material_variation_quantity.variation = material_variation.id',
         );
 
         /**
@@ -286,7 +286,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 MaterialModification::class,
                 'material_modification',
                 'material_modification.variation = material_variation.id'.
-                ($modification ? ' AND material_modification.value = :material_modification_value' : '')
+                ($modification ? ' AND material_modification.value = :material_modification_value' : ''),
             );
 
         if($modification)
@@ -299,7 +299,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_modification',
             MaterialModificationPrice::class,
             'material_modification_price',
-            'material_modification_price.modification = material_modification.id'
+            'material_modification_price.modification = material_modification.id',
         );
 
         /* Получаем тип модификации множественного варианта */
@@ -309,7 +309,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material_modification',
                 CategoryMaterialModification::class,
                 'category_modification',
-                'category_modification.id = material_modification.category_modification'
+                'category_modification.id = material_modification.category_modification',
             );
 
         /* Получаем название типа модификации */
@@ -319,7 +319,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'category_modification',
                 CategoryMaterialModificationTrans::class,
                 'category_modification_trans',
-                'category_modification_trans.modification = category_modification.id AND category_modification_trans.local = :local'
+                'category_modification_trans.modification = category_modification.id AND category_modification_trans.local = :local',
             );
 
         /* Наличие и резерв модификации множественного варианта */
@@ -327,7 +327,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'category_modification',
             MaterialModificationQuantity::class,
             'material_modification_quantity',
-            'material_modification_quantity.modification = material_modification.id'
+            'material_modification_quantity.modification = material_modification.id',
         );
 
         //$dbal->addSelect("'".Entity\Offers\Variation\Image\MaterialOfferVariationImage::class."' AS upload_image_dir ");
@@ -351,7 +351,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_modification_image',
             '
 			material_modification_image.modification = material_modification.id
-			'
+			',
         );
 
         $dbal->addSelect(
@@ -368,7 +368,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 
 					) END
 			) AS material_modification_image
-	"
+	",
         );
 
         /* Фото вариантов */
@@ -379,7 +379,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_variation_image',
             '
 			material_variation_image.variation = material_variation.id
-			'
+			',
         );
 
         $dbal->addSelect(
@@ -396,7 +396,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 
 					) END
 			) AS material_variation_image
-	"
+	",
         );
 
         /* Фот оторговых предложений */
@@ -409,7 +409,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 			
 			material_offer_images.offer = material_offer.id
 			
-		'
+		',
         );
 
         $dbal->addSelect(
@@ -428,7 +428,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 
 				 /*ORDER BY material_photo.root DESC, material_photo.id*/
 			) AS material_offer_images
-	"
+	",
         );
 
         /* Фот осырья */
@@ -440,7 +440,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             '
 	
 			material_photo.event = material.event
-			'
+			',
         );
 
         $dbal->addSelect(
@@ -460,7 +460,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 
 				 /*ORDER BY material_photo.root DESC, material_photo.id*/
 			) AS material_photo
-	"
+	",
         );
 
         /* Стоимость сырья */
@@ -495,7 +495,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 			   
 			   ELSE NULL
 			END AS material_currency
-		'
+		',
         );
 
         /* Наличие сырья */
@@ -518,7 +518,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 			   
 			   ELSE 0
 			END AS material_quantity
-		'
+		',
         )
             ->addGroupBy('material_modification_quantity.reserve')
             ->addGroupBy('material_variation_quantity.reserve')
@@ -543,14 +543,14 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material',
             MaterialCategory::class,
             'material_event_category',
-            'material_event_category.event = material.event AND material_event_category.root = true'
+            'material_event_category.event = material.event AND material_event_category.root = true',
         );
 
         $dbal->join(
             'material_event_category',
             CategoryMaterial::class,
             'category',
-            'category.id = material_event_category.category'
+            'category.id = material_event_category.category',
         );
 
         $dbal
@@ -559,7 +559,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'category',
                 CategoryMaterialTrans::class,
                 'category_trans',
-                'category_trans.event = category.event AND category_trans.local = :local'
+                'category_trans.event = category.event AND category_trans.local = :local',
             );
 
         $dbal
@@ -568,14 +568,14 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'category',
                 CategoryMaterialInfo::class,
                 'category_info',
-                'category_info.event = category.event'
+                'category_info.event = category.event',
             );
 
         $dbal->leftJoin(
             'category',
             CategoryMaterialSection::class,
             'category_section',
-            'category_section.event = category.event'
+            'category_section.event = category.event',
         );
 
         /** Свойства, участвующие в карточке */
@@ -583,14 +583,14 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'category_section',
             CategoryMaterialSectionField::class,
             'category_section_field',
-            'category_section_field.section = category_section.id AND (category_section_field.public = TRUE OR category_section_field.name = TRUE )'
+            'category_section_field.section = category_section.id AND (category_section_field.public = TRUE OR category_section_field.name = TRUE )',
         );
 
         $dbal->leftJoin(
             'category_section_field',
             CategoryMaterialSectionFieldTrans::class,
             'category_section_field_trans',
-            'category_section_field_trans.field = category_section_field.id AND category_section_field_trans.local = :local'
+            'category_section_field_trans.field = category_section_field.id AND category_section_field_trans.local = :local',
         );
 
         /** Обложка категории */
@@ -610,7 +610,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 					CONCAT ( '/upload/".$dbal->table(CategoryMaterialCover::class)."' , '/', category_cover.name)
 			   ELSE NULL
 			END AS category_cover_path
-		"
+		",
         );
 
 
@@ -634,7 +634,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 				)
 			
 		)
-			AS category_section_field"
+			AS category_section_field",
         );
 
         /** Material Invariable */
@@ -708,7 +708,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material',
                 MaterialActive::class,
                 'material_active',
-                'material_active.event = material.event'
+                'material_active.event = material.event',
             );
 
         $dbal
@@ -717,7 +717,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material.event AND material_trans.local = :local'
+                'material_trans.event = material.event AND material_trans.local = :local',
             );
 
 
@@ -728,7 +728,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material_event',
                 MaterialDescription::class,
                 'material_desc',
-                'material_desc.event = material_event.id AND material_desc.device = :device '
+                'material_desc.event = material_event.id AND material_desc.device = :device ',
             )->setParameter('device', 'pc');
 
 
@@ -737,7 +737,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_event',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material_event.id'
+            'material_price.event = material_event.id',
         );
 
         /* MaterialInfo */
@@ -747,7 +747,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material.id '
+                'material_info.material = material.id ',
             );
 
         /* Торговое предложение */
@@ -759,7 +759,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material',
                 MaterialOffer::class,
                 'material_offer',
-                'material_offer.event = material.event '.($offer ? ' AND material_offer.value = :material_offer_value' : '').' '
+                'material_offer.event = material.event '.($offer ? ' AND material_offer.value = :material_offer_value' : '').' ',
             );
 
         if($offer)
@@ -772,7 +772,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_offer',
             MaterialOfferPrice::class,
             'material_offer_price',
-            'material_offer_price.offer = material_offer.id'
+            'material_offer_price.offer = material_offer.id',
         );
 
         /* Получаем тип торгового предложения */
@@ -782,7 +782,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material_offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = material_offer.category_offer'
+                'category_offer.id = material_offer.category_offer',
             );
 
         /* Получаем название торгового предложения */
@@ -792,7 +792,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'category_offer',
                 CategoryMaterialOffersTrans::class,
                 'category_offer_trans',
-                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local'
+                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local',
             );
 
         /* Наличие и резерв торгового предложения */
@@ -800,7 +800,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_offer',
             MaterialOfferQuantity::class,
             'material_offer_quantity',
-            'material_offer_quantity.offer = material_offer.id'
+            'material_offer_quantity.offer = material_offer.id',
         );
 
         //MaterialCategoryOffers
@@ -814,7 +814,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material_offer',
                 MaterialVariation::class,
                 'material_variation',
-                'material_variation.offer = material_offer.id'.($variation ? ' AND material_variation.value = :material_variation_value' : '').' '
+                'material_variation.offer = material_offer.id'.($variation ? ' AND material_variation.value = :material_variation_value' : '').' ',
             );
 
         if($variation)
@@ -827,7 +827,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_variation',
             MaterialVariationPrice::class,
             'material_variation_price',
-            'material_variation_price.variation = material_variation.id'
+            'material_variation_price.variation = material_variation.id',
         );
 
         /* Получаем тип множественного варианта */
@@ -837,7 +837,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material_variation',
                 CategoryMaterialVariation::class,
                 'category_variation',
-                'category_variation.id = material_variation.category_variation'
+                'category_variation.id = material_variation.category_variation',
             );
 
         /* Получаем название множественного варианта */
@@ -847,7 +847,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'category_variation',
                 CategoryMaterialVariationTrans::class,
                 'category_variation_trans',
-                'category_variation_trans.variation = category_variation.id AND category_variation_trans.local = :local'
+                'category_variation_trans.variation = category_variation.id AND category_variation_trans.local = :local',
             );
 
         /* Наличие и резерв множественного варианта */
@@ -855,7 +855,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'category_variation',
             MaterialsVariationQuantity::class,
             'material_variation_quantity',
-            'material_variation_quantity.variation = material_variation.id'
+            'material_variation_quantity.variation = material_variation.id',
         );
 
         /* Модификация множественного варианта торгового предложения */
@@ -867,7 +867,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material_variation',
                 MaterialModification::class,
                 'material_modification',
-                'material_modification.variation = material_variation.id'.($modification ? ' AND material_modification.value = :material_modification_value' : '').' '
+                'material_modification.variation = material_variation.id'.($modification ? ' AND material_modification.value = :material_modification_value' : '').' ',
             );
 
         if($modification)
@@ -880,7 +880,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_modification',
             MaterialModificationPrice::class,
             'material_modification_price',
-            'material_modification_price.modification = material_modification.id'
+            'material_modification_price.modification = material_modification.id',
         );
 
         /* Получаем тип модификации множественного варианта */
@@ -890,7 +890,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'material_modification',
                 CategoryMaterialModification::class,
                 'category_modification',
-                'category_modification.id = material_modification.category_modification'
+                'category_modification.id = material_modification.category_modification',
             );
 
         /* Получаем название типа модификации */
@@ -900,7 +900,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'category_modification',
                 CategoryMaterialModificationTrans::class,
                 'category_modification_trans',
-                'category_modification_trans.modification = category_modification.id AND category_modification_trans.local = :local'
+                'category_modification_trans.modification = category_modification.id AND category_modification_trans.local = :local',
             );
 
         /* Наличие и резерв модификации множественного варианта */
@@ -908,7 +908,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'category_modification',
             MaterialModificationQuantity::class,
             'material_modification_quantity',
-            'material_modification_quantity.modification = material_modification.id'
+            'material_modification_quantity.modification = material_modification.id',
         );
 
         //$dbal->addSelect("'".Entity\Offers\Variation\Image\MaterialOfferVariationImage::class."' AS upload_image_dir ");
@@ -932,7 +932,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_modification_image',
             '
 			material_modification_image.modification = material_modification.id
-			'
+			',
         );
 
         $dbal->addSelect(
@@ -949,7 +949,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 
 					) END
 			) AS material_modification_image
-	"
+	",
         );
 
         /* Фото вариантов */
@@ -960,7 +960,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_variation_image',
             '
 			material_variation_image.variation = material_variation.id
-			'
+			',
         );
 
         $dbal->addSelect(
@@ -977,7 +977,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 
 					) END
 			) AS material_variation_image
-	"
+	",
         );
 
         /* Фот оторговых предложений */
@@ -990,7 +990,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 			
 			material_offer_images.offer = material_offer.id
 			
-		'
+		',
         );
 
         $dbal->addSelect(
@@ -1009,7 +1009,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 
 				 /*ORDER BY material_photo.root DESC, material_photo.id*/
 			) AS material_offer_images
-	"
+	",
         );
 
         /* Фот осырья */
@@ -1021,7 +1021,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             '
 	
 			material_photo.event = material_event.id
-			'
+			',
         );
 
         $dbal->addSelect(
@@ -1041,7 +1041,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 
 				 /*ORDER BY material_photo.root DESC, material_photo.id*/
 			) AS material_photo
-	"
+	",
         );
 
         /* Стоимость сырья */
@@ -1075,7 +1075,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 			   
 			   ELSE NULL
 			END AS material_currency
-		'
+		',
         );
 
         /* Наличие сырья */
@@ -1100,7 +1100,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
 			   
 			END AS material_quantity
             
-		'
+		',
         )
             ->addGroupBy('material_modification_quantity.reserve')
             ->addGroupBy('material_variation_quantity.reserve')
@@ -1113,7 +1113,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_event',
             MaterialCategory::class,
             'material_event_category',
-            'material_event_category.event = material_event.id AND material_event_category.root = true'
+            'material_event_category.event = material_event.id AND material_event_category.root = true',
         );
 
 
@@ -1121,7 +1121,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
             'material_event_category',
             CategoryMaterial::class,
             'category',
-            'category.id = material_event_category.category'
+            'category.id = material_event_category.category',
         );
 
         $dbal
@@ -1130,7 +1130,7 @@ final readonly class MaterialDetailByValueRepository implements MaterialDetailBy
                 'category',
                 CategoryMaterialTrans::class,
                 'category_trans',
-                'category_trans.event = category.event AND category_trans.local = :local'
+                'category_trans.event = category.event AND category_trans.local = :local',
             );
 
 

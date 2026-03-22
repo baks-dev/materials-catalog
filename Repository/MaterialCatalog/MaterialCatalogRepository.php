@@ -167,7 +167,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
         $dbal->join('material',
             MaterialEvent::class,
             'material_event',
-            'material_event.id = material.event'
+            'material_event.id = material.event',
         );
 
         /** Категория */
@@ -180,11 +180,11 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 '
                 material_event_category.event = material.event AND 
                 material_event_category.category = :category AND 
-                material_event_category.root = true'
+                material_event_category.root = true',
             )->setParameter(
                 'category',
                 $this->categoryUid,
-                CategoryMaterialUid::TYPE
+                CategoryMaterialUid::TYPE,
             );
         }
         else
@@ -195,7 +195,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material_event_category',
                 '
                 material_event_category.event = material.event AND 
-                material_event_category.root = true'
+                material_event_category.root = true',
             );
         }
 
@@ -222,7 +222,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                     $dbal->setParameter(
                         $prepareKey,
                         $MaterialCategorySectionFieldUid,
-                        CategoryMaterialSectionFieldUid::TYPE
+                        CategoryMaterialSectionFieldUid::TYPE,
                     );
                     $dbal->setParameter($prepareValue, $item);
 
@@ -230,7 +230,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                         'material',
                         MaterialProperty::class,
                         $alias,
-                        $alias.'.event = material.event '.$expr.' '.$MaterialPropertyJoin
+                        $alias.'.event = material.event '.$expr.' '.$MaterialPropertyJoin,
                     );
                 }
             }
@@ -252,7 +252,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                     $dbal->setParameter(
                         $prepareKey,
                         $MaterialCategorySectionFieldUid,
-                        CategoryMaterialSectionFieldUid::TYPE
+                        CategoryMaterialSectionFieldUid::TYPE,
                     );
                     $dbal->setParameter($prepareValue, $item);
 
@@ -262,7 +262,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                     'material',
                     MaterialProperty::class,
                     'material_property_filter',
-                    'material_property_filter.event = material.event AND '.implode(' '.$expr.' ', $MaterialPropertyJoin)
+                    'material_property_filter.event = material.event AND '.implode(' '.$expr.' ', $MaterialPropertyJoin),
                 );
             }
         }
@@ -273,7 +273,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material_event',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material_event.id AND material_trans.local = :local'
+                'material_trans.event = material_event.id AND material_trans.local = :local',
             );
 
         /** Цена товара */
@@ -282,7 +282,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material_event',
                 MaterialPrice::class,
                 'material_price',
-                'material_price.event = material_event.id'
+                'material_price.event = material_event.id',
             )
             ->addGroupBy('material_price.price')
             ->addGroupBy('material_price.currency')
@@ -295,7 +295,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material_event',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material.id'
+                'material_info.material = material.id',
             )
             ->addGroupBy('material_info.article')
             ->addGroupBy('material_info.sort');
@@ -308,7 +308,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material',
                 MaterialActive::class,
                 'material_active',
-                'material_active.event = material.event'
+                'material_active.event = material.event',
             );
 
         /** OFFERS */
@@ -327,7 +327,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material',
                 MaterialOffer::class,
                 'material_offer',
-                'material_offer.event = material.event '.($this->filter?->getOffer() ? ' AND material_offer.value = :offer' : '').' '
+                'material_offer.event = material.event '.($this->filter?->getOffer() ? ' AND material_offer.value = :offer' : '').' ',
             );
 
         /** Цена торгового предложения */
@@ -335,7 +335,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
             'material_offer',
             MaterialOfferPrice::class,
             'material_offer_price',
-            'material_offer_price.offer = material_offer.id'
+            'material_offer_price.offer = material_offer.id',
         )
             ->addGroupBy('material_offer_price.price')
             ->addGroupBy('material_offer_price.currency');
@@ -345,7 +345,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
             'material_offer',
             MaterialOfferQuantity::class,
             'material_offer_quantity',
-            'material_offer_quantity.offer = material_offer.id'
+            'material_offer_quantity.offer = material_offer.id',
         )
             ->addGroupBy('material_offer_quantity.quantity')
             ->addGroupBy('material_offer_quantity.reserve');
@@ -357,7 +357,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material_offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = material_offer.category_offer'
+                'category_offer.id = material_offer.category_offer',
             );
 
         /** VARIATIONS */
@@ -376,7 +376,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material_offer',
                 MaterialVariation::class,
                 'material_offer_variation',
-                'material_offer_variation.offer = material_offer.id '.($this->filter?->getVariation() ? ' AND material_offer_variation.value = :variation' : '').' '
+                'material_offer_variation.offer = material_offer.id '.($this->filter?->getVariation() ? ' AND material_offer_variation.value = :variation' : '').' ',
             );
 
 
@@ -385,7 +385,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
             'category_offer_variation',
             MaterialVariationPrice::class,
             'material_variation_price',
-            'material_variation_price.variation = material_offer_variation.id'
+            'material_variation_price.variation = material_offer_variation.id',
         )
             ->addGroupBy('material_variation_price.price')
             ->addGroupBy('material_variation_price.currency');
@@ -395,7 +395,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
             'category_offer_variation',
             MaterialsVariationQuantity::class,
             'material_variation_quantity',
-            'material_variation_quantity.variation = material_offer_variation.id'
+            'material_variation_quantity.variation = material_offer_variation.id',
         )
             ->addGroupBy('material_variation_quantity.quantity')
             ->addGroupBy('material_variation_quantity.reserve');
@@ -407,7 +407,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material_offer_variation',
                 CategoryMaterialVariation::class,
                 'category_offer_variation',
-                'category_offer_variation.id = material_offer_variation.category_variation'
+                'category_offer_variation.id = material_offer_variation.category_variation',
             );
 
         /** MODIFICATION */
@@ -426,7 +426,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'category_offer_variation',
                 MaterialModification::class,
                 'material_offer_modification',
-                'material_offer_modification.variation = material_offer_variation.id '.($this->filter?->getModification() ? ' AND material_offer_modification.value = :modification' : '').' '
+                'material_offer_modification.variation = material_offer_variation.id '.($this->filter?->getModification() ? ' AND material_offer_modification.value = :modification' : '').' ',
             );
 
         /** Цена множественного варианта */
@@ -434,7 +434,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
             'material_offer_modification',
             MaterialModificationPrice::class,
             'material_modification_price',
-            'material_modification_price.modification = material_offer_modification.id'
+            'material_modification_price.modification = material_offer_modification.id',
         )
             ->addGroupBy('material_modification_price.price')
             ->addGroupBy('material_modification_price.currency');
@@ -444,7 +444,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
             'material_offer_modification',
             MaterialModificationQuantity::class,
             'material_modification_quantity',
-            'material_modification_quantity.modification = material_offer_modification.id'
+            'material_modification_quantity.modification = material_offer_modification.id',
         )
             ->addGroupBy('material_modification_quantity.quantity')
             ->addGroupBy('material_modification_quantity.reserve');
@@ -456,7 +456,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material_offer_modification',
                 CategoryMaterialModification::class,
                 'category_offer_modification',
-                'category_offer_modification.id = material_offer_modification.category_modification'
+                'category_offer_modification.id = material_offer_modification.category_modification',
             );
 
         /** Артикул сырья */
@@ -476,7 +476,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
 			   
 			   ELSE NULL
 			END AS material_article
-		"
+		",
         );
 
         /** Фото сырья */
@@ -487,7 +487,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
             '
 			material_offer_modification_image.modification = material_offer_modification.id AND
 			material_offer_modification_image.root = true
-			'
+			',
         );
 
         $dbal->leftJoin(
@@ -497,7 +497,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
             '
 			material_offer_variation_image.variation = material_offer_variation.id AND
 			material_offer_variation_image.root = true
-			'
+			',
         );
 
         $dbal->leftJoin(
@@ -508,7 +508,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
 			material_offer_variation_image.name IS NULL AND
 			material_offer_images.offer = material_offer.id AND
 			material_offer_images.root = true
-			'
+			',
         );
 
         $dbal->leftJoin(
@@ -519,7 +519,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
 			material_offer_images.name IS NULL AND
 			material_photo.event = material_event.id AND
 			material_photo.root = true
-			'
+			',
         );
 
         $dbal->addSelect("
@@ -540,7 +540,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
 			 ELSE NULL
 			 
 			END AS material_image
-		"
+		",
         );
 
         /** Флаг загрузки файла CDN */
@@ -561,7 +561,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
 			   
 			   ELSE NULL
 			END AS material_image_ext
-		"
+		",
         );
 
         /** Флаг загрузки файла CDN */
@@ -578,7 +578,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
 					
 			   ELSE NULL
 			END AS material_image_cdn
-		"
+		",
         );
 
         /** Стоимость сырья */
@@ -609,7 +609,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
 			   THEN material_price.currency
 			   
 			   ELSE NULL
-			END AS material_currency"
+			END AS material_currency",
         );
 
 
@@ -617,7 +617,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
             'material_event_category',
             CategoryMaterial::class,
             'category',
-            'category.id = material_event_category.category'
+            'category.id = material_event_category.category',
         );
 
         $dbal
@@ -626,7 +626,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'material_event_category',
                 CategoryMaterialInfo::class,
                 'category_info',
-                'category_info.event = category.event'
+                'category_info.event = category.event',
             );
 
         $dbal
@@ -635,7 +635,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
                 'category',
                 CategoryMaterialTrans::class,
                 'category_trans',
-                'category_trans.event = category.event AND category_trans.local = :local'
+                'category_trans.event = category.event AND category_trans.local = :local',
             );
 
 
@@ -648,7 +648,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
 			   WHEN material_price.price IS NOT NULL THEN material_price.price
 			   ELSE 0
 			END > 0
- 		"
+ 		",
         );
 
 
@@ -661,7 +661,7 @@ final class MaterialCatalogRepository implements MaterialCatalogInterface
 			   WHEN material_price.quantity  IS NOT NULL THEN (material_price.quantity - material_price.reserve)
 			   ELSE 0
 			END > 0
-			"
+			",
         );
 
         $dbal->addOrderBy('material_modification_quantity.reserve', 'DESC');

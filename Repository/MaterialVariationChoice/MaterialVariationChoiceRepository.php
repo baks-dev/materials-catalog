@@ -75,14 +75,14 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
             'offer',
             Material::class,
             'material',
-            'material.event = offer.event'
+            'material.event = offer.event',
         );
 
         $dbal->join(
             'offer',
             MaterialVariation::class,
             'variation',
-            'variation.offer = offer.id'
+            'variation.offer = offer.id',
         );
 
         // Тип торгового предложения
@@ -91,14 +91,14 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
             'variation',
             CategoryMaterialVariation::class,
             'category_variation',
-            'category_variation.id = variation.category_variation'
+            'category_variation.id = variation.category_variation',
         );
 
         $dbal->leftJoin(
             'category_variation',
             CategoryMaterialVariationTrans::class,
             'category_variation_trans',
-            'category_variation_trans.variation = category_variation.id AND category_variation_trans.local = :local'
+            'category_variation_trans.variation = category_variation.id AND category_variation_trans.local = :local',
         );
 
 
@@ -142,14 +142,14 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
             ->setParameter(
                 key: 'offer',
                 value: $offer,
-                type: MaterialOfferUid::TYPE
+                type: MaterialOfferUid::TYPE,
             );
 
         $qb->join(
             Material::class,
             'material',
             'WITH',
-            'material.event = offer.event'
+            'material.event = offer.event',
         );
 
 
@@ -157,7 +157,7 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
             MaterialVariation::class,
             'variation',
             'WITH',
-            'variation.offer = offer.id'
+            'variation.offer = offer.id',
         );
 
         // Тип торгового предложения
@@ -166,14 +166,14 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
             CategoryMaterialVariation::class,
             'category_variation',
             'WITH',
-            'category_variation.id = variation.categoryVariation'
+            'category_variation.id = variation.categoryVariation',
         );
 
         $qb->leftJoin(
             CategoryMaterialVariationTrans::class,
             'trans',
             'WITH',
-            'trans.variation = category_variation.id AND trans.local = :local'
+            'trans.variation = category_variation.id AND trans.local = :local',
         );
 
 
@@ -203,21 +203,21 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
             ->setParameter(
                 key: 'offer',
                 value: $offer,
-                type: MaterialOfferUid::TYPE
+                type: MaterialOfferUid::TYPE,
             );
 
         $dbal->join(
             'material_offer',
             Material::class,
             'material',
-            'material.event = material_offer.event'
+            'material.event = material_offer.event',
         );
 
         $dbal->join(
             'material_offer',
             MaterialVariation::class,
             'material_variation',
-            'material_variation.offer = material_offer.id'
+            'material_variation.offer = material_offer.id',
         );
 
         // Тип множественного варианта предложения
@@ -226,14 +226,14 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
             'material_variation',
             CategoryMaterialVariation::class,
             'category_variation',
-            'category_variation.id = material_variation.category_variation'
+            'category_variation.id = material_variation.category_variation',
         );
 
         $dbal->leftJoin(
             'category_variation',
             CategoryMaterialVariationTrans::class,
             'category_variation_trans',
-            'category_variation_trans.variation = category_variation.id AND category_variation_trans.local = :local'
+            'category_variation_trans.variation = category_variation.id AND category_variation_trans.local = :local',
         );
 
 
@@ -241,7 +241,7 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
             'material_variation',
             MaterialModification::class,
             'material_modification',
-            'material_modification.variation = material_variation.id'
+            'material_modification.variation = material_variation.id',
         );
 
         /**
@@ -252,21 +252,21 @@ final class MaterialVariationChoiceRepository implements MaterialVariationChoice
             'material_offer',
             MaterialOfferQuantity::class,
             'material_offer_quantity',
-            'material_offer_quantity.offer = material_offer.id'
+            'material_offer_quantity.offer = material_offer.id',
         );
 
         $dbal->leftJoin(
             'material_variation',
             MaterialsVariationQuantity::class,
             'material_variation_quantity',
-            'material_variation_quantity.variation = material_variation.id'
+            'material_variation_quantity.variation = material_variation.id',
         );
 
         $dbal->leftJoin(
             'material_modification',
             MaterialModificationQuantity::class,
             'material_modification_quantity',
-            'material_modification_quantity.modification = material_modification.id'
+            'material_modification_quantity.modification = material_modification.id',
         );
 
 

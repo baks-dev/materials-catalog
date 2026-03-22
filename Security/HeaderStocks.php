@@ -35,6 +35,14 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 final class HeaderStocks implements MenuAdminInterface
 {
 
+    /**
+     * Метод возвращает позицию, в которую располагается ссылка в секции меню
+     */
+    public static function getSortMenu(): int
+    {
+        return 260;
+    }
+
     public function getRole(): string
     {
         return VoterIndex::getVoter();
@@ -63,14 +71,6 @@ final class HeaderStocks implements MenuAdminInterface
     public function getGroupMenu(): MenuAdminSectionGroupCollectionInterface|bool
     {
         return new MenuGroupStocks();
-    }
-
-    /**
-     * Метод возвращает позицию, в которую располагается ссылка в секции меню
-     */
-    public static function getSortMenu(): int
-    {
-        return 260;
     }
 
     /**

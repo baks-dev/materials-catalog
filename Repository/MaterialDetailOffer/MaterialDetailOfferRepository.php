@@ -77,7 +77,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
             'material',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material.event'
+            'material_price.event = material.event',
         );
 
         /* Торговое предложение */
@@ -89,7 +89,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
                 'material',
                 MaterialOffer::class,
                 'material_offer',
-                'material_offer.event = material.event'
+                'material_offer.event = material.event',
             );
 
         /* Цена торгового предложения */
@@ -97,7 +97,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
             'material_offer',
             MaterialOfferPrice::class,
             'material_offer_price',
-            'material_offer_price.offer = material_offer.id'
+            'material_offer_price.offer = material_offer.id',
         );
 
         /* Получаем тип торгового предложения */
@@ -107,7 +107,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
                 'material_offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = material_offer.category_offer'
+                'category_offer.id = material_offer.category_offer',
             );
 
         /* Получаем название торгового предложения */
@@ -117,7 +117,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
                 'category_offer',
                 CategoryMaterialOffersTrans::class,
                 'category_offer_trans',
-                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local'
+                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local',
             );
 
         /* Множественные варианты торгового предложения */
@@ -128,7 +128,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
                 'material_offer',
                 MaterialVariation::class,
                 'material_offer_variation',
-                'material_offer_variation.offer = material_offer.id'
+                'material_offer_variation.offer = material_offer.id',
             );
 
         /* Цена множественного варианта */
@@ -136,7 +136,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
             'category_offer_variation',
             MaterialVariationPrice::class,
             'material_variation_price',
-            'material_variation_price.variation = material_offer_variation.id'
+            'material_variation_price.variation = material_offer_variation.id',
         );
 
         /* Получаем тип множественного варианта */
@@ -146,7 +146,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
                 'material_offer_variation',
                 CategoryMaterialVariation::class,
                 'category_offer_variation',
-                'category_offer_variation.id = material_offer_variation.category_variation'
+                'category_offer_variation.id = material_offer_variation.category_variation',
             );
 
         /* Получаем название множественного варианта */
@@ -156,7 +156,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
                 'category_offer_variation',
                 CategoryMaterialVariationTrans::class,
                 'category_offer_variation_trans',
-                'category_offer_variation_trans.variation = category_offer_variation.id AND category_offer_variation_trans.local = :local'
+                'category_offer_variation_trans.variation = category_offer_variation.id AND category_offer_variation_trans.local = :local',
             );
 
         /* Модификация множественного варианта торгового предложения */
@@ -167,7 +167,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
                 'material_offer_variation',
                 MaterialModification::class,
                 'material_offer_modification',
-                'material_offer_modification.variation = material_offer_variation.id'
+                'material_offer_modification.variation = material_offer_variation.id',
             );
 
         /* Цена Модификации множественного варианта */
@@ -175,7 +175,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
             'material_offer_modification',
             MaterialModificationPrice::class,
             'material_modification_price',
-            'material_modification_price.modification = material_offer_modification.id'
+            'material_modification_price.modification = material_offer_modification.id',
         );
 
         /* Получаем тип множественного варианта */
@@ -185,7 +185,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
                 'material_offer_modification',
                 CategoryMaterialModification::class,
                 'category_offer_modification',
-                'category_offer_modification.id = material_offer_modification.category_modification'
+                'category_offer_modification.id = material_offer_modification.category_modification',
             );
 
         /* Получаем название типа */
@@ -195,7 +195,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
                 'category_offer_modification',
                 CategoryMaterialModificationTrans::class,
                 'category_offer_modification_trans',
-                'category_offer_modification_trans.modification = category_offer_modification.id AND category_offer_modification_trans.local = :local'
+                'category_offer_modification_trans.modification = category_offer_modification.id AND category_offer_modification_trans.local = :local',
             );
 
 
@@ -229,7 +229,7 @@ final class MaterialDetailOfferRepository implements MaterialDetailOfferInterfac
 			   
 			   ELSE NULL
 			END AS material_currency
-		'
+		',
         );
 
         return $dbal->enableCache('materials-catalog', 86400)->fetchAllAssociative();

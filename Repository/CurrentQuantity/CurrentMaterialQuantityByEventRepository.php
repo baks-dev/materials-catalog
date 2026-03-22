@@ -49,7 +49,7 @@ final class CurrentMaterialQuantityByEventRepository implements CurrentMaterialQ
             Material::class,
             'material',
             'WITH',
-            'material.id = event.main'
+            'material.id = event.main',
         );
 
         /** Текущее наличие */
@@ -59,7 +59,7 @@ final class CurrentMaterialQuantityByEventRepository implements CurrentMaterialQ
                 MaterialPrice::class,
                 'quantity',
                 'WITH',
-                'quantity.event = material.event'
+                'quantity.event = material.event',
             );
 
         return $qb->getQuery()->getOneOrNullResult();

@@ -67,8 +67,8 @@ final class MaterialVariationCollectionForm extends AbstractType
                 },
                 function($categoryVariation) {
                     return new CategoryMaterialVariationUid($categoryVariation);
-                }
-            )
+                },
+            ),
         );
 
         $builder->add('const', HiddenType::class);
@@ -80,8 +80,8 @@ final class MaterialVariationCollectionForm extends AbstractType
                 },
                 function($const) {
                     return new MaterialVariationConst($const);
-                }
-            )
+                },
+            ),
         );
 
 
@@ -143,7 +143,7 @@ final class MaterialVariationCollectionForm extends AbstractType
                                 [
                                     'label' => $variation->name,
                                     'required' => false,
-                                ]
+                                ],
                             );
 
                         }
@@ -174,7 +174,7 @@ final class MaterialVariationCollectionForm extends AbstractType
                         $form->remove('price');
                     }
                 }
-            }
+            },
         );
 
 
@@ -202,7 +202,7 @@ final class MaterialVariationCollectionForm extends AbstractType
                 'label_html' => true,
                 'attr' =>
                     ['class' => 'btn btn-sm btn-icon btn-light-danger del-item-variation'],
-            ]
+            ],
         );
 
     }

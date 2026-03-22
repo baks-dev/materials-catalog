@@ -44,8 +44,8 @@ final class MaterialTransForm extends AbstractType
                 },
                 function($price) {
                     return new Locale($price);
-                }
-            )
+                },
+            ),
         );
 
         $builder->add('name', TextType::class);
@@ -58,7 +58,7 @@ final class MaterialTransForm extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => MaterialTransDTO::class,
-            ]
+            ],
         );
     }
 

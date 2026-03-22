@@ -22,7 +22,7 @@
 
 executeFunc(function materialFilter()
 {
-    if(typeof formDebounce !== 'function')
+    if(typeof formDebounce !== "function")
     {
         return false;
     }
@@ -30,12 +30,12 @@ executeFunc(function materialFilter()
     const form = document.forms.material_filter_form;
 
 
-    if(typeof form === 'undefined')
+    if(typeof form === "undefined")
     {
         return false;
     }
 
-    form.addEventListener('click', (event) =>
+    form.addEventListener("click", (event) =>
     {
         if(idFormDebounce == lastFormDebounce)
         {
@@ -47,21 +47,21 @@ executeFunc(function materialFilter()
     });
 
 
-    const inputFields = form.querySelectorAll('input, select, textarea');
+    const inputFields = form.querySelectorAll("input, select, textarea");
 
     // Добавляем обработчик изменения для каждого поля ввода
     inputFields.forEach(field =>
     {
         if(
-            field.id === 'material_filter_form_category' ||
-            field.id === 'material_filter_form_all'
+            field.id === "material_filter_form_category" ||
+            field.id === "material_filter_form_all"
         )
         {
-            field.addEventListener('change', () =>
+            field.addEventListener("change", () =>
             {
                 const material_filter_form_offer = form.material_filter_form_offer;
 
-                if(typeof material_filter_form_offer === 'object')
+                if(typeof material_filter_form_offer === "object")
                 {
                     const options = material_filter_form_offer.options;
 
@@ -73,14 +73,20 @@ executeFunc(function materialFilter()
                     material_filter_form_offer.selectedIndex = 0;
                 }
 
-                setTimeout(() => { form.submit(); }, 300);
+                setTimeout(() =>
+                {
+                    form.submit();
+                }, 300);
 
             });
 
             return;
         }
 
-        field.addEventListener('change', formDebounce(() => { form.submit(); }, 1500));
+        field.addEventListener("change", formDebounce(() =>
+        {
+            form.submit();
+        }, 1500));
 
     });
 

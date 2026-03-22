@@ -88,7 +88,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material_offer',
                 Material::class,
                 'material',
-                'material.event = material_offer.event'
+                'material.event = material_offer.event',
             );
 
 
@@ -103,7 +103,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material_offer',
                 MaterialVariation::class,
                 'material_variation',
-                'material_variation.offer = material_offer.id '.(empty($variation) ? '' : 'AND material_variation.value = :variation')
+                'material_variation.offer = material_offer.id '.(empty($variation) ? '' : 'AND material_variation.value = :variation'),
             );
 
         if(!empty($variation))
@@ -121,7 +121,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material_variation',
                 MaterialModification::class,
                 'material_modification',
-                'material_modification.variation = material_variation.id '.(empty($modification) ? '' : 'AND material_modification.value = :modification')
+                'material_modification.variation = material_variation.id '.(empty($modification) ? '' : 'AND material_modification.value = :modification'),
             )
             ->addGroupBy('material_modification.article');
 
@@ -147,7 +147,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
 				   ELSE TRUE
 				END
 			)
-		'
+		',
             );
 
 
@@ -158,7 +158,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material.event AND material_trans.local = :local'
+                'material_trans.event = material.event AND material_trans.local = :local',
             );
 
 
@@ -167,7 +167,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material.id '
+                'material_info.material = material.id ',
             );
 
         // Артикул сырья
@@ -193,7 +193,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material_offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = material_offer.category_offer'
+                'category_offer.id = material_offer.category_offer',
             );
 
         // Получаем название торгового предложения
@@ -203,7 +203,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'category_offer',
                 CategoryMaterialOffersTrans::class,
                 'category_offer_trans',
-                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local'
+                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local',
             );
 
 
@@ -214,7 +214,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material_variation',
                 CategoryMaterialVariation::class,
                 'category_offer_variation',
-                'category_offer_variation.id = material_variation.category_variation'
+                'category_offer_variation.id = material_variation.category_variation',
             );
 
         // Получаем название множественного варианта
@@ -224,7 +224,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'category_offer_variation',
                 CategoryMaterialVariationTrans::class,
                 'category_offer_variation_trans',
-                'category_offer_variation_trans.variation = category_offer_variation.id AND category_offer_variation_trans.local = :local'
+                'category_offer_variation_trans.variation = category_offer_variation.id AND category_offer_variation_trans.local = :local',
             );
 
         // Получаем тип модификации множественного варианта
@@ -234,7 +234,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material_modification',
                 CategoryMaterialModification::class,
                 'category_offer_modification',
-                'category_offer_modification.id = material_modification.category_modification'
+                'category_offer_modification.id = material_modification.category_modification',
             );
 
         // Получаем название типа модификации
@@ -244,7 +244,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'category_offer_modification',
                 CategoryMaterialModificationTrans::class,
                 'category_offer_modification_trans',
-                'category_offer_modification_trans.modification = category_offer_modification.id AND category_offer_modification_trans.local = :local'
+                'category_offer_modification_trans.modification = category_offer_modification.id AND category_offer_modification_trans.local = :local',
             );
 
 
@@ -269,7 +269,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
 			   
 			   ELSE NULL
 			END AS price
-		'
+		',
         );
 
 
@@ -292,7 +292,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
 			   
 			   ELSE NULL
 			END AS currency
-		'
+		',
         );
 
         // Базовая Цена товара
@@ -301,7 +301,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material',
                 MaterialPrice::class,
                 'material_price',
-                'material_price.event = material.event'
+                'material_price.event = material.event',
             )
             ->addGroupBy('material_price.currency')
             ->addGroupBy('material_price.reserve');
@@ -311,7 +311,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material_offer',
                 MaterialOfferPrice::class,
                 'material_offer_price',
-                'material_offer_price.offer = material_offer.id'
+                'material_offer_price.offer = material_offer.id',
             )
             ->addGroupBy('material_offer_price.currency');
 
@@ -321,7 +321,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material_variation',
                 MaterialVariationPrice::class,
                 'material_variation_price',
-                'material_variation_price.variation = material_variation.id'
+                'material_variation_price.variation = material_variation.id',
             )
             ->addGroupBy('material_variation_price.currency');
 
@@ -332,7 +332,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material_modification',
                 MaterialModificationPrice::class,
                 'material_modification_price',
-                'material_modification_price.modification = material_modification.id'
+                'material_modification_price.modification = material_modification.id',
             )
             ->addGroupBy('material_modification_price.currency');
 
@@ -361,7 +361,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
 			   ELSE 0
 			   
 			END AS quantity
-		'
+		',
         );
 
         // Наличие и резерв торгового предложения
@@ -371,7 +371,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'material_offer',
                 MaterialOfferQuantity::class,
                 'material_offer_quantity',
-                'material_offer_quantity.offer = material_offer.id'
+                'material_offer_quantity.offer = material_offer.id',
             )
             ->addGroupBy('material_offer_quantity.reserve');
 
@@ -381,7 +381,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'category_offer_variation',
                 MaterialsVariationQuantity::class,
                 'material_variation_quantity',
-                'material_variation_quantity.variation = material_variation.id'
+                'material_variation_quantity.variation = material_variation.id',
             )
             ->addGroupBy('material_variation_quantity.reserve');
 
@@ -391,7 +391,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'category_offer_modification',
                 MaterialModificationQuantity::class,
                 'material_modification_quantity',
-                'material_modification_quantity.modification = material_modification.id'
+                'material_modification_quantity.modification = material_modification.id',
             )
             ->addGroupBy('material_modification_quantity.reserve');
 
@@ -404,7 +404,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
             'material',
             MaterialCategory::class,
             'material_event_category',
-            'material_event_category.event = material.event AND material_event_category.root = true'
+            'material_event_category.event = material.event AND material_event_category.root = true',
         );
 
 
@@ -412,7 +412,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
             'material_event_category',
             CategoryMaterial::class,
             'category',
-            'category.id = material_event_category.category'
+            'category.id = material_event_category.category',
         );
 
         $dbal
@@ -421,7 +421,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'category',
                 CategoryMaterialTrans::class,
                 'category_trans',
-                'category_trans.event = category.event AND category_trans.local = :local'
+                'category_trans.event = category.event AND category_trans.local = :local',
             );
 
         $dbal
@@ -429,14 +429,14 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                 'category',
                 CategoryMaterialInfo::class,
                 'category_info',
-                'category_info.event = category.event AND category_info.active = true'
+                'category_info.event = category.event AND category_info.active = true',
             );
 
         $dbal->leftJoin(
             'category',
             CategoryMaterialSection::class,
             'category_section',
-            'category_section.event = category.event'
+            'category_section.event = category.event',
         );
 
 
@@ -460,7 +460,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
                     'material_offer',
                     MaterialProperty::class,
                     'material_property_'.$alias,
-                    'material_property_'.$alias.'.event = material_offer.event AND material_property_'.$alias.'.value = :props_'.$alias
+                    'material_property_'.$alias.'.event = material_offer.event AND material_property_'.$alias.'.value = :props_'.$alias,
                 );
 
                 $dbal->setParameter('props_'.$alias, $props->field_value);
@@ -481,7 +481,7 @@ final class MaterialAlternativeRepository implements MaterialAlternativeInterfac
 				)
 			
 		)
-			AS category_section_field"
+			AS category_section_field",
         );
 
         $dbal->where('material_offer.value = :offer');

@@ -56,7 +56,7 @@ final class CurrentMaterialQuantityByOfferRepository implements CurrentMaterialQ
             Material::class,
             'material',
             'WITH',
-            'material.id = event.main'
+            'material.id = event.main',
         );
 
         /** Торговое предложение */
@@ -65,19 +65,19 @@ final class CurrentMaterialQuantityByOfferRepository implements CurrentMaterialQ
             MaterialOffer::class,
             'offer',
             'WITH',
-            'offer.id = :offer AND offer.event = event.id'
+            'offer.id = :offer AND offer.event = event.id',
         )
             ->setParameter(
                 'offer',
                 $offer,
-                MaterialOfferUid::TYPE
+                MaterialOfferUid::TYPE,
             );
 
         $qb->leftJoin(
             MaterialOffer::class,
             'current_offer',
             'WITH',
-            'current_offer.const = offer.const AND current_offer.event = material.event'
+            'current_offer.const = offer.const AND current_offer.event = material.event',
         );
 
 
@@ -86,7 +86,7 @@ final class CurrentMaterialQuantityByOfferRepository implements CurrentMaterialQ
             MaterialOfferQuantity::class,
             'quantity',
             'WITH',
-            'quantity.offer = current_offer.id'
+            'quantity.offer = current_offer.id',
         );
 
 

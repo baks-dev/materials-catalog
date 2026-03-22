@@ -46,6 +46,7 @@ interface AllMaterialsIdentifierInterface
 
     /**
      * Метод возвращает все идентификаторы сырья с её торговыми предложениями в виде массива
+     *
      * @return Generator<array{
      *  "material_id",
      *  "material_event" ,
@@ -56,12 +57,13 @@ interface AllMaterialsIdentifierInterface
      *  "modification_id",
      *  "modification_const"}
      *  >|false }
- * @deprecated
+     * @deprecated
      */
     public function findAll(): Generator|false;
 
     /**
      * Метод возвращает все идентификаторы сырья с её торговыми предложениями в виде резалта
+     *
      * @return Generator<AllMaterialsIdentifierResult>
      */
     public function findAllResult(): Generator;

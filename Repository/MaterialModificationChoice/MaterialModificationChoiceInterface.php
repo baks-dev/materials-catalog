@@ -30,7 +30,8 @@ use Generator;
 interface MaterialModificationChoiceInterface
 {
     /**
-     * Метод возвращает все постоянные идентификаторы CONST модификаций множественных вариантов торговых предложений сырья
+     * Метод возвращает все постоянные идентификаторы CONST модификаций множественных вариантов торговых предложений
+     * сырья
      */
     public function fetchMaterialModificationConstByVariationConst(MaterialVariationConst $const): Generator;
 

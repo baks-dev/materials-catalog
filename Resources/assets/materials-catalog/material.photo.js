@@ -24,10 +24,10 @@
 /** Коллекция ФОТО */
 
 /* кнопка Добавить ФОТО */
-let $addButtonPhoto = document.getElementById('photo_addCollection');
+let $addButtonPhoto = document.getElementById("photo_addCollection");
 
 /* Блок для новой коллекции */
-let $blockCollectionPhoto = document.getElementById('photo_collection');
+let $blockCollectionPhoto = document.getElementById("photo_collection");
 
 
 if($addButtonPhoto)
@@ -35,25 +35,25 @@ if($addButtonPhoto)
 
 
     /* добавить событие на удаление ко всем существующим элементам формы в блок с классом .del-item */
-    let $delItemPhoto = $blockCollectionPhoto.querySelectorAll('.del-item-photo');
+    let $delItemPhoto = $blockCollectionPhoto.querySelectorAll(".del-item-photo");
 
     /* Удаляем при клике колекцию СЕКЦИЙ */
     $delItemPhoto.forEach(function(item)
     {
 
-        item.addEventListener('click', function()
+        item.addEventListener("click", function()
         {
 
-            let $counter = $blockCollectionPhoto.getElementsByClassName('item-collection-photo').length;
+            let $counter = $blockCollectionPhoto.getElementsByClassName("item-collection-photo").length;
 
             if($counter > 1)
             {
-                item.closest('.item-collection-photo').remove();
+                item.closest(".item-collection-photo").remove();
             }
 
             let isRoot = false;
 
-            $blockCollectionPhoto.querySelectorAll('.change-root').forEach(function(rootCheck)
+            $blockCollectionPhoto.querySelectorAll(".change-root").forEach(function(rootCheck)
             {
                 if(rootCheck.checked === true)
                 {
@@ -63,7 +63,7 @@ if($addButtonPhoto)
 
             if(isRoot === false)
             {
-                photo_collection.querySelectorAll('.change-root').forEach(function(rootCheck, i)
+                photo_collection.querySelectorAll(".change-root").forEach(function(rootCheck, i)
                 {
                     if(i === 0)
                     {
@@ -78,7 +78,7 @@ if($addButtonPhoto)
 
 
     /* добавить событие на удаление ко всем существующим элементам формы в блок с классом .del-item */
-    let $changeItemPhoto = $blockCollectionPhoto.querySelectorAll('.change-root');
+    let $changeItemPhoto = $blockCollectionPhoto.querySelectorAll(".change-root");
 
     $changeItemPhoto.forEach(function(item)
     {
@@ -88,12 +88,12 @@ if($addButtonPhoto)
             item.checked = true;
         }
 
-        item.addEventListener('change', function()
+        item.addEventListener("change", function()
         {
 
-            let photo_collection = document.getElementById('photo_collection');
+            let photo_collection = document.getElementById("photo_collection");
 
-            photo_collection.querySelectorAll('.change-root').forEach(function(rootCheck)
+            photo_collection.querySelectorAll(".change-root").forEach(function(rootCheck)
             {
                 rootCheck.checked = false;
             });
@@ -121,7 +121,7 @@ if($addButtonPhoto)
 
 
     /* Добавляем новую коллекцию */
-    $addButtonPhoto.addEventListener('click', function()
+    $addButtonPhoto.addEventListener("click", function()
     {
 
         let $addButtonPhoto = this;
@@ -142,30 +142,30 @@ if($addButtonPhoto)
         //newForm = newForm.replace(/__FIELD__/g, index);
 
         /* Вставляем новую коллекцию */
-        let div = document.createElement('div');
-        div.classList.add('item-collection-photo')
+        let div = document.createElement("div");
+        div.classList.add("item-collection-photo");
         div.innerHTML = newForm;
         $blockCollectionPhoto.append(div);
 
         /* Удаляем при клике колекцию СЕКЦИЙ */
-        div.querySelector('.del-item-photo').addEventListener('click', function()
+        div.querySelector(".del-item-photo").addEventListener("click", function()
         {
-            let $counter = $blockCollectionPhoto.getElementsByClassName('item-collection-photo').length;
+            let $counter = $blockCollectionPhoto.getElementsByClassName("item-collection-photo").length;
             //if ($counter > 1) {
-            this.closest('.item-collection-photo').remove();
+            this.closest(".item-collection-photo").remove();
             let index = $addButtonPhoto.dataset.index * 1;
-            $addButtonPhoto.dataset.index = (index - 1).toString()
+            $addButtonPhoto.dataset.index = (index - 1).toString();
 
             //}
         });
 
 
-        div.querySelector('.change-root').addEventListener('change', function(selector)
+        div.querySelector(".change-root").addEventListener("change", function(selector)
         {
 
-            let photo_collection = document.getElementById('photo_collection');
+            let photo_collection = document.getElementById("photo_collection");
 
-            photo_collection.querySelectorAll('.change-root').forEach(function(rootChack, i, arr)
+            photo_collection.querySelectorAll(".change-root").forEach(function(rootChack, i, arr)
             {
                 rootChack.checked = false;
             });
@@ -179,27 +179,28 @@ if($addButtonPhoto)
         $addButtonPhoto.dataset.index = (index + 1).toString();
 
 
-        let inputElement = div.querySelector('input[type="file"]');
+        let inputElement = div.querySelector("input[type=\"file\"]");
 
-        inputElement.addEventListener('change', function(e)
+        inputElement.addEventListener("change", function(e)
         {
 
             var file = inputElement.files[0];
             var reader = new FileReader();
-            let image = div.querySelector('.image-input');
+            let image = div.querySelector(".image-input");
 
             reader.onloadend = function()
             {
 
-                image.style.setProperty("background-image", "url(" + reader.result + ")", "important")
-            }
+                image.style.setProperty("background-image", "url(" + reader.result + ")", "important");
+            };
 
             if(file)
             {
                 reader.readAsDataURL(file);
-            } else
+            }
+            else
             {
-                image.style.setProperty("background-image", "url(/img/blank.svg)", "important")
+                image.style.setProperty("background-image", "url(/img/blank.svg)", "important");
 
             }
         });

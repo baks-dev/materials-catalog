@@ -63,7 +63,7 @@ final class CurrentMaterialQuantityByModificationRepository implements CurrentMa
             Material::class,
             'material',
             'WITH',
-            'material.id = event.main'
+            'material.id = event.main',
         );
 
 
@@ -73,19 +73,19 @@ final class CurrentMaterialQuantityByModificationRepository implements CurrentMa
             MaterialOffer::class,
             'offer',
             'WITH',
-            'offer.id = :offer AND offer.event = event.id'
+            'offer.id = :offer AND offer.event = event.id',
         )
             ->setParameter(
                 'offer',
                 $offer,
-                MaterialOfferUid::TYPE
+                MaterialOfferUid::TYPE,
             );
 
         $qb->leftJoin(
             MaterialOffer::class,
             'current_offer',
             'WITH',
-            'current_offer.const = offer.const AND current_offer.event = material.event'
+            'current_offer.const = offer.const AND current_offer.event = material.event',
         ); //
 
 
@@ -95,19 +95,19 @@ final class CurrentMaterialQuantityByModificationRepository implements CurrentMa
             MaterialVariation::class,
             'variation',
             'WITH',
-            'variation.id = :variation AND variation.offer = offer.id'
+            'variation.id = :variation AND variation.offer = offer.id',
         )
             ->setParameter(
                 'variation',
                 $variation,
-                MaterialVariationUid::TYPE
+                MaterialVariationUid::TYPE,
             );
 
         $qb->leftJoin(
             MaterialVariation::class,
             'current_variation',
             'WITH',
-            'current_variation.const = variation.const AND current_variation.offer = current_offer.id'
+            'current_variation.const = variation.const AND current_variation.offer = current_offer.id',
         );
 
 
@@ -117,19 +117,19 @@ final class CurrentMaterialQuantityByModificationRepository implements CurrentMa
             MaterialModification::class,
             'modification',
             'WITH',
-            'modification.id = :modification AND modification.variation = variation.id'
+            'modification.id = :modification AND modification.variation = variation.id',
         )
             ->setParameter(
                 'modification',
                 $modification,
-                MaterialModificationUid::TYPE
+                MaterialModificationUid::TYPE,
             );
 
         $qb->leftJoin(
             MaterialModification::class,
             'current_modification',
             'WITH',
-            'current_modification.const = modification.const AND current_modification.variation = current_variation.id'
+            'current_modification.const = modification.const AND current_modification.variation = current_variation.id',
         );
 
 
@@ -140,7 +140,7 @@ final class CurrentMaterialQuantityByModificationRepository implements CurrentMa
                 MaterialModificationQuantity::class,
                 'quantity',
                 'WITH',
-                'quantity.modification = current_modification.id'
+                'quantity.modification = current_modification.id',
             );
 
 

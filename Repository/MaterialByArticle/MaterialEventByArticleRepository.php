@@ -52,11 +52,11 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
             Material::class,
             'material',
             'WITH',
-            'material.id = info.material'
+            'material.id = info.material',
         )
             ->setParameter(
                 key: 'article',
-                value: $article
+                value: $article,
             );
 
         $qb
@@ -65,7 +65,7 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
                 MaterialEvent::class,
                 'event',
                 'WITH',
-                'event.id = material.event'
+                'event.id = material.event',
             );
 
         /** @var Material $Material */
@@ -93,7 +93,7 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
                 MaterialEvent::class,
                 'event',
                 'WITH',
-                'event.id = offer.event'
+                'event.id = offer.event',
             );
 
         $qb->join(Material::class, 'material', 'WITH', 'material.event = event.id');
@@ -118,7 +118,7 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
             ->where('variation.article = :article')
             ->setParameter(
                 key: 'article',
-                value: $article
+                value: $article,
             );
 
         $qb->join(MaterialOffer::class, 'offer', 'WITH', 'offer.id = variation.offer');
@@ -129,7 +129,7 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
                 MaterialEvent::class,
                 'event',
                 'WITH',
-                'event.id = offer.event'
+                'event.id = offer.event',
             );
 
         $qb->join(Material::class, 'material', 'WITH', 'material.event = event.id');
@@ -154,7 +154,7 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
             ->where('modification.article = :article')
             ->setParameter(
                 key: 'article',
-                value: $article
+                value: $article,
             );
 
         $qb->join(MaterialVariation::class, 'variation', 'WITH', 'variation.id = modification.variation');
@@ -166,7 +166,7 @@ final class MaterialEventByArticleRepository implements MaterialEventByArticleIn
                 MaterialEvent::class,
                 'event',
                 'WITH',
-                'event.id = offer.event'
+                'event.id = offer.event',
             );
 
         $qb->join(Material::class, 'material', 'WITH', 'material.event = event.id');

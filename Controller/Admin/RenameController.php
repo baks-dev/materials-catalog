@@ -58,7 +58,7 @@ final class RenameController extends AbstractController
         $form = $this->createForm(
             RenameMaterialForm::class,
             $RenameMaterialDTO,
-            ['action' => $this->generateUrl('materials-catalog:admin.rename', ['id' => $RenameMaterialDTO->getEvent()])]
+            ['action' => $this->generateUrl('materials-catalog:admin.rename', ['id' => $RenameMaterialDTO->getEvent()])],
         );
         $form->handleRequest($request);
 
@@ -72,7 +72,7 @@ final class RenameController extends AbstractController
                 'page.edit',
                 $handle instanceof Material ? 'success.rename' : 'danger.rename',
                 'materials-catalog.admin',
-                $handle
+                $handle,
             );
 
             return $this->redirectToRoute('materials-catalog:admin.index');

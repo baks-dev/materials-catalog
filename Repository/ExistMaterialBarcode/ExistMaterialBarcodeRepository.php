@@ -108,7 +108,7 @@ final class ExistMaterialBarcodeRepository implements ExistMaterialBarcodeInterf
                     'material_event',
                     MaterialInfo::class,
                     'material_info',
-                    'material_info.event = material_event.id AND material_info.barcode = :barcode'
+                    'material_info.event = material_event.id AND material_info.barcode = :barcode',
                 )
                 ->setParameter('barcode', $this->barcode, MaterialBarcode::TYPE);
         }
@@ -125,7 +125,7 @@ final class ExistMaterialBarcodeRepository implements ExistMaterialBarcodeInterf
                     'material_offer',
                     'material_offer.event = material_event.id AND
                     material_offer.const = :offer AND
-                    material_offer.barcode = :barcode'
+                    material_offer.barcode = :barcode',
                 )
                 ->setParameter('offer', $this->offer, MaterialOfferConst::TYPE)
                 ->setParameter('barcode', $this->barcode, MaterialBarcode::TYPE);
@@ -138,13 +138,14 @@ final class ExistMaterialBarcodeRepository implements ExistMaterialBarcodeInterf
                     MaterialOffer::class,
                     'material_offer',
                     'material_offer.event = material_event.id AND
-                    material_offer.const = :offer'
+                    material_offer.const = :offer',
                 )
                 ->setParameter('offer', $this->offer, MaterialOfferConst::TYPE);
         }
 
-        if((
-            $this->variation instanceof MaterialVariationConst) &&
+        if(
+            (
+                $this->variation instanceof MaterialVariationConst) &&
             false === ($this->modification instanceof MaterialModificationConst)
         )
         {
@@ -155,7 +156,7 @@ final class ExistMaterialBarcodeRepository implements ExistMaterialBarcodeInterf
                     'material_variation',
                     'material_variation.offer = material_offer.id AND
                     material_variation.const = :variation AND
-                    material_variation.barcode = :barcode'
+                    material_variation.barcode = :barcode',
                 )
                 ->setParameter('variation', $this->variation, MaterialVariationConst::TYPE)
                 ->setParameter('barcode', $this->barcode, MaterialBarcode::TYPE);
@@ -168,7 +169,7 @@ final class ExistMaterialBarcodeRepository implements ExistMaterialBarcodeInterf
                     MaterialVariation::class,
                     'material_variation',
                     'material_variation.offer = material_offer.id AND
-                    material_variation.const = :variation'
+                    material_variation.const = :variation',
                 )
                 ->setParameter('variation', $this->variation, MaterialVariationConst::TYPE);
         }
@@ -182,7 +183,7 @@ final class ExistMaterialBarcodeRepository implements ExistMaterialBarcodeInterf
                     'material_modification',
                     'material_modification.variation = material_variation.id AND
                     material_modification.const = :modification AND
-                    material_variation.barcode = :barcode'
+                    material_variation.barcode = :barcode',
                 )
                 ->setParameter('modification', $this->modification, MaterialModificationConst::TYPE)
                 ->setParameter('barcode', $this->barcode, MaterialBarcode::TYPE);

@@ -48,14 +48,14 @@ final class MaterialQuantityRepository implements MaterialQuantityInterface
             ->setParameter(
                 key: 'material',
                 value: $material,
-                type: MaterialUid::TYPE
+                type: MaterialUid::TYPE,
             );
 
         $qb->join(
             MaterialEvent::class,
             'event',
             'WITH',
-            'event.id = material.event'
+            'event.id = material.event',
         );
 
         $qb
@@ -64,7 +64,7 @@ final class MaterialQuantityRepository implements MaterialQuantityInterface
                 MaterialPrice::class,
                 'price',
                 'WITH',
-                'price.event = material.event'
+                'price.event = material.event',
             );
 
         return $qb->getOneOrNullResult();

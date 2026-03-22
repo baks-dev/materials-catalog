@@ -52,14 +52,14 @@ final class MaterialOfferQuantityRepository implements MaterialOfferQuantityInte
             ->setParameter(
                 key: 'material',
                 value: $material,
-                type: MaterialUid::TYPE
+                type: MaterialUid::TYPE,
             );
 
         $qb->join(
             MaterialEvent::class,
             'event',
             'WITH',
-            'event.id = material.event'
+            'event.id = material.event',
         );
 
         // Торговое предложение
@@ -68,12 +68,12 @@ final class MaterialOfferQuantityRepository implements MaterialOfferQuantityInte
             MaterialOffer::class,
             'offer',
             'WITH',
-            'offer.event = event.id AND offer.const = :offer_const'
+            'offer.event = event.id AND offer.const = :offer_const',
         )
             ->setParameter(
                 key: 'offer_const',
                 value: $offer,
-                type: MaterialOfferConst::TYPE
+                type: MaterialOfferConst::TYPE,
             );
 
 
@@ -83,7 +83,7 @@ final class MaterialOfferQuantityRepository implements MaterialOfferQuantityInte
                 MaterialOfferQuantity::class,
                 'quantity',
                 'WITH',
-                'quantity.offer = offer.id'
+                'quantity.offer = offer.id',
             );
 
 
@@ -93,7 +93,7 @@ final class MaterialOfferQuantityRepository implements MaterialOfferQuantityInte
             CategoryMaterialOffers::class,
             'category_offer',
             'WITH',
-            'category_offer.id = offer.categoryOffer AND category_offer.quantitative = true'
+            'category_offer.id = offer.categoryOffer AND category_offer.quantitative = true',
         );
 
         return $qb->getOneOrNullResult();

@@ -31,20 +31,18 @@ if($name)
     setTimeout(function initCatUrl()
     {
 
-        if(typeof catUrl.debounce == 'function')
+        if(typeof catUrl.debounce == "function")
         {
 
-            $name.addEventListener('input', catUrl.debounce(500));
+            $name.addEventListener("input", catUrl.debounce(500));
 
-            document
-                .getElementById("material_form_material")
-                .addEventListener("keydown", function(event)
+            document.getElementById("material_form_material").addEventListener("keydown", function(event)
+            {
+                if(event.key === "Enter")
                 {
-                    if(event.key === "Enter")
-                    {
-                        event.preventDefault();
-                    }
-                });
+                    event.preventDefault();
+                }
+            });
 
 
             return;
@@ -57,7 +55,7 @@ if($name)
     function catUrl()
     {
         /* Заполняем транслитом URL */
-        document.getElementById('material_form_info_url').value = translitRuEn(this.value).toLowerCase();
+        document.getElementById("material_form_info_url").value = translitRuEn(this.value).toLowerCase();
     }
 }
 
@@ -71,7 +69,7 @@ document.addEventListener("keydown", function(event)
 });
 
 
-const allOffers = document.getElementById('allOffers');
+const allOffers = document.getElementById("allOffers");
 
 if(allOffers)
 {
@@ -79,25 +77,26 @@ if(allOffers)
     {
         if(allOffers.checked)
         {
-            document.querySelectorAll('.offers').forEach(function(item)
+            document.querySelectorAll(".offers").forEach(function(item)
             {
 
-                if(item.classList.contains('d-none'))
+                if(item.classList.contains("d-none"))
                 {
-                    item.classList.remove('d-none');
-                    item.classList.add('d-block');
+                    item.classList.remove("d-none");
+                    item.classList.add("d-block");
                 }
 
             });
-        } else
+        }
+        else
         {
-            document.querySelectorAll('.offers').forEach(function(item)
+            document.querySelectorAll(".offers").forEach(function(item)
             {
 
-                if(item.classList.contains('d-block'))
+                if(item.classList.contains("d-block"))
                 {
-                    item.classList.remove('d-block');
-                    item.classList.add('d-none');
+                    item.classList.remove("d-block");
+                    item.classList.add("d-none");
                 }
 
             });
@@ -105,14 +104,14 @@ if(allOffers)
     });
 }
 
-const searcOffer = document.getElementById('searcherOffer');
+const searcOffer = document.getElementById("searcherOffer");
 
 if(searcOffer)
 {
     let $ul = document.getElementById("searcher-offer");
 
-    searcOffer.addEventListener('keyup', searcherOffer);
-    searcOffer.addEventListener('focus', searcherOffer);
+    searcOffer.addEventListener("keyup", searcherOffer);
+    searcOffer.addEventListener("focus", searcherOffer);
 
     document.addEventListener("click", function(event)
     {
@@ -121,21 +120,21 @@ if(searcOffer)
 
         if(!isClickInsideBlock1 && !isClickInsideBlock2)
         {
-            $ul.classList.remove('show');
+            $ul.classList.remove("show");
         }
     });
 
 
-    $ul.querySelectorAll('li').forEach(function(item)
+    $ul.querySelectorAll("li").forEach(function(item)
     {
 
-        searcOffer.classList.remove('d-none');
+        searcOffer.classList.remove("d-none");
 
-        item.addEventListener('click', function()
+        item.addEventListener("click", function()
         {
             let inpt = document.getElementById(item.dataset.href);
-            inpt.scrollIntoView({block: "center", inline: "center", behavior: "smooth"});
-            $ul.classList.remove('show');
+            inpt.scrollIntoView({block : "center", inline : "center", behavior : "smooth"});
+            $ul.classList.remove("show");
             setTimeout(function()
             {
                 inpt.focus();
@@ -158,7 +157,7 @@ function searcherOffer()
 
     let $ul = document.getElementById("searcher-offer");
 
-    $ul.querySelectorAll('li').forEach(function(item)
+    $ul.querySelectorAll("li").forEach(function(item)
     {
 
         let txtValue = item.textContent || item.innerText;
@@ -167,17 +166,19 @@ function searcherOffer()
         {
             item.style.display = "";
             $counter++;
-        } else
+        }
+        else
         {
             item.style.display = "none";
         }
 
         if($filter.length < 2 || $counter === 0)
         {
-            $ul.classList.remove('show');
-        } else
+            $ul.classList.remove("show");
+        }
+        else
         {
-            $ul.classList.add('show');
+            $ul.classList.add("show");
         }
     });
 }

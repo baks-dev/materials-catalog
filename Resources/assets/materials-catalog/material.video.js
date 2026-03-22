@@ -23,23 +23,23 @@
 
 /** коллекция ВИДЕО */
 
-let $addButtonVideo = document.getElementById('video_addCollection');
+let $addButtonVideo = document.getElementById("video_addCollection");
 
 /* Блок для новой коллекции */
-let $blockCollectionVideo = document.getElementById('video_collection');
+let $blockCollectionVideo = document.getElementById("video_collection");
 
 if($addButtonVideo)
 {
     /* добавить событие на удаление ко всем существующим элементам формы в блок с классом .del-item */
-    let $delItemVideo = $blockCollectionVideo.querySelectorAll('.del-item-video');
+    let $delItemVideo = $blockCollectionVideo.querySelectorAll(".del-item-video");
 
     /* Удаляем при клике колекцию СЕКЦИЙ */
     $delItemVideo.forEach(function(item)
     {
-        item.addEventListener('click', function()
+        item.addEventListener("click", function()
         {
 
-            item.closest('.item-collection-video').remove();
+            item.closest(".item-collection-video").remove();
 
         });
     });
@@ -49,7 +49,7 @@ if($addButtonVideo)
 
 
     /* Добавляем новую коллекцию */
-    $addButtonVideo.addEventListener('click', function()
+    $addButtonVideo.addEventListener("click", function()
     {
 
         let $addButtonVideo = this;
@@ -65,21 +65,21 @@ if($addButtonVideo)
 
 
         /* Вставляем новую коллекцию */
-        let div = document.createElement('div');
-        div.classList.add('d-flex');
-        div.classList.add('justify-content-between');
-        div.classList.add('align-items-center');
-        div.classList.add('gap-3');
-        div.classList.add('item-collection-video');
+        let div = document.createElement("div");
+        div.classList.add("d-flex");
+        div.classList.add("justify-content-between");
+        div.classList.add("align-items-center");
+        div.classList.add("gap-3");
+        div.classList.add("item-collection-video");
 
 
         div.innerHTML = newForm;
         $blockCollectionVideo.append(div);
 
         /* Удаляем при клике колекцию СЕКЦИЙ */
-        div.querySelector('.del-item-video').addEventListener('click', function()
+        div.querySelector(".del-item-video").addEventListener("click", function()
         {
-            this.closest('.item-collection-video').remove();
+            this.closest(".item-collection-video").remove();
             let index = $addButtonVideo.dataset.index * 1;
             $addButtonVideo.dataset.index = (index - 1).toString();
         });

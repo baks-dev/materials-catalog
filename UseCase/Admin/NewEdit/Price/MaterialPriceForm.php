@@ -43,7 +43,7 @@ final class MaterialPriceForm extends AbstractType
         $builder->add(
             'price',
             MoneyType::class,
-            ['currency' => false, 'required' => false]
+            ['currency' => false, 'required' => false],
         );
 
         //        $builder->add(
@@ -60,8 +60,8 @@ final class MaterialPriceForm extends AbstractType
                 function($price) {
 
                     return new Money($price);
-                }
-            )
+                },
+            ),
         );
 
         $builder->add(
@@ -77,7 +77,7 @@ final class MaterialPriceForm extends AbstractType
                 },
                 'translation_domain' => 'reference.currency',
                 'label' => false,
-            ]
+            ],
         );
 
         /* Цена по запросу */

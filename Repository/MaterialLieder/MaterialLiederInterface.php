@@ -35,7 +35,8 @@ interface MaterialLiederInterface
     public function forCategory(CategoryMaterial|CategoryMaterialUid|string $category): self;
 
     /**
-     * Метод возвращает ограниченный по количеству элементов список лидеров продаж сырья, суммируя количество резервов на сырьё
+     * Метод возвращает ограниченный по количеству элементов список лидеров продаж сырья, суммируя количество резервов
+     * на сырьё
      *
      * @return array{
      *     "material_name": string,

@@ -58,7 +58,7 @@ final readonly class CurrentMaterialEventRepository implements CurrentMaterialEv
             ->setParameter(
                 key: 'material',
                 value: $material,
-                type: MaterialUid::TYPE
+                type: MaterialUid::TYPE,
             );
 
         $qb
@@ -67,7 +67,7 @@ final readonly class CurrentMaterialEventRepository implements CurrentMaterialEv
                 MaterialEvent::class,
                 'event',
                 'WITH',
-                'event.id = material.event AND event.main = material.id'
+                'event.id = material.event AND event.main = material.id',
             );
 
 
@@ -97,7 +97,7 @@ final readonly class CurrentMaterialEventRepository implements CurrentMaterialEv
             ->setParameter(
                 key: 'last',
                 value: $last,
-                type: MaterialEventUid::TYPE
+                type: MaterialEventUid::TYPE,
             );
 
         $qb
@@ -105,7 +105,7 @@ final readonly class CurrentMaterialEventRepository implements CurrentMaterialEv
                 Material::class,
                 'material',
                 'WITH',
-                'material.id = last.main'
+                'material.id = last.main',
             );
 
         $qb
@@ -114,7 +114,7 @@ final readonly class CurrentMaterialEventRepository implements CurrentMaterialEv
                 MaterialEvent::class,
                 'event',
                 'WITH',
-                'event.id = material.event'
+                'event.id = material.event',
             );
 
 

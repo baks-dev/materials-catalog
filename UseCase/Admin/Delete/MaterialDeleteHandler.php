@@ -71,7 +71,7 @@ final readonly class MaterialDeleteHandler
             $errorsString = sprintf(
                 'Not found %s by id: %s',
                 MaterialEvent::class,
-                $command->getEvent()
+                $command->getEvent(),
             );
             $this->logger->error($uniqid.': '.$errorsString);
 
@@ -89,7 +89,7 @@ final readonly class MaterialDeleteHandler
             $errorsString = sprintf(
                 'Not found %s by event: %s',
                 Material::class,
-                $command->getEvent()
+                $command->getEvent(),
             );
             $this->logger->error($uniqid.': '.$errorsString);
 
@@ -121,7 +121,7 @@ final readonly class MaterialDeleteHandler
             ->addClearCacheOther('materials-category')
             ->dispatch(
                 message: new MaterialMessage($Main->getId(), $Main->getEvent(), $command->getEvent()),
-                transport: 'materials-catalog'
+                transport: 'materials-catalog',
             );
 
 

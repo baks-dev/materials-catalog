@@ -66,7 +66,7 @@ final class IndexController extends AbstractController
             ->createForm(
                 type: SearchForm::class,
                 data: $search,
-                options: ['action' => $this->generateUrl('materials-catalog:admin.index'),]
+                options: ['action' => $this->generateUrl('materials-catalog:admin.index'),],
             )
             ->handleRequest($request);
 
@@ -97,7 +97,7 @@ final class IndexController extends AbstractController
                 'filter' => $filterForm->createView(),
                 //'profile' => $profileForm->createView(),
             ],
-            file: $isFilter ? 'offers.html.twig' : 'material.html.twig'
+            file: $isFilter ? 'offers.html.twig' : 'material.html.twig',
         );
     }
 }

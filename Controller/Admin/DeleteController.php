@@ -67,7 +67,7 @@ final class DeleteController extends AbstractController
                 'page.delete',
                 $handle instanceof Material ? 'success.delete' : 'danger.delete',
                 'materials-catalog.admin',
-                $handle
+                $handle,
             );
 
             return $this->redirectToRoute('materials-catalog:admin.index');
@@ -77,7 +77,7 @@ final class DeleteController extends AbstractController
             [
                 'form' => $form->createView(),
                 'name' => $Event->getNameByLocale($this->getLocale()), // название согласно локали
-            ]
+            ],
         );
     }
 }

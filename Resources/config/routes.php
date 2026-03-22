@@ -32,7 +32,7 @@ return function(RoutingConfigurator $routes) {
         $MODULE.'Controller',
         'attribute',
         false,
-        $MODULE.'Controller/**/*Test.php'
+        $MODULE.'Controller/**/*Test.php',
     )
         ->prefix(\BaksDev\Core\Type\Locale\Locale::routes())
         ->namePrefix('materials-catalog:');

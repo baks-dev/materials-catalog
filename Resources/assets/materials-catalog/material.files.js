@@ -23,22 +23,22 @@
 
 /** Коллекция ФАЙЛОВ */
 
-let $addButtonFile = document.getElementById('file_addCollection');
+let $addButtonFile = document.getElementById("file_addCollection");
 
 /* Блок для новой коллекции */
-let $blockCollectionFile = document.getElementById('file_collection');
+let $blockCollectionFile = document.getElementById("file_collection");
 
 if($addButtonFile)
 {
     /* добавить событие на удаление ко всем существующим элементам формы в блок с классом .del-item */
-    let $delItemFile = $blockCollectionFile.querySelectorAll('.del-item-file');
+    let $delItemFile = $blockCollectionFile.querySelectorAll(".del-item-file");
 
     /* Удаляем при клике колекцию СЕКЦИЙ */
     $delItemFile.forEach(function(item)
     {
-        item.addEventListener('click', function()
+        item.addEventListener("click", function()
         {
-            item.closest('.item-collection-file').remove();
+            item.closest(".item-collection-file").remove();
         });
     });
 
@@ -46,7 +46,7 @@ if($addButtonFile)
     //$blockCollectionFile.dataset.index = $blockCollectionFile.getElementsByClassName('item-collection-file').length.toString();
 
     /* Добавляем новую коллекцию */
-    $addButtonFile.addEventListener('click', function()
+    $addButtonFile.addEventListener("click", function()
     {
 
         let $addButtonFile = this;
@@ -61,20 +61,20 @@ if($addButtonFile)
         //newForm = newForm.replace(/__FIELD__/g, index);
 
         /* Вставляем новую коллекцию */
-        let div = document.createElement('div');
-        div.classList.add('d-flex');
-        div.classList.add('justify-content-between');
-        div.classList.add('align-items-center');
-        div.classList.add('gap-3');
-        div.classList.add('item-collection-file');
+        let div = document.createElement("div");
+        div.classList.add("d-flex");
+        div.classList.add("justify-content-between");
+        div.classList.add("align-items-center");
+        div.classList.add("gap-3");
+        div.classList.add("item-collection-file");
 
         div.innerHTML = newForm;
         $blockCollectionFile.append(div);
 
         /* Удаляем при клике колекцию СЕКЦИЙ */
-        div.querySelector('.del-item-file').addEventListener('click', function()
+        div.querySelector(".del-item-file").addEventListener("click", function()
         {
-            this.closest('.item-collection-file').remove();
+            this.closest(".item-collection-file").remove();
             let index = $addButtonFile.dataset.index * 1;
             $addButtonFile.dataset.index = (index - 1).toString();
         });

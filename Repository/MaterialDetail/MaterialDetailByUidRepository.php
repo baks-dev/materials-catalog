@@ -183,7 +183,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             ->setParameter(
                 'event',
                 $this->event,
-                MaterialEventUid::TYPE
+                MaterialEventUid::TYPE,
             );
 
 
@@ -195,7 +195,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
                 'material_event',
                 MaterialActive::class,
                 'material_active',
-                'material_active.event = material_event.id'
+                'material_active.event = material_event.id',
             );
 
         $dbal
@@ -204,7 +204,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
                 'material_event',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material_event.id AND material_trans.local = :local'
+                'material_trans.event = material_event.id AND material_trans.local = :local',
             );
 
 
@@ -215,7 +215,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
                 'material_event',
                 MaterialDescription::class,
                 'material_desc',
-                'material_desc.event = material_event.id AND material_desc.device = :device '
+                'material_desc.event = material_event.id AND material_desc.device = :device ',
             )
             ->setParameter('device', 'pc');
 
@@ -224,7 +224,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_event',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material_event.id'
+            'material_price.event = material_event.id',
         );
 
         /* MaterialInfo */
@@ -234,7 +234,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
                 'material_event',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material_event.main '
+                'material_info.material = material_event.main ',
             );
 
         /* Торговое предложение */
@@ -247,7 +247,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_event',
             MaterialOffer::class,
             'material_offer',
-            'material_offer.event = material_event.id '.($this->offer ? ' AND material_offer.id = :material_offer' : '').' '
+            'material_offer.event = material_event.id '.($this->offer ? ' AND material_offer.id = :material_offer' : '').' ',
         );
 
         if($this->offer)
@@ -260,7 +260,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_offer',
             MaterialOfferPrice::class,
             'material_offer_price',
-            'material_offer_price.offer = material_offer.id'
+            'material_offer_price.offer = material_offer.id',
         );
 
         /* Получаем тип торгового предложения */
@@ -270,7 +270,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
                 'material_offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = material_offer.category_offer'
+                'category_offer.id = material_offer.category_offer',
             );
 
         /* Получаем название торгового предложения */
@@ -280,7 +280,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
                 'category_offer',
                 CategoryMaterialOffersTrans::class,
                 'category_offer_trans',
-                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local'
+                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local',
             );
 
         /* Наличие и резерв торгового предложения */
@@ -288,7 +288,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_offer',
             MaterialOfferQuantity::class,
             'material_offer_quantity',
-            'material_offer_quantity.offer = material_offer.id'
+            'material_offer_quantity.offer = material_offer.id',
         );
 
         //MaterialCategoryOffers
@@ -303,7 +303,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_offer',
             MaterialVariation::class,
             'material_variation',
-            'material_variation.offer = material_offer.id'.($this->variation ? ' AND material_variation.id = :material_variation' : '').' '
+            'material_variation.offer = material_offer.id'.($this->variation ? ' AND material_variation.id = :material_variation' : '').' ',
         );
 
         if($this->variation)
@@ -316,7 +316,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_variation',
             MaterialVariationPrice::class,
             'material_variation_price',
-            'material_variation_price.variation = material_variation.id'
+            'material_variation_price.variation = material_variation.id',
         );
 
         /* Получаем тип множественного варианта */
@@ -326,7 +326,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
                 'material_variation',
                 CategoryMaterialVariation::class,
                 'category_offer_variation',
-                'category_offer_variation.id = material_variation.category_variation'
+                'category_offer_variation.id = material_variation.category_variation',
             );
 
         /* Получаем название множественного варианта */
@@ -336,7 +336,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
                 'category_offer_variation',
                 CategoryMaterialVariationTrans::class,
                 'category_offer_variation_trans',
-                'category_offer_variation_trans.variation = category_offer_variation.id AND category_offer_variation_trans.local = :local'
+                'category_offer_variation_trans.variation = category_offer_variation.id AND category_offer_variation_trans.local = :local',
             );
 
 
@@ -345,7 +345,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'category_offer_variation',
             MaterialsVariationQuantity::class,
             'material_variation_quantity',
-            'material_variation_quantity.variation = material_variation.id'
+            'material_variation_quantity.variation = material_variation.id',
         );
 
         /* Модификация множественного варианта торгового предложения */
@@ -358,7 +358,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_variation',
             MaterialModification::class,
             'material_modification',
-            'material_modification.variation = material_variation.id'.($this->modification ? ' AND material_modification.id = :material_modification' : '').' '
+            'material_modification.variation = material_variation.id'.($this->modification ? ' AND material_modification.id = :material_modification' : '').' ',
         );
 
         if($this->modification)
@@ -371,7 +371,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_modification',
             MaterialModificationPrice::class,
             'material_modification_price',
-            'material_modification_price.modification = material_modification.id'
+            'material_modification_price.modification = material_modification.id',
         );
 
         /* Получаем тип модификации множественного варианта */
@@ -381,7 +381,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
                 'material_modification',
                 CategoryMaterialModification::class,
                 'category_offer_modification',
-                'category_offer_modification.id = material_modification.category_modification'
+                'category_offer_modification.id = material_modification.category_modification',
             );
 
         /* Получаем название типа модификации */
@@ -393,7 +393,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
                 'category_offer_modification_trans',
                 '
             category_offer_modification_trans.modification = category_offer_modification.id AND 
-            category_offer_modification_trans.local = :local'
+            category_offer_modification_trans.local = :local',
             );
 
         /* Наличие и резерв модификации множественного варианта */
@@ -401,7 +401,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'category_offer_modification',
             MaterialModificationQuantity::class,
             'material_modification_quantity',
-            'material_modification_quantity.modification = material_modification.id'
+            'material_modification_quantity.modification = material_modification.id',
         );
 
 
@@ -423,28 +423,28 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_event',
             MaterialPhoto::class,
             'material_photo',
-            'material_photo.event = material_event.id AND material_photo.root = true'
+            'material_photo.event = material_event.id AND material_photo.root = true',
         );
 
         $dbal->leftJoin(
             'material_offer',
             MaterialOfferImage::class,
             'material_offer_images',
-            'material_offer_images.offer = material_offer.id AND material_offer_images.root = true'
+            'material_offer_images.offer = material_offer.id AND material_offer_images.root = true',
         );
 
         $dbal->leftJoin(
             'material_variation',
             MaterialVariationImage::class,
             'material_variation_image',
-            'material_variation_image.variation = material_variation.id AND material_variation_image.root = true'
+            'material_variation_image.variation = material_variation.id AND material_variation_image.root = true',
         );
 
         $dbal->leftJoin(
             'material_modification',
             MaterialModificationImage::class,
             'material_modification_image',
-            'material_modification_image.modification = material_modification.id AND material_modification_image.root = true'
+            'material_modification_image.modification = material_modification.id AND material_modification_image.root = true',
         );
 
 
@@ -465,7 +465,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
 					
 			   ELSE NULL
 			END AS material_image
-		"
+		",
         );
 
         /* Флаг загрузки файла CDN */
@@ -539,7 +539,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
 			   
 			   ELSE NULL
 			END AS material_currency
-		'
+		',
         );
 
         /* Наличие сырья */
@@ -562,7 +562,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
 	
 			   ELSE 0
 			END AS material_quantity
-		'
+		',
         );
 
 
@@ -571,7 +571,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_event',
             MaterialCategory::class,
             'material_event_category',
-            'material_event_category.event = material_event.id AND material_event_category.root = true'
+            'material_event_category.event = material_event.id AND material_event_category.root = true',
         );
 
 
@@ -579,7 +579,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'material_event_category',
             CategoryMaterial::class,
             'category',
-            'category.id = material_event_category.category'
+            'category.id = material_event_category.category',
         );
 
         $dbal->addSelect('category_trans.name AS category_name')->addGroupBy('category_trans.name');
@@ -588,7 +588,7 @@ final class MaterialDetailByUidRepository implements MaterialDetailByUidInterfac
             'category',
             CategoryMaterialTrans::class,
             'category_trans',
-            'category_trans.event = category.event AND category_trans.local = :local'
+            'category_trans.event = category.event AND category_trans.local = :local',
         );
 
 

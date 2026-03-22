@@ -169,8 +169,8 @@ final class MaterialFilterForm extends AbstractType
                                 'label' => $offerField->getOption(),
                                 'priority' => 200,
                                 'required' => false,
-                                'translation_domain' => $inputOffer->domain()
-                            ]
+                                'translation_domain' => $inputOffer->domain(),
+                            ],
                         );
 
 
@@ -194,7 +194,7 @@ final class MaterialFilterForm extends AbstractType
                                         'label' => $variationField->getOption(),
                                         'priority' => 199,
                                         'required' => false,
-                                    ]
+                                    ],
                                 );
 
                                 /** Модификации множественных вариантов торгового предложения */
@@ -217,7 +217,7 @@ final class MaterialFilterForm extends AbstractType
                                                 'label' => $modificationField->getOption(),
                                                 'priority' => 198,
                                                 'required' => false,
-                                            ]
+                                            ],
                                         );
                                     }
                                 }
@@ -355,13 +355,13 @@ final class MaterialFilterForm extends AbstractType
 
 
                 // $this->request->getSession()->set('catalog_filter', $session);
-            }
+            },
         );
 
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function(FormEvent $event): void {}
+            function(FormEvent $event): void {},
         );
 
 
@@ -375,7 +375,7 @@ final class MaterialFilterForm extends AbstractType
                 'validation_groups' => false,
                 'method' => 'POST',
                 'attr' => ['class' => 'w-100'],
-            ]
+            ],
         );
     }
 }

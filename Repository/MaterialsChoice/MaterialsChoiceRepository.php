@@ -54,7 +54,7 @@ final readonly class MaterialsChoiceRepository implements MaterialsChoiceInterfa
             'material',
             MaterialInfo::class,
             'info',
-            'info.material = material.id'
+            'info.material = material.id',
         );
 
         if($category)
@@ -64,12 +64,12 @@ final readonly class MaterialsChoiceRepository implements MaterialsChoiceInterfa
                     'material',
                     MaterialCategory::class,
                     'category',
-                    'category.event = material.event AND category.category = :category'
+                    'category.event = material.event AND category.category = :category',
                 )
                 ->setParameter(
                     'category',
                     $category,
-                    CategoryMaterialUid::TYPE
+                    CategoryMaterialUid::TYPE,
                 );
         }
 
@@ -78,7 +78,7 @@ final readonly class MaterialsChoiceRepository implements MaterialsChoiceInterfa
             'material',
             MaterialTrans::class,
             'trans',
-            'trans.event = material.event AND trans.local = :local'
+            'trans.event = material.event AND trans.local = :local',
         );
 
         $qb->addSelect('material.id AS value');

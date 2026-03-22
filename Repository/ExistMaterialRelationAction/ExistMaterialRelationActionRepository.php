@@ -51,7 +51,7 @@ final class ExistMaterialRelationActionRepository implements ExistMaterialRelati
             'material',
             UsersTableActions::class,
             'action',
-            'action.event = material.event'
+            'action.event = material.event',
         );
 
 

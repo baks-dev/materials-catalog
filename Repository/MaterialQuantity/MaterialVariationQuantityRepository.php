@@ -55,14 +55,14 @@ final class MaterialVariationQuantityRepository implements MaterialVariationQuan
             ->setParameter(
                 key: 'material',
                 value: $material,
-                type: MaterialUid::TYPE
+                type: MaterialUid::TYPE,
             );
 
         $qb->join(
             MaterialEvent::class,
             'event',
             'WITH',
-            'event.id = material.event'
+            'event.id = material.event',
         );
 
         // Торговое предложение
@@ -72,12 +72,12 @@ final class MaterialVariationQuantityRepository implements MaterialVariationQuan
                 MaterialOffer::class,
                 'offer',
                 'WITH',
-                'offer.event = event.id AND offer.const = :offer_const'
+                'offer.event = event.id AND offer.const = :offer_const',
             )
             ->setParameter(
                 key: 'offer_const',
                 value: $offer,
-                type: MaterialOfferConst::TYPE
+                type: MaterialOfferConst::TYPE,
             );
 
         // Множественный вариант
@@ -87,12 +87,12 @@ final class MaterialVariationQuantityRepository implements MaterialVariationQuan
                 MaterialVariation::class,
                 'variation',
                 'WITH',
-                'variation.offer = offer.id AND variation.const = :variation_const'
+                'variation.offer = offer.id AND variation.const = :variation_const',
             )
             ->setParameter(
                 key: 'variation_const',
                 value: $variation,
-                type: MaterialVariationConst::TYPE
+                type: MaterialVariationConst::TYPE,
             );
 
 
@@ -102,7 +102,7 @@ final class MaterialVariationQuantityRepository implements MaterialVariationQuan
                 MaterialsVariationQuantity::class,
                 'quantity',
                 'WITH',
-                'quantity.variation = variation.id'
+                'quantity.variation = variation.id',
             );
 
 
@@ -112,7 +112,7 @@ final class MaterialVariationQuantityRepository implements MaterialVariationQuan
             CategoryMaterialVariation::class,
             'category_variation',
             'WITH',
-            'category_variation.id = variation.categoryVariation AND category_variation.quantitative = true'
+            'category_variation.id = variation.categoryVariation AND category_variation.quantitative = true',
         );
 
         return $qb->getOneOrNullResult();

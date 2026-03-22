@@ -69,7 +69,7 @@ final class MaterialInfoForm extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => MaterialInfoDTO::class,
-            ]
+            ],
         );
     }
 

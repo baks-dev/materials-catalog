@@ -83,7 +83,8 @@ final class MaterialLiederRepository implements MaterialLiederInterface
     }
 
     /**
-     * Метод возвращает ограниченный по количеству элементов список лидеров продаж сырья, суммируя количество резервов на сырьё
+     * Метод возвращает ограниченный по количеству элементов список лидеров продаж сырья, суммируя количество резервов
+     * на сырьё
      *
      * @return array{
      *     "material_name": string,
@@ -108,7 +109,7 @@ final class MaterialLiederRepository implements MaterialLiederInterface
                 'material',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material.event AND material_trans.local = :local'
+                'material_trans.event = material.event AND material_trans.local = :local',
             );
 
         /** Цена товара */
@@ -116,7 +117,7 @@ final class MaterialLiederRepository implements MaterialLiederInterface
             'material',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material.event'
+            'material_price.event = material.event',
         );
 
         /** MaterialInfo */
@@ -126,7 +127,7 @@ final class MaterialLiederRepository implements MaterialLiederInterface
                 'material',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material.id'
+                'material_info.material = material.id',
             );
 
         /** Даты категории */
@@ -137,7 +138,7 @@ final class MaterialLiederRepository implements MaterialLiederInterface
                 'material',
                 MaterialActive::class,
                 'material_active',
-                'material_active.event = material.event'
+                'material_active.event = material.event',
             );
 
         /** Торговое предложение */
@@ -145,14 +146,14 @@ final class MaterialLiederRepository implements MaterialLiederInterface
             'material',
             MaterialOffer::class,
             'material_offer',
-            'material_offer.event = material.event'
+            'material_offer.event = material.event',
         );
 
         $dbal->leftJoin(
             'material_offer',
             MaterialOfferQuantity::class,
             'material_offer_quantity',
-            'material_offer_quantity.offer = material_offer.id'
+            'material_offer_quantity.offer = material_offer.id',
         );
 
         /** Множественный вариант */
@@ -160,14 +161,14 @@ final class MaterialLiederRepository implements MaterialLiederInterface
             'material_offer',
             MaterialVariation::class,
             'material_offer_variation',
-            'material_offer_variation.offer = material_offer.id'
+            'material_offer_variation.offer = material_offer.id',
         );
 
         $dbal->leftJoin(
             'material_offer_variation',
             MaterialsVariationQuantity::class,
             'material_variation_quantity',
-            'material_variation_quantity.variation = material_offer_variation.id'
+            'material_variation_quantity.variation = material_offer_variation.id',
         );
 
         /** Модификация множественного варианта */
@@ -175,14 +176,14 @@ final class MaterialLiederRepository implements MaterialLiederInterface
             'material_offer_variation',
             MaterialModification::class,
             'material_offer_modification',
-            'material_offer_modification.variation = material_offer_variation.id'
+            'material_offer_modification.variation = material_offer_variation.id',
         );
 
         $dbal->leftJoin(
             'material_offer_modification',
             MaterialModificationQuantity::class,
             'material_modification_quantity',
-            'material_modification_quantity.modification = material_offer_modification.id'
+            'material_modification_quantity.modification = material_offer_modification.id',
         );
 
         /** Категория */
@@ -195,11 +196,11 @@ final class MaterialLiederRepository implements MaterialLiederInterface
                 '
                 material_event_category.event = material.event AND 
                 material_event_category.category = :category AND 
-                material_event_category.root = true'
+                material_event_category.root = true',
             )->setParameter(
                 'category',
                 $this->categoryUid,
-                CategoryMaterialUid::TYPE
+                CategoryMaterialUid::TYPE,
             );
         }
         else
@@ -210,7 +211,7 @@ final class MaterialLiederRepository implements MaterialLiederInterface
                 'material_event_category',
                 '
                 material_event_category.event = material.event AND 
-                material_event_category.root = true'
+                material_event_category.root = true',
             );
         }
 
@@ -218,7 +219,7 @@ final class MaterialLiederRepository implements MaterialLiederInterface
             'material_event_category',
             CategoryMaterial::class,
             'category',
-            'category.id = material_event_category.category'
+            'category.id = material_event_category.category',
         );
 
         $dbal
@@ -227,7 +228,7 @@ final class MaterialLiederRepository implements MaterialLiederInterface
                 'material_event_category',
                 CategoryMaterialInfo::class,
                 'category_info',
-                'category_info.event = category.event'
+                'category_info.event = category.event',
             );
 
         /** Только при наличии */

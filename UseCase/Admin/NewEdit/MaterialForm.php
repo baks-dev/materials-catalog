@@ -93,7 +93,6 @@ final class MaterialForm extends AbstractType
         ]);
 
 
-
         /* PHOTOS CollectionType */
         $builder->add('photo', CollectionType::class, [
             'entry_type' => Photo\MaterialPhotoCollectionForm::class,
@@ -115,7 +114,6 @@ final class MaterialForm extends AbstractType
             'allow_add' => true,
             'prototype_name' => '__files__',
         ]);
-
 
 
         /*
@@ -200,14 +198,14 @@ final class MaterialForm extends AbstractType
                         $sort++;
                     }
                 }
-            }
+            },
         );
 
         /* Сохранить ******************************************************/
         $builder->add(
             'material',
             SubmitType::class,
-            ['label' => 'Save', 'label_html' => true, 'attr' => ['class' => 'btn-primary']]
+            ['label' => 'Save', 'label_html' => true, 'attr' => ['class' => 'btn-primary']],
         );
 
         /*
@@ -286,7 +284,7 @@ final class MaterialForm extends AbstractType
                                         'required' => false,
                                         'mapped' => false,
                                         'attr' => ['style' => 'display: none;'],
-                                    ]
+                                    ],
                                 );
 
                             }
@@ -300,7 +298,7 @@ final class MaterialForm extends AbstractType
                         $form->add(
                             'dataVariation',
                             HiddenType::class,
-                            ['data' => $variationCategory->id, 'mapped' => false]
+                            ['data' => $variationCategory->id, 'mapped' => false],
                         );
 
                         if($variationCategory->reference)
@@ -320,7 +318,7 @@ final class MaterialForm extends AbstractType
                                         'required' => false,
                                         'mapped' => false,
                                         'attr' => ['style' => 'display: none;'],
-                                    ]
+                                    ],
                                 );
 
 
@@ -334,7 +332,7 @@ final class MaterialForm extends AbstractType
                         $form->add(
                             'dataModification',
                             HiddenType::class,
-                            ['data' => $modificationCategory->id, 'mapped' => false]
+                            ['data' => $modificationCategory->id, 'mapped' => false],
                         );
 
                         if($modificationCategory->reference)
@@ -355,7 +353,7 @@ final class MaterialForm extends AbstractType
                                         'required' => false,
                                         'mapped' => false,
                                         'attr' => ['style' => 'display: none;'],
-                                    ]
+                                    ],
                                 );
 
 
@@ -389,7 +387,7 @@ final class MaterialForm extends AbstractType
                                     new Offers\Variation\Image\MaterialVariationImageCollectionDTO();
                                 $MaterialOfferVariationImageCollectionDTO->setRoot(true);
                                 $MaterialOffersVariationCollectionDTO->addImage(
-                                    $MaterialOfferVariationImageCollectionDTO
+                                    $MaterialOfferVariationImageCollectionDTO,
                                 );
                             }
 
@@ -420,7 +418,7 @@ final class MaterialForm extends AbstractType
 
                         $data->addOffer($MaterialOffersCollectionDTO);
                     }
-                }
+                },
             );
         }
 
@@ -434,7 +432,7 @@ final class MaterialForm extends AbstractType
             [
                 'data_class' => MaterialDTO::class,
                 'attr' => ['class' => 'w-100'],
-            ]
+            ],
         );
     }
 

@@ -90,7 +90,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material_active',
                 '
 			material_active.event = material.event
-			'
+			',
             );
 
         $dbal
@@ -101,7 +101,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material',
                 MaterialSeo::class,
                 'material_seo',
-                'material_seo.event = material.event AND material_seo.local = :local'
+                'material_seo.event = material.event AND material_seo.local = :local',
             );
 
 
@@ -111,7 +111,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material.event AND material_trans.local = :local'
+                'material_trans.event = material.event AND material_trans.local = :local',
             );
 
         $dbal
@@ -121,7 +121,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material',
                 MaterialDescription::class,
                 'material_desc',
-                'material_desc.event = material.event AND material_desc.device = :device '
+                'material_desc.event = material.event AND material_desc.device = :device ',
             )
             ->setParameter('device', 'pc');
 
@@ -131,7 +131,7 @@ final class MaterialModelRepository implements MaterialModelInterface
             'material',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material.event'
+            'material_price.event = material.event',
         );
 
         /* MaterialInfo */
@@ -141,7 +141,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material.id '
+                'material_info.material = material.id ',
             );
 
 
@@ -151,7 +151,7 @@ final class MaterialModelRepository implements MaterialModelInterface
             'material',
             MaterialOffer::class,
             'material_offer',
-            'material_offer.event = material.event'
+            'material_offer.event = material.event',
         );
 
         /** Получаем тип торгового предложения */
@@ -161,7 +161,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material_offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = material_offer.category_offer'
+                'category_offer.id = material_offer.category_offer',
             );
 
         /** Получаем название торгового предложения */
@@ -170,7 +170,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'category_offer',
                 CategoryMaterialOffersTrans::class,
                 'category_offer_trans',
-                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local'
+                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local',
             );
 
 
@@ -180,7 +180,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 MaterialOfferPrice::class,
                 'material_offer_price',
                 'material_offer_price.offer = material_offer.id',
-                'offer'
+                'offer',
             );
 
 
@@ -190,7 +190,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material_offer',
                 MaterialOfferQuantity::class,
                 'material_offer_quantity',
-                'material_offer_quantity.offer = material_offer.id'
+                'material_offer_quantity.offer = material_offer.id',
             );
 
 
@@ -202,7 +202,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material_offer',
                 MaterialVariation::class,
                 'material_variation',
-                'material_variation.offer = material_offer.id'
+                'material_variation.offer = material_offer.id',
             );
 
         $dbal
@@ -210,7 +210,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material_variation',
                 CategoryMaterialVariation::class,
                 'category_variation',
-                'category_variation.id = material_variation.category_variation'
+                'category_variation.id = material_variation.category_variation',
             );
 
 
@@ -219,7 +219,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'category_variation',
                 CategoryMaterialVariationTrans::class,
                 'category_variation_trans',
-                'category_variation_trans.variation = category_variation.id AND category_variation_trans.local = :local'
+                'category_variation_trans.variation = category_variation.id AND category_variation_trans.local = :local',
             );
 
         $dbal
@@ -228,7 +228,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 MaterialVariationPrice::class,
                 'material_variation_price',
                 'material_variation_price.variation = material_variation.id',
-                'variation'
+                'variation',
             );
 
 
@@ -238,7 +238,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'category_variation',
                 MaterialsVariationQuantity::class,
                 'material_variation_quantity',
-                'material_variation_quantity.variation = material_variation.id'
+                'material_variation_quantity.variation = material_variation.id',
             );
 
 
@@ -249,7 +249,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material_variation',
                 MaterialModification::class,
                 'material_modification',
-                'material_modification.variation = material_variation.id'
+                'material_modification.variation = material_variation.id',
             );
 
         /** Получаем название типа */
@@ -259,7 +259,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'category_modification',
                 CategoryMaterialModificationTrans::class,
                 'category_modification_trans',
-                'category_modification_trans.modification = category_modification.id AND category_modification_trans.local = :local'
+                'category_modification_trans.modification = category_modification.id AND category_modification_trans.local = :local',
             );
 
         $dbal
@@ -267,7 +267,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material_modification',
                 CategoryMaterialModification::class,
                 'category_modification',
-                'category_modification.id = material_modification.category_modification'
+                'category_modification.id = material_modification.category_modification',
             );
 
 
@@ -277,7 +277,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 MaterialModificationPrice::class,
                 'material_modification_price',
                 'material_modification_price.modification = material_modification.id',
-                'modification'
+                'modification',
             );
 
 
@@ -287,7 +287,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'category_modification',
                 MaterialModificationQuantity::class,
                 'material_modification_quantity',
-                'material_modification_quantity.modification = material_modification.id'
+                'material_modification_quantity.modification = material_modification.id',
             );
 
 
@@ -356,7 +356,7 @@ final class MaterialModelRepository implements MaterialModelInterface
 					)
 
 			)
-			AS material_offers"
+			AS material_offers",
         );
 
 
@@ -366,7 +366,7 @@ final class MaterialModelRepository implements MaterialModelInterface
             'material_modification',
             MaterialModificationImage::class,
             'material_modification_image',
-            ' material_modification_image.modification = material_modification.id'
+            ' material_modification_image.modification = material_modification.id',
         );
 
         $dbal->addSelect(
@@ -383,7 +383,7 @@ final class MaterialModelRepository implements MaterialModelInterface
 
 					) END
 			) AS material_modification_image
-	"
+	",
         );
 
 
@@ -393,7 +393,7 @@ final class MaterialModelRepository implements MaterialModelInterface
             'material_offer',
             MaterialVariationImage::class,
             'material_variation_image',
-            'material_variation_image.variation = material_variation.id'
+            'material_variation_image.variation = material_variation.id',
         );
 
         $dbal
@@ -410,7 +410,7 @@ final class MaterialModelRepository implements MaterialModelInterface
 						
 					) END
 			) AS material_variation_image
-	"
+	",
             );
 
 
@@ -420,7 +420,7 @@ final class MaterialModelRepository implements MaterialModelInterface
             'material_offer',
             MaterialOfferImage::class,
             'material_offer_images',
-            'material_offer_images.offer = material_offer.id'
+            'material_offer_images.offer = material_offer.id',
         );
 
         $dbal->addSelect(
@@ -438,7 +438,7 @@ final class MaterialModelRepository implements MaterialModelInterface
 
 				 /*ORDER BY material_photo.root DESC, material_photo.id*/
 			) AS material_offer_images
-	"
+	",
         );
 
         /** Фот осырья */
@@ -448,7 +448,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'material_offer',
                 MaterialPhoto::class,
                 'material_photo',
-                'material_photo.event = material.event'
+                'material_photo.event = material.event',
             );
 
         $dbal->addSelect(
@@ -468,7 +468,7 @@ final class MaterialModelRepository implements MaterialModelInterface
 
 				 /*ORDER BY material_photo.root DESC, material_photo.id*/
 			) AS material_photo
-	"
+	",
         );
 
 
@@ -477,7 +477,7 @@ final class MaterialModelRepository implements MaterialModelInterface
             'material',
             MaterialCategory::class,
             'material_event_category',
-            'material_event_category.event = material.event AND material_event_category.root = true'
+            'material_event_category.event = material.event AND material_event_category.root = true',
         );
 
 
@@ -485,7 +485,7 @@ final class MaterialModelRepository implements MaterialModelInterface
             'material_event_category',
             CategoryMaterial::class,
             'category',
-            'category.id = material_event_category.category'
+            'category.id = material_event_category.category',
         );
 
         $dbal
@@ -494,7 +494,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'category',
                 CategoryMaterialTrans::class,
                 'category_trans',
-                'category_trans.event = category.event AND category_trans.local = :local'
+                'category_trans.event = category.event AND category_trans.local = :local',
             );
 
         $dbal
@@ -503,14 +503,14 @@ final class MaterialModelRepository implements MaterialModelInterface
                 'category',
                 CategoryMaterialInfo::class,
                 'category_info',
-                'category_info.event = category.event'
+                'category_info.event = category.event',
             );
 
         $dbal->leftJoin(
             'category',
             CategoryMaterialSection::class,
             'category_section',
-            'category_section.event = category.event'
+            'category_section.event = category.event',
         );
 
         /** Обложка */
@@ -525,7 +525,7 @@ final class MaterialModelRepository implements MaterialModelInterface
                  THEN CONCAT ( '/upload/".$dbal->table(CategoryMaterialCover::class)."' , '/', category_cover.name)
                  ELSE NULL
 			END AS category_cover_dir
-		"
+		",
             );
 
 
@@ -533,9 +533,8 @@ final class MaterialModelRepository implements MaterialModelInterface
             'category',
             CategoryMaterialCover::class,
             'category_cover',
-            'category_cover.event = category.event'
+            'category_cover.event = category.event',
         );
-
 
 
         $dbal->where('material.id = :material');

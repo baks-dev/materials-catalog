@@ -95,7 +95,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
                 'material',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material.event AND material_trans.local = :local'
+                'material_trans.event = material.event AND material_trans.local = :local',
             );
 
 
@@ -106,7 +106,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
                 'material',
                 MaterialDescription::class,
                 'material_desc',
-                'material_desc.event = material.event AND material_desc.device = :device '
+                'material_desc.event = material.event AND material_desc.device = :device ',
             )->setParameter('device', 'pc');
 
 
@@ -115,7 +115,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'material',
             MaterialInfo::class,
             'material_info',
-            'material_info.material = material.id'
+            'material_info.material = material.id',
         );
 
 
@@ -125,7 +125,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'material_info',
             UserProfile::class,
             'users_profile',
-            'users_profile.id = material_info.profile'
+            'users_profile.id = material_info.profile',
         );
 
         $dbal
@@ -134,7 +134,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
                 'users_profile',
                 UserProfilePersonal::class,
                 'users_profile_personal',
-                'users_profile_personal.event = users_profile.event'
+                'users_profile_personal.event = users_profile.event',
             );
 
 
@@ -143,7 +143,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'material',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material.event'
+            'material_price.event = material.event',
         );
 
 
@@ -156,7 +156,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
                 'material',
                 MaterialOffer::class,
                 'material_offer',
-                'material_offer.event = material.event'
+                'material_offer.event = material.event',
             );
 
         if($this->filter->getOffer())
@@ -173,7 +173,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
                 'material_offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = material_offer.category_offer'
+                'category_offer.id = material_offer.category_offer',
             );
 
 
@@ -182,7 +182,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'material_offer',
             MaterialOfferQuantity::class,
             'material_offer_quantity',
-            'material_offer_quantity.offer = material_offer.id'
+            'material_offer_quantity.offer = material_offer.id',
         );
 
 
@@ -195,7 +195,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
                 'material_offer',
                 MaterialVariation::class,
                 'material_variation',
-                'material_variation.offer = material_offer.id'
+                'material_variation.offer = material_offer.id',
             );
 
         /* Наличие и резерв множественного варианта */
@@ -203,7 +203,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'material_variation',
             MaterialsVariationQuantity::class,
             'material_variation_quantity',
-            'material_variation_quantity.variation = material_variation.id'
+            'material_variation_quantity.variation = material_variation.id',
         );
 
 
@@ -219,7 +219,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'category_variation',
             MaterialVariationPrice::class,
             'material_variation_price',
-            'material_variation_price.variation = material_variation.id'
+            'material_variation_price.variation = material_variation.id',
         );
 
 
@@ -230,7 +230,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
                 'material_variation',
                 CategoryMaterialVariation::class,
                 'category_variation',
-                'category_variation.id = material_variation.category_variation'
+                'category_variation.id = material_variation.category_variation',
             );
 
 
@@ -242,7 +242,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
                 'material_variation',
                 MaterialModification::class,
                 'material_modification',
-                'material_modification.variation = material_variation.id '
+                'material_modification.variation = material_variation.id ',
             );
 
         /* Наличие и резерв модификации множественного варианта */
@@ -250,7 +250,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'material_modification',
             MaterialModificationQuantity::class,
             'material_modification_quantity',
-            'material_modification_quantity.modification = material_modification.id'
+            'material_modification_quantity.modification = material_modification.id',
         );
 
 
@@ -267,7 +267,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
                 'material_modification',
                 CategoryMaterialModification::class,
                 'category_modification',
-                'category_modification.id = material_modification.category_modification'
+                'category_modification.id = material_modification.category_modification',
             );
 
 
@@ -289,7 +289,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'material',
             MaterialPhoto::class,
             'material_photo',
-            'material_photo.event = material.event AND material_photo.root = true'
+            'material_photo.event = material.event AND material_photo.root = true',
         );
 
         $dbal->leftJoin(
@@ -297,7 +297,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             MaterialVariationImage::class,
             'material_variation_image',
             'material_variation_image.variation = material_variation.id 
-            AND material_variation_image.root = true'
+            AND material_variation_image.root = true',
         );
 
         $dbal->leftJoin(
@@ -305,7 +305,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             MaterialOfferImage::class,
             'material_offer_images',
             'material_offer_images.offer = material_offer.id 
-            AND material_offer_images.root = true'
+            AND material_offer_images.root = true',
         );
 
         $dbal->addSelect(
@@ -322,7 +322,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
 			   
 			   ELSE NULL
 			END AS material_image
-		"
+		",
         );
 
         /** Флаг загрузки файла CDN */
@@ -364,7 +364,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'material',
             MaterialCategory::class,
             'material_event_category',
-            'material_event_category.event = material.event AND material_event_category.root = true'
+            'material_event_category.event = material.event AND material_event_category.root = true',
         );
 
         if($this->filter->getCategory())
@@ -377,7 +377,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'material_event_category',
             CategoryMaterial::class,
             'category',
-            'category.id = material_event_category.category'
+            'category.id = material_event_category.category',
         );
 
         $dbal->addSelect('category_trans.name AS category_name');
@@ -386,7 +386,7 @@ final class AllExistsMaterialsRepository implements AllExistsMaterialsInterface
             'category',
             CategoryMaterialTrans::class,
             'category_trans',
-            'category_trans.event = category.event AND category_trans.local = :local'
+            'category_trans.event = category.event AND category_trans.local = :local',
         );
 
 

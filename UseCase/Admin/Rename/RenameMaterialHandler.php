@@ -77,7 +77,7 @@ final readonly class RenameMaterialHandler
             $this->logger->error(sprintf(
                 '%s: Событие MaterialEvent не найдено (event: %s)',
                 $uniqid,
-                $command->getEvent()
+                $command->getEvent(),
             ), [self::class.':'.__LINE__]);
 
             return $uniqid;
@@ -101,7 +101,7 @@ final readonly class RenameMaterialHandler
             $this->logger->error(sprintf(
                 '%s: Агрегат Material не найден, либо был изменен (event: %s)',
                 $uniqid,
-                $command->getEvent()
+                $command->getEvent(),
             ), [self::class.':'.__LINE__]);
 
             return $uniqid;

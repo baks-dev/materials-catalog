@@ -67,6 +67,7 @@ final class MaterialVariationConst extends Uid
 
         /**
          * Добавляем задержка выполнения для генератора Brcode
+         *
          * @see MaterialBarcode
          */
         if(is_null($value))

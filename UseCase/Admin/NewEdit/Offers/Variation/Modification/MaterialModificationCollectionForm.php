@@ -67,8 +67,8 @@ final class MaterialModificationCollectionForm extends AbstractType
                 },
                 function($categoryModification) {
                     return new CategoryMaterialModificationUid($categoryModification);
-                }
-            )
+                },
+            ),
         );
 
         $builder->add('const', HiddenType::class);
@@ -80,8 +80,8 @@ final class MaterialModificationCollectionForm extends AbstractType
                 },
                 function($const) {
                     return new MaterialModificationConst($const);
-                }
-            )
+                },
+            ),
         );
 
 
@@ -145,7 +145,7 @@ final class MaterialModificationCollectionForm extends AbstractType
                                     'required' => false,
                                     //'mapped' => false,
                                     //'attr' => [ 'data-select' => 'select2' ],
-                                ]
+                                ],
                             );
                         }
                     }
@@ -174,7 +174,7 @@ final class MaterialModificationCollectionForm extends AbstractType
                         $form->remove('price');
                     }
                 }
-            }
+            },
         );
 
         $builder->add(
@@ -184,7 +184,7 @@ final class MaterialModificationCollectionForm extends AbstractType
                 'label_html' => true,
                 'attr' =>
                     ['class' => 'btn btn-sm btn-icon btn-light-danger del-item-modification'],
-            ]
+            ],
         );
 
     }

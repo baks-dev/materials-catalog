@@ -53,7 +53,7 @@ final class MaterialByVariationRepository implements MaterialByVariationInterfac
                 ->setParameter(
                     key: 'const',
                     value: $variation,
-                    type: MaterialVariationConst::TYPE
+                    type: MaterialVariationConst::TYPE,
                 );
         }
 
@@ -65,7 +65,7 @@ final class MaterialByVariationRepository implements MaterialByVariationInterfac
                 ->setParameter(
                     key: 'variation',
                     value: $variation,
-                    type: MaterialVariationUid::TYPE
+                    type: MaterialVariationUid::TYPE,
                 );
 
             $qb
@@ -73,7 +73,7 @@ final class MaterialByVariationRepository implements MaterialByVariationInterfac
                     MaterialVariation::class,
                     'variation',
                     'WITH',
-                    'variation.const = var.const'
+                    'variation.const = var.const',
                 );
         }
 
@@ -83,7 +83,7 @@ final class MaterialByVariationRepository implements MaterialByVariationInterfac
                 MaterialOffer::class,
                 'offer',
                 'WITH',
-                'offer.id = variation.offer'
+                'offer.id = variation.offer',
             );
 
         $qb
@@ -92,7 +92,7 @@ final class MaterialByVariationRepository implements MaterialByVariationInterfac
                 MaterialEvent::class,
                 'event',
                 'WITH',
-                'event.id = offer.event'
+                'event.id = offer.event',
             );
 
         $qb
@@ -101,7 +101,7 @@ final class MaterialByVariationRepository implements MaterialByVariationInterfac
                 Material::class,
                 'material',
                 'WITH',
-                'material.event = event.id'
+                'material.event = event.id',
             );
 
 

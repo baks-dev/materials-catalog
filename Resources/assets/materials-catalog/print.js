@@ -20,11 +20,11 @@
  *  THE SOFTWARE.
  */
 
-printer = document.querySelector('#print_all');
+printer = document.querySelector("#print_all");
 
 if(printer)
 {
-    printer.addEventListener('click', printAll);
+    printer.addEventListener("click", printAll);
 
     function printAll()
     {
@@ -33,8 +33,8 @@ if(printer)
         {
 
             /* Закрываем модальное окно */
-            let myModalEl = document.querySelector('#modal')
-            let modal = bootstrap.Modal.getOrCreateInstance(myModalEl) // Returns a Bootstrap modal instance
+            let myModalEl = document.querySelector("#modal");
+            let modal = bootstrap.Modal.getOrCreateInstance(myModalEl); // Returns a Bootstrap modal instance
             modal.hide();
 
         }, 1000);

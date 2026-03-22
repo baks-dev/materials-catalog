@@ -91,7 +91,7 @@ final class NewController extends AbstractController
                 'page.new',
                 $handle instanceof Material ? 'success.new' : 'danger.new',
                 'materials-catalog.admin',
-                $handle
+                $handle,
             );
 
             return $this->redirectToRoute('materials-catalog:admin.index');

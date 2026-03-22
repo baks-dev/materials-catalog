@@ -97,7 +97,6 @@ class MaterialDetailByConstTest extends KernelTestCase
         }
 
 
-
         /** @var MaterialDetailByConstInterface $OneMaterialDetailByConst */
         $OneMaterialDetailByConst = self::getContainer()->get(MaterialDetailByConstInterface::class);
 

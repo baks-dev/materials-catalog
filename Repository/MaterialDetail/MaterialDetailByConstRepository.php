@@ -200,7 +200,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'material',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material.event AND material_trans.local = :local'
+                'material_trans.event = material.event AND material_trans.local = :local',
             );
 
         //        $dbal
@@ -219,7 +219,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
             'material',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material.event'
+            'material_price.event = material.event',
         );
 
         /* Базовый артикул сырья и стоимость */
@@ -228,7 +228,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'material',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material.id '
+                'material_info.material = material.id ',
             );
 
         /**
@@ -243,12 +243,12 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                     'material_offer',
                     '
                         material_offer.event = material.event AND 
-                        material_offer.const = :material_offer_const'
+                        material_offer.const = :material_offer_const',
                 )
                 ->setParameter(
                     'material_offer_const',
                     $this->offer,
-                    MaterialOfferConst::TYPE
+                    MaterialOfferConst::TYPE,
                 );
         }
         else
@@ -258,7 +258,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                     'material',
                     MaterialOffer::class,
                     'material_offer',
-                    'material_offer.event = material.event'
+                    'material_offer.event = material.event',
                 );
         }
 
@@ -275,7 +275,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'material_offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = material_offer.category_offer'
+                'category_offer.id = material_offer.category_offer',
             );
 
         /* Получаем название торгового предложения */
@@ -285,7 +285,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'category_offer',
                 CategoryMaterialOffersTrans::class,
                 'category_offer_trans',
-                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local'
+                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local',
             );
 
 
@@ -301,7 +301,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                     'material_variation',
                     '
                         material_variation.offer = material_offer.id AND 
-                        material_variation.const = :material_variation_const'
+                        material_variation.const = :material_variation_const',
                 )
                 ->setParameter('material_variation_const', $this->variation, MaterialVariationConst::TYPE);
         }
@@ -312,7 +312,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                     'material_offer',
                     MaterialVariation::class,
                     'material_variation',
-                    'material_variation.offer = material_offer.id'
+                    'material_variation.offer = material_offer.id',
                 );
         }
 
@@ -329,7 +329,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'material_variation',
                 CategoryMaterialVariation::class,
                 'category_offer_variation',
-                'category_offer_variation.id = material_variation.category_variation'
+                'category_offer_variation.id = material_variation.category_variation',
             );
 
         /* Получаем название множественного варианта */
@@ -339,7 +339,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'category_offer_variation',
                 CategoryMaterialVariationTrans::class,
                 'category_offer_variation_trans',
-                'category_offer_variation_trans.variation = category_offer_variation.id AND category_offer_variation_trans.local = :local'
+                'category_offer_variation_trans.variation = category_offer_variation.id AND category_offer_variation_trans.local = :local',
             );
 
 
@@ -355,12 +355,12 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                     'material_modification',
                     '   
                         material_modification.variation = material_variation.id AND 
-                        material_modification.const = :material_modification_const'
+                        material_modification.const = :material_modification_const',
                 )
                 ->setParameter(
                     'material_modification_const',
                     $this->modification,
-                    MaterialModificationConst::TYPE
+                    MaterialModificationConst::TYPE,
                 );
         }
         else
@@ -370,7 +370,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                     'material_variation',
                     MaterialModification::class,
                     'material_modification',
-                    'material_modification.variation = material_variation.id'
+                    'material_modification.variation = material_variation.id',
                 );
         }
 
@@ -387,7 +387,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'material_modification',
                 CategoryMaterialModification::class,
                 'category_offer_modification',
-                'category_offer_modification.id = material_modification.category_modification'
+                'category_offer_modification.id = material_modification.category_modification',
             );
 
         /* Получаем название типа модификации */
@@ -397,7 +397,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'category_offer_modification',
                 CategoryMaterialModificationTrans::class,
                 'category_offer_modification_trans',
-                'category_offer_modification_trans.modification = category_offer_modification.id AND category_offer_modification_trans.local = :local'
+                'category_offer_modification_trans.modification = category_offer_modification.id AND category_offer_modification_trans.local = :local',
             );
 
 
@@ -419,28 +419,28 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
             'material',
             MaterialPhoto::class,
             'material_photo',
-            'material_photo.event = material.event AND material_photo.root = true'
+            'material_photo.event = material.event AND material_photo.root = true',
         );
 
         $dbal->leftJoin(
             'material_offer',
             MaterialOfferImage::class,
             'material_offer_images',
-            'material_offer_images.offer = material_offer.id AND material_offer_images.root = true'
+            'material_offer_images.offer = material_offer.id AND material_offer_images.root = true',
         );
 
         $dbal->leftJoin(
             'material_variation',
             MaterialVariationImage::class,
             'material_variation_image',
-            'material_variation_image.variation = material_variation.id AND material_variation_image.root = true'
+            'material_variation_image.variation = material_variation.id AND material_variation_image.root = true',
         );
 
         $dbal->leftJoin(
             'material_modification',
             MaterialModificationImage::class,
             'material_modification_image',
-            'material_modification_image.modification = material_modification.id AND material_modification_image.root = true'
+            'material_modification_image.modification = material_modification.id AND material_modification_image.root = true',
         );
 
         $dbal->addSelect(
@@ -462,7 +462,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
 			   ELSE NULL
 			   
 			END AS material_image
-		"
+		",
         );
 
         /** Расширение изображения */
@@ -492,14 +492,14 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
             'material',
             MaterialCategory::class,
             'material_event_category',
-            'material_event_category.event = material.event AND material_event_category.root = true'
+            'material_event_category.event = material.event AND material_event_category.root = true',
         );
 
         $dbal->join(
             'material_event_category',
             CategoryMaterial::class,
             'category',
-            'category.id = material_event_category.category'
+            'category.id = material_event_category.category',
         );
 
         $dbal
@@ -508,7 +508,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'category',
                 CategoryMaterialTrans::class,
                 'category_trans',
-                'category_trans.event = category.event AND category_trans.local = :local'
+                'category_trans.event = category.event AND category_trans.local = :local',
             );
 
         /* Наличие и резерв торгового предложения */
@@ -517,7 +517,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'material_offer',
                 MaterialOfferQuantity::class,
                 'material_offer_quantity',
-                'material_offer_quantity.offer = material_offer.id'
+                'material_offer_quantity.offer = material_offer.id',
             );
 
         /* Наличие и резерв множественного варианта */
@@ -525,7 +525,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
             'category_offer_variation',
             MaterialsVariationQuantity::class,
             'material_variation_quantity',
-            'material_variation_quantity.variation = material_variation.id'
+            'material_variation_quantity.variation = material_variation.id',
         );
 
         /* Наличие и резерв модификации множественного варианта */
@@ -533,7 +533,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
             'category_offer_modification',
             MaterialModificationQuantity::class,
             'material_modification_quantity',
-            'material_modification_quantity.modification = material_modification.id'
+            'material_modification_quantity.modification = material_modification.id',
         );
 
         /* Наличие сырья */
@@ -556,7 +556,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
 			   ELSE 0
 			   
 			END AS material_quantity
-		'
+		',
         );
 
 
@@ -568,7 +568,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'material_offer',
                 MaterialOfferPrice::class,
                 'material_offer_price',
-                'material_offer_price.offer = material_offer.id'
+                'material_offer_price.offer = material_offer.id',
             );
 
         /* Цена множественного варианта */
@@ -577,7 +577,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
                 'material_variation',
                 MaterialVariationPrice::class,
                 'material_variation_price',
-                'material_variation_price.variation = material_variation.id'
+                'material_variation_price.variation = material_variation.id',
             );
 
         /* Цена модификации множественного варианта */
@@ -585,7 +585,7 @@ final class MaterialDetailByConstRepository implements MaterialDetailByConstInte
             'material_modification',
             MaterialModificationPrice::class,
             'material_modification_price',
-            'material_modification_price.modification = material_modification.id'
+            'material_modification_price.modification = material_modification.id',
         );
 
         $dbal->addSelect('

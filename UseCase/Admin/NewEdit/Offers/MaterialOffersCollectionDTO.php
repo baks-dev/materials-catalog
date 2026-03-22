@@ -104,31 +104,6 @@ final class MaterialOffersCollectionDTO implements MaterialOffersInterface
         }
     }
 
-    /**
-     * Barcode
-     */
-    public function getBarcode(): MaterialBarcode
-    {
-        if(false === (new ReflectionProperty(self::class, 'barcode')->isInitialized($this)))
-        {
-            $this->barcode = new MaterialBarcode(MaterialBarcode::generate());
-        }
-
-        return $this->barcode;
-    }
-
-    public function setBarcode(?MaterialBarcode $barcode): self
-    {
-        if(is_null($barcode))
-        {
-            $barcode = new MaterialBarcode(MaterialBarcode::generate());
-        }
-
-
-        $this->barcode = $barcode;
-        return $this;
-    }
-
     /** Артикул */
 
     public function getArticle(): ?string
@@ -221,6 +196,31 @@ final class MaterialOffersCollectionDTO implements MaterialOffersInterface
     public function setValue(?string $value): void
     {
         $this->value = $value;
+    }
+
+    /**
+     * Barcode
+     */
+    public function getBarcode(): MaterialBarcode
+    {
+        if(false === (new ReflectionProperty(self::class, 'barcode')->isInitialized($this)))
+        {
+            $this->barcode = new MaterialBarcode(MaterialBarcode::generate());
+        }
+
+        return $this->barcode;
+    }
+
+    public function setBarcode(?MaterialBarcode $barcode): self
+    {
+        if(is_null($barcode))
+        {
+            $barcode = new MaterialBarcode(MaterialBarcode::generate());
+        }
+
+
+        $this->barcode = $barcode;
+        return $this;
     }
 
     public function removeVariation(Variation\MaterialVariationCollectionDTO $variation): void

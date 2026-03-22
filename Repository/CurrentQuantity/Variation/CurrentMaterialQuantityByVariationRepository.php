@@ -56,7 +56,7 @@ final class CurrentMaterialQuantityByVariationRepository implements CurrentMater
             Material::class,
             'material',
             'WITH',
-            'material.id = event.main'
+            'material.id = event.main',
         );
 
         /** Торговое предложение */
@@ -65,7 +65,7 @@ final class CurrentMaterialQuantityByVariationRepository implements CurrentMater
             MaterialOffer::class,
             'offer',
             'WITH',
-            'offer.id = :offer AND offer.event = event.id'
+            'offer.id = :offer AND offer.event = event.id',
         );
         $qb->setParameter('offer', $offer, MaterialOfferUid::TYPE);
 
@@ -73,7 +73,7 @@ final class CurrentMaterialQuantityByVariationRepository implements CurrentMater
             MaterialOffer::class,
             'current_offer',
             'WITH',
-            'current_offer.const = offer.const AND current_offer.event = material.event'
+            'current_offer.const = offer.const AND current_offer.event = material.event',
         );
 
 
@@ -83,7 +83,7 @@ final class CurrentMaterialQuantityByVariationRepository implements CurrentMater
             MaterialVariation::class,
             'variation',
             'WITH',
-            'variation.id = :variation AND variation.offer = offer.id'
+            'variation.id = :variation AND variation.offer = offer.id',
         );
         $qb->setParameter('variation', $variation, MaterialVariationUid::TYPE);
 
@@ -91,7 +91,7 @@ final class CurrentMaterialQuantityByVariationRepository implements CurrentMater
             MaterialVariation::class,
             'current_variation',
             'WITH',
-            'current_variation.const = variation.const AND current_variation.offer = current_offer.id'
+            'current_variation.const = variation.const AND current_variation.offer = current_offer.id',
         );
 
 
@@ -100,7 +100,7 @@ final class CurrentMaterialQuantityByVariationRepository implements CurrentMater
             MaterialsVariationQuantity::class,
             'quantity',
             'WITH',
-            'quantity.variation = current_variation.id'
+            'quantity.variation = current_variation.id',
         );
 
 

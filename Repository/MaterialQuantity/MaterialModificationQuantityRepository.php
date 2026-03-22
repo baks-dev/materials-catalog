@@ -64,7 +64,7 @@ final class MaterialModificationQuantityRepository implements MaterialModificati
             MaterialEvent::class,
             'event',
             'WITH',
-            'event.id = material.event'
+            'event.id = material.event',
         );
 
         // Торговое предложение
@@ -74,12 +74,12 @@ final class MaterialModificationQuantityRepository implements MaterialModificati
                 MaterialOffer::class,
                 'offer',
                 'WITH',
-                'offer.event = event.id AND offer.const = :offer_const'
+                'offer.event = event.id AND offer.const = :offer_const',
             )
             ->setParameter(
                 key: 'offer_const',
                 value: $offer,
-                type: MaterialOfferConst::TYPE
+                type: MaterialOfferConst::TYPE,
             );
 
         // Множественный вариант
@@ -89,12 +89,12 @@ final class MaterialModificationQuantityRepository implements MaterialModificati
                 MaterialVariation::class,
                 'variation',
                 'WITH',
-                'variation.offer = offer.id AND variation.const = :variation_const'
+                'variation.offer = offer.id AND variation.const = :variation_const',
             )
             ->setParameter(
                 key: 'variation_const',
                 value: $variation,
-                type: MaterialVariationConst::TYPE
+                type: MaterialVariationConst::TYPE,
             );
 
         // Модификация множественного варианта
@@ -104,12 +104,12 @@ final class MaterialModificationQuantityRepository implements MaterialModificati
                 MaterialModification::class,
                 'modification',
                 'WITH',
-                'modification.variation = variation.id AND modification.const = :modification_const'
+                'modification.variation = variation.id AND modification.const = :modification_const',
             )
             ->setParameter(
                 key: 'modification_const',
                 value: $modification,
-                type: MaterialModificationConst::TYPE
+                type: MaterialModificationConst::TYPE,
             );
 
         $qb
@@ -118,7 +118,7 @@ final class MaterialModificationQuantityRepository implements MaterialModificati
                 MaterialModificationQuantity::class,
                 'quantity',
                 'WITH',
-                'quantity.modification = modification.id'
+                'quantity.modification = modification.id',
             );
 
 
@@ -128,7 +128,7 @@ final class MaterialModificationQuantityRepository implements MaterialModificati
             CategoryMaterialModification::class,
             'category_modification',
             'WITH',
-            'category_modification.id = modification.categoryModification AND category_modification.quantitative = true'
+            'category_modification.id = modification.categoryModification AND category_modification.quantitative = true',
         );
 
         return $qb->getOneOrNullResult();

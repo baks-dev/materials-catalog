@@ -41,7 +41,7 @@ final class MaterialOfferVariationImageCollectionForm extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => ['accept' => ".png, .jpg, .jpeg, .webp, .gif"],
-            ]
+            ],
         );
 
         $builder->add('root', RadioType::class, ['required' => false]);
@@ -51,7 +51,7 @@ final class MaterialOfferVariationImageCollectionForm extends AbstractType
             ButtonType::class,
             [
                 'label_html' => true,
-            ]
+            ],
         );
     }
 

@@ -24,35 +24,35 @@
 /** Коллекция КАТЕГОРИЙ */
 
 /* кнопка Добавить КАТЕГОРИЮ */
-let $addButtonCategory = document.getElementById('category_addCollection');
+let $addButtonCategory = document.getElementById("category_addCollection");
 
 /* Блок для новой коллекции КАТЕГОРИИ */
-let $blockCollectionCategory = document.getElementById('category_collection');
+let $blockCollectionCategory = document.getElementById("category_collection");
 
 if($addButtonCategory)
 {
     /* добавить событие на удаление ко всем существующим элементам формы в блок с классом .del-item */
-    let $delItemCategory = $blockCollectionCategory.querySelectorAll('.del-item-category');
+    let $delItemCategory = $blockCollectionCategory.querySelectorAll(".del-item-category");
 
     /* Удаляем при клике колекцию СЕКЦИЙ */
     $delItemCategory.forEach(function(item)
     {
-        item.addEventListener('click', function()
+        item.addEventListener("click", function()
         {
 
-            let $counter = $blockCollectionCategory.getElementsByClassName('item-collection-category').length;
+            let $counter = $blockCollectionCategory.getElementsByClassName("item-collection-category").length;
             if($counter > 1)
             {
-                item.closest('.item-collection-category').remove();
+                item.closest(".item-collection-category").remove();
             }
         });
     });
 
     /* получаем количество коллекций и присваиваем data-index прототипу */
-    $blockCollectionCategory.dataset.index = $blockCollectionCategory.getElementsByClassName('item-collection-category').length.toString();
+    $blockCollectionCategory.dataset.index = $blockCollectionCategory.getElementsByClassName("item-collection-category").length.toString();
 
     /* Добавляем новую коллекцию */
-    $addButtonCategory.addEventListener('click', function()
+    $addButtonCategory.addEventListener("click", function()
     {
         /* получаем прототип коллекции  */
         let $addButtonCategory = this;
@@ -67,22 +67,22 @@ if($addButtonCategory)
         //newForm = newForm.replace(/__FIELD__/g, index);
 
         /* Вставляем новую коллекцию */
-        let div = document.createElement('div');
-        div.classList.add('item-collection-category');
-        div.classList.add('d-flex');
-        div.classList.add('justify-content-between');
-        div.classList.add('align-items-center');
-        div.classList.add('gap-3');
+        let div = document.createElement("div");
+        div.classList.add("item-collection-category");
+        div.classList.add("d-flex");
+        div.classList.add("justify-content-between");
+        div.classList.add("align-items-center");
+        div.classList.add("gap-3");
         div.innerHTML = newForm;
         $blockCollectionCategory.append(div);
 
         /* Удаляем при клике колекцию СЕКЦИЙ */
-        div.querySelector('.del-item-category').addEventListener('click', function()
+        div.querySelector(".del-item-category").addEventListener("click", function()
         {
-            let $counter = $blockCollectionCategory.getElementsByClassName('item-collection-category').length;
+            let $counter = $blockCollectionCategory.getElementsByClassName("item-collection-category").length;
             if($counter > 1)
             {
-                this.closest('.item-collection-category').remove();
+                this.closest(".item-collection-category").remove();
                 index = $addButtonCategory.dataset.index * 1;
                 $addButtonCategory.dataset.index = (index - 1).toString();
             }
@@ -92,20 +92,20 @@ if($addButtonCategory)
         $addButtonCategory.dataset.index = (index + 1).toString();
 
         /* применяем select2 */
-        new NiceSelect(div.querySelector('[data-select="select2"]'), {searchable: true});
+        new NiceSelect(div.querySelector("[data-select=\"select2\"]"), {searchable : true});
 
     });
 }
 
-$select2Category = document.getElementById('material_form_category_0_category');
+$select2Category = document.getElementById("material_form_category_0_category");
 //new NiceSelect($select2Category, {searchable: true});
 
 
 /* ИЗМЕНЕНИЕ СВОЙСТВ В ЗАВИСИМОСТИ ОТ КАТЕГОРИИ */
 //let attr = document.querySelector('[data-parent="true"]');
 
-$select2Category.addEventListener('change', function()
+$select2Category.addEventListener("change", function()
 {
-    window.location.href = '?category=' + (this.value ? this.value : 'null');
+    window.location.href = "?category=" + (this.value ? this.value : "null");
 });
 

@@ -21,15 +21,15 @@
  */
 
 /* кнопка Добавить торговое предложение */
-let $btnAddOffer = document.getElementById('offer_addCollection');
+let $btnAddOffer = document.getElementById("offer_addCollection");
 
 if($btnAddOffer)
 {
 
-    let $blockCollectionOffers = document.getElementById('collection-offer');
+    let $blockCollectionOffers = document.getElementById("collection-offer");
 
     /* Добавляем новую коллекцию торгового предложения */
-    $btnAddOffer.addEventListener('click', function()
+    $btnAddOffer.addEventListener("click", function()
     {
 
         /* получаем прототип коллекции  */
@@ -43,29 +43,29 @@ if($btnAddOffer)
 
 
         /* Вставляем новую коллекцию */
-        let div = document.createElement('div');
-        div.classList.add('card');
-        div.classList.add('mb-3');
-        div.classList.add('w-100');
+        let div = document.createElement("div");
+        div.classList.add("card");
+        div.classList.add("mb-3");
+        div.classList.add("w-100");
         //div.classList.add('border-light');
 
-        div.id = 'item-collection-offer-' + index;
+        div.id = "item-collection-offer-" + index;
         div.innerHTML = newForm;
 
         $blockCollectionOffers.append(div);
 
 
         /* Удаляем при клике торговое предложение */
-        div.querySelector('.del-item-offer').addEventListener('click', deleteOffer);
+        div.querySelector(".del-item-offer").addEventListener("click", deleteOffer);
 
 
         /* Делаем замену если торговое предложение - справочник */
-        let $inputValue = div.querySelector('#material_form_offer_' + index + '_value');
-        replaceReference($inputValue, 'material_form_data-offer-reference');
+        let $inputValue = div.querySelector("#material_form_offer_" + index + "_value");
+        replaceReference($inputValue, "material_form_data-offer-reference");
 
 
         /* Событие на Добавить еще фото в ТП */
-        (div.querySelector('.offer-image-add-collection'))?.addEventListener('click', addOfferImage);
+        (div.querySelector(".offer-image-add-collection"))?.addEventListener("click", addOfferImage);
 
 
         /* Присваиваем идентификатор categoryOffer*/
@@ -77,20 +77,20 @@ if($btnAddOffer)
          });*/
 
 
-        let $changeRoot = div.querySelector('[class^="change-root-"]');
+        let $changeRoot = div.querySelector("[class^=\"change-root-\"]");
         if($changeRoot)
         {
             $changeRoot.checked = true;
-            $changeRoot.addEventListener('change', chanheOfferImageRoot);
+            $changeRoot.addEventListener("change", chanheOfferImageRoot);
         }
 
 
         /* Удаляем при клике фото торгового предложения */
-        (div.querySelector('.del-item-offer-image'))?.addEventListener('click', deleteOfferImage);
+        (div.querySelector(".del-item-offer-image"))?.addEventListener("click", deleteOfferImage);
 
 
         /* Плавная прокрутка к элементу */
-        div.scrollIntoView({block: "center", inline: "center", behavior: "smooth"});
+        div.scrollIntoView({block : "center", inline : "center", behavior : "smooth"});
 
         this.dataset.index = (index + 1).toString();
 
@@ -99,62 +99,62 @@ if($btnAddOffer)
 
 
         /* Удаляем при клике множественный вариант */
-        (div.querySelector('.del-item-variation'))?.addEventListener('click', deleteVariation);
+        (div.querySelector(".del-item-variation"))?.addEventListener("click", deleteVariation);
 
 
         /* Делаем замену если множественный вариант - справочник */
-        let $inputValueVariation = div.querySelector('#material_form_offer_' + index + '_variation_0_value');
-        replaceReference($inputValueVariation, 'material_form_data-variation-reference');
+        let $inputValueVariation = div.querySelector("#material_form_offer_" + index + "_variation_0_value");
+        replaceReference($inputValueVariation, "material_form_data-variation-reference");
 
 
         /* Событие на добавить фото множественного варианта */
-        (div.querySelector('.variation-image-add-collection'))?.addEventListener('click', addVariationImage);
+        (div.querySelector(".variation-image-add-collection"))?.addEventListener("click", addVariationImage);
 
         /* Удаляем при клике фото множественного варианта предложения */
-        (div.querySelector('.del-item-variation-image'))?.addEventListener('click', deleteVariationImage);
+        (div.querySelector(".del-item-variation-image"))?.addEventListener("click", deleteVariationImage);
 
         /* События change-root image ВАРИАНТА */
-        let changeRadio = div.querySelector('.change-variation-material_form_offer_' + index + '_variation_0');
+        let changeRadio = div.querySelector(".change-variation-material_form_offer_" + index + "_variation_0");
         if(changeRadio)
         {
             changeRadio.checked = true;
-            changeRadio.addEventListener('change', chanheVariationImageRoot);
+            changeRadio.addEventListener("change", chanheVariationImageRoot);
         }
 
-        (div.querySelector('.offer-variation-add-collection'))?.addEventListener('click', addVariation);
+        (div.querySelector(".offer-variation-add-collection"))?.addEventListener("click", addVariation);
 
 
         /** МОДИФИКАЦИЯ */
 
         /* Событие Добавить модификатор множественного варианта */
-        (div.querySelector('.variation-modification-add-collection'))?.addEventListener('click', addModification);
+        (div.querySelector(".variation-modification-add-collection"))?.addEventListener("click", addModification);
 
         /* Удаляем при клике модификацию */
-        (div.querySelector('.del-item-modification'))?.addEventListener('click', deleteModification);
+        (div.querySelector(".del-item-modification"))?.addEventListener("click", deleteModification);
 
 
         /* Делаем замену если модификация - справочник */
-        let $inputValueModification = div.querySelector('#material_form_offer_' + index + '_variation_0_modification_0_value');
-        replaceReference($inputValueModification, 'material_form_data-modification-reference');
+        let $inputValueModification = div.querySelector("#material_form_offer_" + index + "_variation_0_modification_0_value");
+        replaceReference($inputValueModification, "material_form_data-modification-reference");
 
 
         /* Событие на добавить фото модификации */
-        (div.querySelector('.modification-image-add-collection'))?.addEventListener('click', addModificationImage);
+        (div.querySelector(".modification-image-add-collection"))?.addEventListener("click", addModificationImage);
 
         /* Удаляем при клике фото модификации */
-        (div.querySelector('.del-item-modification-image'))?.addEventListener('click', deleteModificationImage);
+        (div.querySelector(".del-item-modification-image"))?.addEventListener("click", deleteModificationImage);
 
         /* События change-root image */
-        let changeRadioModification = div.querySelector('.change-modification-material_form_offer_' + index + '_variation_0_modification_0');
+        let changeRadioModification = div.querySelector(".change-modification-material_form_offer_" + index + "_variation_0_modification_0");
         if(changeRadioModification)
         {
             changeRadioModification.checked = true;
-            changeRadioModification.addEventListener('change', chanheModificationImageRoot);
+            changeRadioModification.addEventListener("change", chanheModificationImageRoot);
         }
 
 
         /* Генератор артикулов  */
-        (div.querySelector('.article-generate'))?.addEventListener('click', articleGenerate);
+        (div.querySelector(".article-generate"))?.addEventListener("click", articleGenerate);
 
         /* Вызываем предпросмотрт фото */
         offerPreloadPhoto(div);
@@ -188,7 +188,7 @@ if($btnAddOffer)
 executeFunc(function initDeleteOffer()
 {
 
-    let offers = document.querySelectorAll('.del-item-offers');
+    let offers = document.querySelectorAll(".del-item-offers");
 
     if(offers.length === 0)
     {
@@ -197,7 +197,7 @@ executeFunc(function initDeleteOffer()
 
     offers.forEach(function(item)
     {
-        item.addEventListener('click', deleteOffer);
+        item.addEventListener("click", deleteOffer);
     });
 
     return true;
@@ -207,15 +207,15 @@ executeFunc(function initDeleteOffer()
 
 function deleteOffer()
 {
-    document.getElementById('item-collection-offer-' + this.dataset.index).remove();
+    document.getElementById("item-collection-offer-" + this.dataset.index).remove();
 }
 
 
 /** Добавить фото торгового предложения */
 
-document.querySelectorAll('.offer-image-add-collection').forEach(function(item)
+document.querySelectorAll(".offer-image-add-collection").forEach(function(item)
 {
-    item.addEventListener('click', addOfferImage);
+    item.addEventListener("click", addOfferImage);
 });
 
 function addOfferImage()
@@ -232,47 +232,48 @@ function addOfferImage()
 
     // newForm = newForm.replace(/__name__/g, name) /* меняем индекс торгового предложения */
 
-    newForm = newForm.replace(/__offers__/g, offer)
+    newForm = newForm.replace(/__offers__/g, offer);
     //newForm = newForm.replace(/__variation__/g, offer)
-    newForm = newForm.replace(/__offer_image__/g, index)
+    newForm = newForm.replace(/__offer_image__/g, index);
 
-    let div = document.createElement('div');
+    let div = document.createElement("div");
     div.innerHTML = newForm;
-    div.id = 'item_material_form_offer_' + offer + '_image_' + index;
+    div.id = "item_material_form_offer_" + offer + "_image_" + index;
 
-    $offerImageCollection = document.getElementById('offer_image_collection-' + offer);
+    $offerImageCollection = document.getElementById("offer_image_collection-" + offer);
     $offerImageCollection.append(div);
 
     /* Удаляем при клике фото торгового предложения */
-    div.querySelector('.del-item-offer-image').addEventListener('click', deleteOfferImage);
+    div.querySelector(".del-item-offer-image").addEventListener("click", deleteOfferImage);
 
     /** обытия change-root image */
-    div.querySelector('.change-root-' + offer).addEventListener('change', chanheOfferImageRoot);
+    div.querySelector(".change-root-" + offer).addEventListener("change", chanheOfferImageRoot);
 
     this.dataset.index = (index + 1).toString();
 
 
-    let inputElement = div.querySelector('input[type="file"]');
+    let inputElement = div.querySelector("input[type=\"file\"]");
 
-    inputElement.addEventListener('change', function(e)
+    inputElement.addEventListener("change", function(e)
     {
 
         var file = inputElement.files[0];
         var reader = new FileReader();
-        let image = div.querySelector('.image-input');
+        let image = div.querySelector(".image-input");
 
         reader.onloadend = function()
         {
 
-            image.style.setProperty("background-image", "url(" + reader.result + ")", "important")
-        }
+            image.style.setProperty("background-image", "url(" + reader.result + ")", "important");
+        };
 
         if(file)
         {
             reader.readAsDataURL(file);
-        } else
+        }
+        else
         {
-            image.style.setProperty("background-image", "url(/img/blank.svg)", "important")
+            image.style.setProperty("background-image", "url(/img/blank.svg)", "important");
 
         }
     });
@@ -282,9 +283,9 @@ function addOfferImage()
 
 /** Удалить фото торгового предложения */
 
-document.querySelectorAll('.del-item-offer-image').forEach(function(item)
+document.querySelectorAll(".del-item-offer-image").forEach(function(item)
 {
-    item.addEventListener('click', deleteOfferImage);
+    item.addEventListener("click", deleteOfferImage);
 });
 
 function deleteOfferImage()
@@ -292,7 +293,7 @@ function deleteOfferImage()
 
     /* Если удаляется фото ROOT - выделяем следующую кнопку */
 
-    let btnRootId = this.id.replace(/DeleteOfferPhoto/g, 'root');
+    let btnRootId = this.id.replace(/DeleteOfferPhoto/g, "root");
     let btnRoot = document.getElementById(btnRootId);
     let photoBlock = document.getElementById(this.dataset.index);
 
@@ -305,7 +306,7 @@ function deleteOfferImage()
         if(btnRoot.checked == true)
         {
             /* Выделяем первый элемент в родительском блоке */
-            let nextChaecked = parentElement.querySelector('[class^="change-root-"]');
+            let nextChaecked = parentElement.querySelector("[class^=\"change-root-\"]");
             if(nextChaecked)
             {
                 nextChaecked.checked = true;
@@ -319,17 +320,17 @@ function deleteOfferImage()
 
 /** Меняем CHACKED изображений радио-кнопок Root */
 
-document.querySelectorAll('[class^="change-root-"]').forEach(function(item)
+document.querySelectorAll("[class^=\"change-root-\"]").forEach(function(item)
 {
-    item.addEventListener('change', chanheOfferImageRoot);
+    item.addEventListener("change", chanheOfferImageRoot);
 });
 
 function chanheOfferImageRoot()
 {
 
-    let offer_photo_collection = document.getElementById('offer_image_collection-' + this.dataset.index);
+    let offer_photo_collection = document.getElementById("offer_image_collection-" + this.dataset.index);
 
-    offer_photo_collection.querySelectorAll('.change-root-' + this.dataset.index).forEach(function(rootChack, i, arr)
+    offer_photo_collection.querySelectorAll(".change-root-" + this.dataset.index).forEach(function(rootChack, i, arr)
     {
         rootChack.checked = false;
     });
@@ -343,9 +344,9 @@ function chanheOfferImageRoot()
 /** Добавить множественный вариант */
 
 
-document.querySelectorAll('.offer-variation-add-collection').forEach(function(item)
+document.querySelectorAll(".offer-variation-add-collection").forEach(function(item)
 {
-    item.addEventListener('click', addVariation);
+    item.addEventListener("click", addVariation);
 });
 
 function addVariation()
@@ -361,70 +362,70 @@ function addVariation()
     // __offers__
     // __offer_variation__
 
-    newForm = newForm.replace(/__offers__/g, offer)
-    newForm = newForm.replace(/__offer_variation__/g, index)
+    newForm = newForm.replace(/__offers__/g, offer);
+    newForm = newForm.replace(/__offer_variation__/g, index);
 
 
-    let div = document.createElement('div');
+    let div = document.createElement("div");
     div.innerHTML = newForm;
-    div.id = 'item_material_form_offer_' + offer + '_variation_' + index;
+    div.id = "item_material_form_offer_" + offer + "_variation_" + index;
 
 
     /* Удаляем при клике множественный вариант */
-    div.querySelector('.del-item-variation').addEventListener('click', deleteVariation);
+    div.querySelector(".del-item-variation").addEventListener("click", deleteVariation);
 
 
     /* Делаем замену если множественный вариант - справочник */
-    let $inputValue = div.querySelector('#material_form_offer_' + offer + '_variation_' + index + '_value');
-    replaceReference($inputValue, 'material_form_data-variation-reference');
+    let $inputValue = div.querySelector("#material_form_offer_" + offer + "_variation_" + index + "_value");
+    replaceReference($inputValue, "material_form_data-variation-reference");
 
 
     /* Событие на добавить фото множественного варианта */
-    (div.querySelector('.variation-image-add-collection'))?.addEventListener('click', addVariationImage);
+    (div.querySelector(".variation-image-add-collection"))?.addEventListener("click", addVariationImage);
 
     /* Удаляем при клике фото множественного варианта предложения */
-    (div.querySelector('.del-item-variation-image'))?.addEventListener('click', deleteVariationImage);
+    (div.querySelector(".del-item-variation-image"))?.addEventListener("click", deleteVariationImage);
 
     /* События change-root image */
-    let changeRadio = div.querySelector('.change-variation-material_form_offer_' + offer + '_variation_' + index);
+    let changeRadio = div.querySelector(".change-variation-material_form_offer_" + offer + "_variation_" + index);
     if(changeRadio)
     {
         changeRadio.checked = true;
-        changeRadio.addEventListener('change', chanheVariationImageRoot);
+        changeRadio.addEventListener("change", chanheVariationImageRoot);
     }
 
 
     /** МОДИФИКАЦИЯ */
 
     /* Событие Добавить модификатор множественного варианта */
-    (div.querySelector('.variation-modification-add-collection'))?.addEventListener('click', addModification);
+    (div.querySelector(".variation-modification-add-collection"))?.addEventListener("click", addModification);
 
     /* Удаляем при клике модификацию */
-    (div.querySelector('.del-item-modification'))?.addEventListener('click', deleteModification);
+    (div.querySelector(".del-item-modification"))?.addEventListener("click", deleteModification);
 
 
     /* Делаем замену если модификация - справочник */
-    let $inputValueModification = div.querySelector('#material_form_offer_' + offer + '_variation_' + index + '_modification_0_value');
-    replaceReference($inputValueModification, 'material_form_data-modification-reference');
+    let $inputValueModification = div.querySelector("#material_form_offer_" + offer + "_variation_" + index + "_modification_0_value");
+    replaceReference($inputValueModification, "material_form_data-modification-reference");
 
 
     /* Событие на добавить фото модификации */
-    (div.querySelector('.modification-image-add-collection'))?.addEventListener('click', addModificationImage);
+    (div.querySelector(".modification-image-add-collection"))?.addEventListener("click", addModificationImage);
 
     /* Удаляем при клике фото модификации */
-    (div.querySelector('.del-item-modification-image'))?.addEventListener('click', deleteModificationImage);
+    (div.querySelector(".del-item-modification-image"))?.addEventListener("click", deleteModificationImage);
 
     /* События change-root image */
-    let changeRadioModification = div.querySelector('.change-modification-material_form_offer_' + offer + '_variation_' + index + '_modification_0');
+    let changeRadioModification = div.querySelector(".change-modification-material_form_offer_" + offer + "_variation_" + index + "_modification_0");
     if(changeRadioModification)
     {
         changeRadioModification.checked = true;
-        changeRadioModification.addEventListener('change', chanheModificationImageRoot);
+        changeRadioModification.addEventListener("change", chanheModificationImageRoot);
     }
 
 
     /* Выделяем Root если элемент добавлен новый */
-    let $chanheModificationImageRoot = div.querySelectorAll('[class^="change-modification-"]');
+    let $chanheModificationImageRoot = div.querySelectorAll("[class^=\"change-modification-\"]");
     if($chanheModificationImageRoot.length === 1)
     {
         $chanheModificationImageRoot.forEach(function(item)
@@ -439,7 +440,7 @@ function addVariation()
 
 
     /* Генератор артикулов  */
-    (div.querySelector('.article-generate'))?.addEventListener('click', articleGenerate);
+    (div.querySelector(".article-generate"))?.addEventListener("click", articleGenerate);
 
     /* Вызываем предпросмотрт фото */
     offerPreloadPhoto(div);
@@ -454,7 +455,7 @@ function addVariation()
 /** Удаляем  множественный вариант  */
 executeFunc(function initDeleteVariation()
 {
-    let variation = document.querySelectorAll('.del-item-variation');
+    let variation = document.querySelectorAll(".del-item-variation");
 
     if(variation.length === 0)
     {
@@ -463,7 +464,7 @@ executeFunc(function initDeleteVariation()
 
     variation.forEach(function(item)
     {
-        item.addEventListener('click', deleteVariation);
+        item.addEventListener("click", deleteVariation);
     });
 
     return true;
@@ -479,9 +480,9 @@ function deleteVariation()
 
 /** Добавить фото множественного варианта */
 
-document.querySelectorAll('.variation-image-add-collection').forEach(function(item)
+document.querySelectorAll(".variation-image-add-collection").forEach(function(item)
 {
-    item.addEventListener('click', addVariationImage);
+    item.addEventListener("click", addVariationImage);
 });
 
 function addVariationImage()
@@ -501,22 +502,22 @@ function addVariationImage()
 
     // newForm = newForm.replace(/__name__/g, name) /* меняем индекс торгового предложения */
 
-    newForm = newForm.replace(/__offers__/g, offer)
-    newForm = newForm.replace(/__offer_variation__/g, variation)
-    newForm = newForm.replace(/__variation_image__/g, index)
+    newForm = newForm.replace(/__offers__/g, offer);
+    newForm = newForm.replace(/__offer_variation__/g, variation);
+    newForm = newForm.replace(/__variation_image__/g, index);
 
-    let div = document.createElement('div');
+    let div = document.createElement("div");
     div.innerHTML = newForm;
-    div.id = 'item_material_form_offer_' + offer + '_variation_' + variation + '_image_' + index;
+    div.id = "item_material_form_offer_" + offer + "_variation_" + variation + "_image_" + index;
 
-    let $collection = document.getElementById('collection_' + id);
+    let $collection = document.getElementById("collection_" + id);
     $collection.append(div);
 
     /* Удаляем при клике фото множественного варианта предложения */
-    div.querySelector('.del-item-variation-image').addEventListener('click', deleteVariationImage);
+    div.querySelector(".del-item-variation-image").addEventListener("click", deleteVariationImage);
 
     /* События change-root image */
-    div.querySelector('.change-variation-' + id).addEventListener('change', chanheVariationImageRoot);
+    div.querySelector(".change-variation-" + id).addEventListener("change", chanheVariationImageRoot);
 
     /* Вызываем предпросмотрт фото */
     offerPreloadPhoto(div);
@@ -551,9 +552,9 @@ function addVariationImage()
 
 /** Удалить фото множественного варианта */
 
-document.querySelectorAll('.del-item-variation-image').forEach(function(item)
+document.querySelectorAll(".del-item-variation-image").forEach(function(item)
 {
-    item.addEventListener('click', deleteVariationImage);
+    item.addEventListener("click", deleteVariationImage);
 });
 
 function deleteVariationImage()
@@ -561,7 +562,7 @@ function deleteVariationImage()
 
     /* Если удаляется фото ROOT  - выделяем следующую кнопку */
 
-    let btnRootId = this.id.replace(/DeleteVariationPhoto/g, 'root');
+    let btnRootId = this.id.replace(/DeleteVariationPhoto/g, "root");
     let btnRoot = document.getElementById(btnRootId);
     let photoBlock = document.getElementById(this.dataset.index);
 
@@ -576,7 +577,7 @@ function deleteVariationImage()
         {
 
             /* Выделяем первый элемент в родительском блоке */
-            let nextChaecked = parentElement.querySelector('[class^="change-variation-"]');
+            let nextChaecked = parentElement.querySelector("[class^=\"change-variation-\"]");
             if(nextChaecked)
             {
                 nextChaecked.checked = true;
@@ -590,17 +591,17 @@ function deleteVariationImage()
 
 /** Меняем CHACKED изображений множественных вариантов радио-кнопок Root */
 
-document.querySelectorAll('[class^="change-variation-"]').forEach(function(item)
+document.querySelectorAll("[class^=\"change-variation-\"]").forEach(function(item)
 {
-    item.addEventListener('change', chanheVariationImageRoot);
+    item.addEventListener("change", chanheVariationImageRoot);
 });
 
 function chanheVariationImageRoot()
 {
 
-    let variation_photo_collection = document.getElementById('collection_' + this.dataset.index);
+    let variation_photo_collection = document.getElementById("collection_" + this.dataset.index);
 
-    variation_photo_collection.querySelectorAll('.change-variation-' + this.dataset.index).forEach(function(rootChack,
+    variation_photo_collection.querySelectorAll(".change-variation-" + this.dataset.index).forEach(function(rootChack,
         i, arr)
     {
         rootChack.checked = false;
@@ -614,9 +615,9 @@ function chanheVariationImageRoot()
 /* MODIFICATION *********************************************************************************************************  **/
 
 
-document.querySelectorAll('.variation-modification-add-collection').forEach(function(item)
+document.querySelectorAll(".variation-modification-add-collection").forEach(function(item)
 {
-    item.addEventListener('click', addModification);
+    item.addEventListener("click", addModification);
 });
 
 function addModification()
@@ -634,37 +635,37 @@ function addModification()
     // __offers__
     // __offer_variation__
 
-    newForm = newForm.replace(/__offers__/g, offer)
-    newForm = newForm.replace(/__offer_variation__/g, variation)
-    newForm = newForm.replace(/__variation_modification__/g, index)
+    newForm = newForm.replace(/__offers__/g, offer);
+    newForm = newForm.replace(/__offer_variation__/g, variation);
+    newForm = newForm.replace(/__variation_modification__/g, index);
 
 
-    let div = document.createElement('div');
+    let div = document.createElement("div");
     div.innerHTML = newForm;
-    div.id = 'item_material_form_offer_' + offer + '_variation_' + variation + '_modification_' + index;
+    div.id = "item_material_form_offer_" + offer + "_variation_" + variation + "_modification_" + index;
 
 
     /* Удаляем при клике модификацию */
-    div.querySelector('.del-item-modification').addEventListener('click', deleteModification);
+    div.querySelector(".del-item-modification").addEventListener("click", deleteModification);
 
 
     /* Делаем замену если модификация - справочник */
-    let $inputValue = div.querySelector('#material_form_offer_' + offer + '_variation_' + variation + '_modification_' + index + '_value');
-    replaceReference($inputValue, 'material_form_data-modification-reference');
+    let $inputValue = div.querySelector("#material_form_offer_" + offer + "_variation_" + variation + "_modification_" + index + "_value");
+    replaceReference($inputValue, "material_form_data-modification-reference");
 
 
     /* Событие на добавить фото модификации */
-    (div.querySelector('.modification-image-add-collection'))?.addEventListener('click', addModificationImage);
+    (div.querySelector(".modification-image-add-collection"))?.addEventListener("click", addModificationImage);
 
     /* Удаляем при клике фото модификации */
-    (div.querySelector('.del-item-modification-image'))?.addEventListener('click', deleteModificationImage);
+    (div.querySelector(".del-item-modification-image"))?.addEventListener("click", deleteModificationImage);
 
     /* События change-root image */
-    let changeRadio = div.querySelector('.change-modification-material_form_offer_' + offer + '_variation_' + variation + '_modification_' + index);
+    let changeRadio = div.querySelector(".change-modification-material_form_offer_" + offer + "_variation_" + variation + "_modification_" + index);
     if(changeRadio)
     {
         changeRadio.checked = true;
-        changeRadio.addEventListener('change', chanheModificationImageRoot);
+        changeRadio.addEventListener("change", chanheModificationImageRoot);
     }
 
 
@@ -672,7 +673,7 @@ function addModification()
     $collection.append(div);
 
     /* Генератор артикулов  */
-    (div.querySelector('.article-generate'))?.addEventListener('click', articleGenerate);
+    (div.querySelector(".article-generate"))?.addEventListener("click", articleGenerate);
 
     /* Вызываем предпросмотрт фото */
     offerPreloadPhoto(div);
@@ -690,7 +691,7 @@ function addModification()
 /** Удаляем  множественный вариант  */
 executeFunc(function initDeleteModification()
 {
-    let modification = document.querySelectorAll('.del-item-modification');
+    let modification = document.querySelectorAll(".del-item-modification");
 
     if(modification.length === 0)
     {
@@ -699,7 +700,7 @@ executeFunc(function initDeleteModification()
 
     modification.forEach(function(item)
     {
-        item.addEventListener('click', deleteModification);
+        item.addEventListener("click", deleteModification);
     });
 
     return true;
@@ -714,9 +715,9 @@ function deleteModification()
 
 /** Добавить фото модификацию */
 
-document.querySelectorAll('.modification-image-add-collection').forEach(function(item)
+document.querySelectorAll(".modification-image-add-collection").forEach(function(item)
 {
-    item.addEventListener('click', addModificationImage);
+    item.addEventListener("click", addModificationImage);
 });
 
 function addModificationImage()
@@ -736,23 +737,23 @@ function addModificationImage()
 
     // newForm = newForm.replace(/__name__/g, name) /* меняем индекс торгового предложения */
 
-    newForm = newForm.replace(/__offers__/g, offer)
-    newForm = newForm.replace(/__offer_variation__/g, variation)
-    newForm = newForm.replace(/__variation_modification__/g, modification)
-    newForm = newForm.replace(/__modification_image__/g, index)
+    newForm = newForm.replace(/__offers__/g, offer);
+    newForm = newForm.replace(/__offer_variation__/g, variation);
+    newForm = newForm.replace(/__variation_modification__/g, modification);
+    newForm = newForm.replace(/__modification_image__/g, index);
 
-    let div = document.createElement('div');
+    let div = document.createElement("div");
     div.innerHTML = newForm;
-    div.id = 'item_material_form_offer_' + offer + '_variation_' + variation + '_modification_' + modification + '_image_' + index;
+    div.id = "item_material_form_offer_" + offer + "_variation_" + variation + "_modification_" + modification + "_image_" + index;
 
-    let $collection = document.getElementById('collection_' + id);
+    let $collection = document.getElementById("collection_" + id);
     $collection.append(div);
 
     /* Удаляем при клике фото множественного варианта предложения */
-    div.querySelector('.del-item-modification-image').addEventListener('click', deleteModificationImage);
+    div.querySelector(".del-item-modification-image").addEventListener("click", deleteModificationImage);
 
     /* События change-root image */
-    div.querySelector('.change-modification-' + id).addEventListener('change', chanheModificationImageRoot);
+    div.querySelector(".change-modification-" + id).addEventListener("change", chanheModificationImageRoot);
 
 
     /* Выделяем Root если элемент добавлен новый */
@@ -799,9 +800,9 @@ function addModificationImage()
 
 /** Удалить фото модификации */
 
-document.querySelectorAll('.del-item-modification-image').forEach(function(item)
+document.querySelectorAll(".del-item-modification-image").forEach(function(item)
 {
-    item.addEventListener('click', deleteModificationImage);
+    item.addEventListener("click", deleteModificationImage);
 });
 
 function deleteModificationImage()
@@ -809,7 +810,7 @@ function deleteModificationImage()
 
     /* Если удаляется фото ROOT  - выделяем следующую кнопку */
 
-    let btnRootId = this.id.replace(/DeleteModificationPhoto/g, 'root');
+    let btnRootId = this.id.replace(/DeleteModificationPhoto/g, "root");
     let btnRoot = document.getElementById(btnRootId);
     let photoBlock = document.getElementById(this.dataset.index);
 
@@ -824,7 +825,7 @@ function deleteModificationImage()
         {
 
             /* Выделяем первый элемент в родительском блоке */
-            let nextChaecked = parentElement.querySelector('[class^="change-modification-"]');
+            let nextChaecked = parentElement.querySelector("[class^=\"change-modification-\"]");
             if(nextChaecked)
             {
                 nextChaecked.checked = true;
@@ -836,17 +837,17 @@ function deleteModificationImage()
 
 /** Меняем CHACKED изображений модификации радио-кнопок Root */
 
-document.querySelectorAll('[class^="change-modification-"]').forEach(function(item)
+document.querySelectorAll("[class^=\"change-modification-\"]").forEach(function(item)
 {
-    item.addEventListener('change', chanheModificationImageRoot);
+    item.addEventListener("change", chanheModificationImageRoot);
 });
 
 function chanheModificationImageRoot()
 {
 
-    let modification_photo_collection = document.getElementById('collection_' + this.dataset.index);
+    let modification_photo_collection = document.getElementById("collection_" + this.dataset.index);
 
-    modification_photo_collection.querySelectorAll('.change-modification-' + this.dataset.index).forEach(function(rootChack,
+    modification_photo_collection.querySelectorAll(".change-modification-" + this.dataset.index).forEach(function(rootChack,
         i, arr)
     {
         rootChack.checked = false;
@@ -860,30 +861,31 @@ function chanheModificationImageRoot()
 function offerPreloadPhoto(div)
 {
     //let inputElement = div.querySelector('input[type="file"]');
-    let inputElements = div.querySelectorAll('input[type="file"]');
+    let inputElements = div.querySelectorAll("input[type=\"file\"]");
 
     inputElements.forEach(function(inputElement, i, arr)
     {
-        inputElement.addEventListener('change', function(e)
+        inputElement.addEventListener("change", function(e)
         {
 
             var file = this.files[0];
             var reader = new FileReader();
             //let image = div.querySelector('.image-input');
 
-            let image = this.closest('.image-input')
+            let image = this.closest(".image-input");
 
             reader.onloadend = function()
             {
-                image.style.setProperty("background-image", "url(" + reader.result + ")", "important")
-            }
+                image.style.setProperty("background-image", "url(" + reader.result + ")", "important");
+            };
 
             if(file)
             {
                 reader.readAsDataURL(file);
-            } else
+            }
+            else
             {
-                image.style.setProperty("background-image", "url(/img/blank.svg)", "important")
+                image.style.setProperty("background-image", "url(/img/blank.svg)", "important");
 
             }
         });
@@ -902,7 +904,7 @@ function replaceReference($replace, $id)
     /* Получаем дефолтное поле для заполнения  */
     let $reference = document.getElementById($id);
 
-    if($reference === null || $reference.tagName != 'SELECT')
+    if($reference === null || $reference.tagName != "SELECT")
     {
         return;
     }
@@ -922,13 +924,13 @@ function replaceReference($replace, $id)
         if(cloneNode.options !== undefined)
         {
             cloneNode.options[0].selected = true;
-            cloneNode.options[0].selected = 'selected';
+            cloneNode.options[0].selected = "selected";
             cloneNode.selectedIndex = 0;
 
             /* Сбрасываем select */
             for(let i = 0, l = cloneNode.options.length; i < l; i++)
             {
-                cloneNode.options[i].removeAttribute('selected');
+                cloneNode.options[i].removeAttribute("selected");
                 cloneNode.options[i].selected = false;
             }
         }
@@ -938,24 +940,24 @@ function replaceReference($replace, $id)
 
         /* применяем select2 */
         //if (cloneNode.dataset.select === "select2") {
-        new NiceSelect(cloneNode, {searchable: true});
+        new NiceSelect(cloneNode, {searchable : true});
         //}
 
     }
 }
 
-document.querySelectorAll('.article-generate').forEach(function(item)
+document.querySelectorAll(".article-generate").forEach(function(item)
 {
-    item.addEventListener('click', articleGenerate);
+    item.addEventListener("click", articleGenerate);
 });
 
 function articleGenerate()
 {
 
-    let generate = '';
+    let generate = "";
 
     /**Получаем артикул товара */
-    material = document.getElementById('material_form_info_article');
+    material = document.getElementById("material_form_info_article");
     if(material)
     {
         generate += material.value;
@@ -967,7 +969,7 @@ function articleGenerate()
 
         if(article && article.value.length)
         {
-            generate += (generate.length ? '-' : '') + article.value;
+            generate += (generate.length ? "-" : "") + article.value;
         }
 
     }
@@ -979,7 +981,7 @@ function articleGenerate()
 
         if(article && article.value.length)
         {
-            generate += (generate.length ? '-' : '') + article.value;
+            generate += (generate.length ? "-" : "") + article.value;
         }
     }
 
@@ -990,7 +992,7 @@ function articleGenerate()
 
         if(article && article.value.length)
         {
-            generate += (generate.length ? '-' : '') + article.value;
+            generate += (generate.length ? "-" : "") + article.value;
         }
     }
 
@@ -1023,7 +1025,7 @@ function articleGenerate()
 
     if(result)
     {
-        result.value = generate.replace(/[^a-zA-Z0-9]/g, '-');
+        result.value = generate.replace(/[^a-zA-Z0-9]/g, "-");
     }
 
 }

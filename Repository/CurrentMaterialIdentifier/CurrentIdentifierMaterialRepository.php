@@ -159,7 +159,7 @@ final class CurrentIdentifierMaterialRepository implements CurrentIdentifierMate
             ->setParameter(
                 'event',
                 $this->event,
-                MaterialEventUid::TYPE
+                MaterialEventUid::TYPE,
             );
 
         $dbal
@@ -169,7 +169,7 @@ final class CurrentIdentifierMaterialRepository implements CurrentIdentifierMate
                 'event',
                 Material::class,
                 'material',
-                'material.id = event.main'
+                'material.id = event.main',
             );
 
 
@@ -179,12 +179,12 @@ final class CurrentIdentifierMaterialRepository implements CurrentIdentifierMate
                 'material',
                 MaterialOffer::class,
                 'offer',
-                'offer.id = :offer'
+                'offer.id = :offer',
             )
                 ->setParameter(
                     'offer',
                     $this->offer,
-                    MaterialOfferUid::TYPE
+                    MaterialOfferUid::TYPE,
                 );
 
 
@@ -195,7 +195,7 @@ final class CurrentIdentifierMaterialRepository implements CurrentIdentifierMate
                     'offer',
                     MaterialOffer::class,
                     'current_offer',
-                    'current_offer.const = offer.const AND current_offer.event = material.event'
+                    'current_offer.const = offer.const AND current_offer.event = material.event',
                 );
 
             if($this->variation)
@@ -205,12 +205,12 @@ final class CurrentIdentifierMaterialRepository implements CurrentIdentifierMate
                     'offer',
                     MaterialVariation::class,
                     'variation',
-                    'variation.id = :variation AND variation.offer = offer.id'
+                    'variation.id = :variation AND variation.offer = offer.id',
                 )
                     ->setParameter(
                         'variation',
                         $this->variation,
-                        MaterialVariationUid::TYPE
+                        MaterialVariationUid::TYPE,
                     );
 
                 $dbal
@@ -220,7 +220,7 @@ final class CurrentIdentifierMaterialRepository implements CurrentIdentifierMate
                         'variation',
                         MaterialVariation::class,
                         'current_variation',
-                        'current_variation.const = variation.const AND current_variation.offer = current_offer.id'
+                        'current_variation.const = variation.const AND current_variation.offer = current_offer.id',
                     );
 
 
@@ -231,12 +231,12 @@ final class CurrentIdentifierMaterialRepository implements CurrentIdentifierMate
                             'variation',
                             MaterialModification::class,
                             'modification',
-                            'modification.id = :modification AND modification.variation = variation.id'
+                            'modification.id = :modification AND modification.variation = variation.id',
                         )
                         ->setParameter(
                             'modification',
                             $this->modification,
-                            MaterialModificationUid::TYPE
+                            MaterialModificationUid::TYPE,
                         );
 
                     $dbal
@@ -246,7 +246,7 @@ final class CurrentIdentifierMaterialRepository implements CurrentIdentifierMate
                             'modification',
                             MaterialModification::class,
                             'current_modification',
-                            'current_modification.const = modification.const AND current_modification.variation = current_variation.id'
+                            'current_modification.const = modification.const AND current_modification.variation = current_variation.id',
                         );
                 }
             }

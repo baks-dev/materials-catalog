@@ -48,7 +48,8 @@ final class MaterialModificationChoiceRepository implements MaterialModification
     ) {}
 
     /**
-     * Метод возвращает все постоянные идентификаторы CONST модификаций множественных вариантов торговых предложений сырья
+     * Метод возвращает все постоянные идентификаторы CONST модификаций множественных вариантов торговых предложений
+     * сырья
      */
     public function fetchMaterialModificationConstByVariationConst(MaterialVariationConst|string $const): Generator
     {
@@ -69,28 +70,28 @@ final class MaterialModificationChoiceRepository implements MaterialModification
             ->setParameter(
                 key: 'const',
                 value: $const,
-                type: MaterialVariationConst::TYPE
+                type: MaterialVariationConst::TYPE,
             );
 
         $dbal->join(
             'variation',
             MaterialOffer::class,
             'offer',
-            'offer.id = variation.offer'
+            'offer.id = variation.offer',
         );
 
         $dbal->join(
             'offer',
             Material::class,
             'material',
-            'material.event = offer.event'
+            'material.event = offer.event',
         );
 
         $dbal->join(
             'variation',
             MaterialModification::class,
             'modification',
-            'modification.variation = variation.id'
+            'modification.variation = variation.id',
         );
 
         // Тип торгового предложения
@@ -99,14 +100,14 @@ final class MaterialModificationChoiceRepository implements MaterialModification
             'modification',
             CategoryMaterialModification::class,
             'category_modification',
-            'category_modification.id = modification.category_modification'
+            'category_modification.id = modification.category_modification',
         );
 
         $dbal->leftJoin(
             'category_modification',
             CategoryMaterialModificationTrans::class,
             'category_modification_trans',
-            'category_modification_trans.modification = category_modification.id AND category_modification_trans.local = :local'
+            'category_modification_trans.modification = category_modification.id AND category_modification_trans.local = :local',
         );
 
         /** Свойства конструктора объекта гидрации */
@@ -151,21 +152,21 @@ final class MaterialModificationChoiceRepository implements MaterialModification
             ->setParameter(
                 key: 'variation',
                 value: $variation,
-                type: MaterialVariationUid::TYPE
+                type: MaterialVariationUid::TYPE,
             );
 
         $qb->join(
             MaterialOffer::class,
             'offer',
             'WITH',
-            'offer.id = variation.offer'
+            'offer.id = variation.offer',
         );
 
         $qb->join(
             Material::class,
             'material',
             'WITH',
-            'material.event = offer.event'
+            'material.event = offer.event',
         );
 
 
@@ -173,7 +174,7 @@ final class MaterialModificationChoiceRepository implements MaterialModification
             MaterialModification::class,
             'modification',
             'WITH',
-            'modification.variation = variation.id'
+            'modification.variation = variation.id',
         );
 
         // Тип торгового предложения
@@ -182,14 +183,14 @@ final class MaterialModificationChoiceRepository implements MaterialModification
             CategoryMaterialModification::class,
             'category_modification',
             'WITH',
-            'category_modification.id = modification.categoryModification'
+            'category_modification.id = modification.categoryModification',
         );
 
         $qb->leftJoin(
             CategoryMaterialModificationTrans::class,
             'trans',
             'WITH',
-            'trans.modification = category_modification.id AND trans.local = :local'
+            'trans.modification = category_modification.id AND trans.local = :local',
         );
 
         /* Кешируем результат ORM */
@@ -218,21 +219,21 @@ final class MaterialModificationChoiceRepository implements MaterialModification
             ->setParameter(
                 key: 'variation',
                 value: $variation,
-                type: MaterialVariationUid::TYPE
+                type: MaterialVariationUid::TYPE,
             );
 
         $dbal->join(
             'variation',
             MaterialOffer::class,
             'offer',
-            'offer.id = variation.offer'
+            'offer.id = variation.offer',
         );
 
         $dbal->join(
             'offer',
             Material::class,
             'material',
-            'material.event = offer.event'
+            'material.event = offer.event',
         );
 
 
@@ -240,7 +241,7 @@ final class MaterialModificationChoiceRepository implements MaterialModification
             'variation',
             MaterialModification::class,
             'modification',
-            'modification.variation = variation.id'
+            'modification.variation = variation.id',
         );
 
         // Тип торгового предложения
@@ -249,7 +250,7 @@ final class MaterialModificationChoiceRepository implements MaterialModification
             'modification',
             CategoryMaterialModification::class,
             'category_modification',
-            'category_modification.id = modification.category_modification'
+            'category_modification.id = modification.category_modification',
         );
 
         $dbal->leftJoin(
@@ -257,7 +258,7 @@ final class MaterialModificationChoiceRepository implements MaterialModification
             CategoryMaterialModificationTrans::class,
             'category_modification_trans',
             'category_modification_trans.modification = category_modification.id
-             AND category_modification_trans.local = :local'
+             AND category_modification_trans.local = :local',
         );
 
 
@@ -267,7 +268,7 @@ final class MaterialModificationChoiceRepository implements MaterialModification
                 'modification',
                 MaterialModificationQuantity::class,
                 'modification_quantity',
-                'modification_quantity.modification = modification.id AND modification_quantity.quantity > 0 '
+                'modification_quantity.modification = modification.id AND modification_quantity.quantity > 0 ',
             );
 
 

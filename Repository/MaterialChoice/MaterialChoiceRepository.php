@@ -69,7 +69,7 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
             'material',
             MaterialInfo::class,
             'info',
-            'info.material = material.id'
+            'info.material = material.id',
         );
 
         if($category)
@@ -79,12 +79,12 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
                     'material',
                     MaterialCategory::class,
                     'category',
-                    'category.event = material.event AND category.category = :category'
+                    'category.event = material.event AND category.category = :category',
                 )
                 ->setParameter(
                     'category',
                     $category,
-                    CategoryMaterialUid::TYPE
+                    CategoryMaterialUid::TYPE,
                 );
         }
 
@@ -93,7 +93,7 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
             'material',
             MaterialTrans::class,
             'trans',
-            'trans.event = material.event AND trans.local = :local'
+            'trans.event = material.event AND trans.local = :local',
         );
 
 
@@ -126,14 +126,14 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
             MaterialInfo::class,
             'info',
             'WITH',
-            'info.material = material.id'
+            'info.material = material.id',
         );
 
         $qb->join(
             MaterialTrans::class,
             'trans',
             'WITH',
-            'trans.event = material.event AND trans.local = :local'
+            'trans.event = material.event AND trans.local = :local',
         );
 
 
@@ -160,7 +160,7 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
                 'material',
                 MaterialCategory::class,
                 'category',
-                'category.event = material.event AND category.category = :category AND category.root = TRUE'
+                'category.event = material.event AND category.category = :category AND category.root = TRUE',
             )
                 ->setParameter('category', $category, CategoryMaterialUid::TYPE);
         }
@@ -170,35 +170,35 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
             'material',
             MaterialTrans::class,
             'trans',
-            'trans.event = material.event AND trans.local = :local'
+            'trans.event = material.event AND trans.local = :local',
         );
 
         $dbal->leftJoin(
             'material',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material.event'
+            'material_price.event = material.event',
         );
 
         $dbal->leftJoin(
             'material',
             MaterialOffer::class,
             'material_offer',
-            'material_offer.event = material.event'
+            'material_offer.event = material.event',
         );
 
         $dbal->leftJoin(
             'material_offer',
             MaterialVariation::class,
             'material_variation',
-            'material_variation.offer = material_offer.id'
+            'material_variation.offer = material_offer.id',
         );
 
         $dbal->leftJoin(
             'material_variation',
             MaterialModification::class,
             'material_modification',
-            'material_modification.variation = material_variation.id'
+            'material_modification.variation = material_variation.id',
         );
 
         /**
@@ -210,7 +210,7 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
                 'material_offer',
                 MaterialOfferQuantity::class,
                 'material_offer_quantity',
-                'material_offer_quantity.offer = material_offer.id'
+                'material_offer_quantity.offer = material_offer.id',
             );
 
         $dbal
@@ -218,7 +218,7 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
                 'material_variation',
                 MaterialsVariationQuantity::class,
                 'material_variation_quantity',
-                'material_variation_quantity.variation = material_variation.id'
+                'material_variation_quantity.variation = material_variation.id',
             );
 
         $dbal
@@ -226,7 +226,7 @@ final readonly class MaterialChoiceRepository implements MaterialChoiceInterface
                 'material_modification',
                 MaterialModificationQuantity::class,
                 'material_modification_quantity',
-                'material_modification_quantity.modification = material_modification.id'
+                'material_modification_quantity.modification = material_modification.id',
             );
 
 

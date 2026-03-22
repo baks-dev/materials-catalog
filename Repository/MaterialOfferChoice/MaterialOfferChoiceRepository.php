@@ -72,7 +72,7 @@ final readonly class MaterialOfferChoiceRepository implements MaterialOfferChoic
                 'material',
                 MaterialOffer::class,
                 'offer',
-                'offer.event = material.event'
+                'offer.event = material.event',
             );
 
 
@@ -81,7 +81,7 @@ final readonly class MaterialOfferChoiceRepository implements MaterialOfferChoic
                 'offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = offer.category_offer'
+                'category_offer.id = offer.category_offer',
             );
 
 
@@ -90,7 +90,7 @@ final readonly class MaterialOfferChoiceRepository implements MaterialOfferChoic
                 'category_offer',
                 CategoryMaterialOffersTrans::class,
                 'category_offer_trans',
-                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local'
+                'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local',
             );
 
 
@@ -135,7 +135,7 @@ final readonly class MaterialOfferChoiceRepository implements MaterialOfferChoic
             'material',
             MaterialOffer::class,
             'material_offer',
-            'material_offer.event = material.event'
+            'material_offer.event = material.event',
         );
 
         // Тип торгового предложения
@@ -144,7 +144,7 @@ final readonly class MaterialOfferChoiceRepository implements MaterialOfferChoic
             'material_offer',
             CategoryMaterialOffers::class,
             'category_offer',
-            'category_offer.id = material_offer.category_offer'
+            'category_offer.id = material_offer.category_offer',
         );
 
 
@@ -152,7 +152,7 @@ final readonly class MaterialOfferChoiceRepository implements MaterialOfferChoic
             'category_offer',
             CategoryMaterialOffersTrans::class,
             'category_offer_trans',
-            'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local'
+            'category_offer_trans.offer = category_offer.id AND category_offer_trans.local = :local',
         );
 
 
@@ -160,14 +160,14 @@ final readonly class MaterialOfferChoiceRepository implements MaterialOfferChoic
             'material_offer',
             MaterialVariation::class,
             'material_variation',
-            'material_variation.offer = material_offer.id'
+            'material_variation.offer = material_offer.id',
         );
 
         $dbal->leftJoin(
             'material_variation',
             MaterialModification::class,
             'material_modification',
-            'material_modification.variation = material_variation.id'
+            'material_modification.variation = material_variation.id',
         );
 
         /**
@@ -178,21 +178,21 @@ final readonly class MaterialOfferChoiceRepository implements MaterialOfferChoic
             'material_offer',
             MaterialOfferQuantity::class,
             'material_offer_quantity',
-            'material_offer_quantity.offer = material_offer.id'
+            'material_offer_quantity.offer = material_offer.id',
         );
 
         $dbal->leftJoin(
             'material_variation',
             MaterialsVariationQuantity::class,
             'material_variation_quantity',
-            'material_variation_quantity.variation = material_variation.id'
+            'material_variation_quantity.variation = material_variation.id',
         );
 
         $dbal->leftJoin(
             'material_modification',
             MaterialModificationQuantity::class,
             'material_modification_quantity',
-            'material_modification_quantity.modification = material_modification.id'
+            'material_modification_quantity.modification = material_modification.id',
         );
 
 

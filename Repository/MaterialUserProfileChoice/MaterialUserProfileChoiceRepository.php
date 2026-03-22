@@ -59,7 +59,7 @@ final class MaterialUserProfileChoiceRepository implements MaterialUserProfileCh
             ->setParameter(
                 'status',
                 UserProfileStatusActive::class,
-                UserProfileStatus::TYPE
+                UserProfileStatus::TYPE,
             );
 
 
@@ -86,7 +86,7 @@ final class MaterialUserProfileChoiceRepository implements MaterialUserProfileCh
             ->setParameter(
                 'account_status',
                 new EmailStatus(EmailStatusActive::class),
-                EmailStatus::TYPE
+                EmailStatus::TYPE,
             );
 
 

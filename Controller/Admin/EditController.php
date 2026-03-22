@@ -93,7 +93,7 @@ final class EditController extends AbstractController
                 'page.edit',
                 $handle instanceof Material ? 'success.edit' : 'danger.edit',
                 'materials-catalog.admin',
-                $handle
+                $handle,
             );
 
             return $this->redirectToRoute('materials-catalog:admin.index');

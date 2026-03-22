@@ -84,7 +84,7 @@ final class MaterialByModificationRepository implements MaterialByModificationIn
                     'mod',
                     MaterialModification::class,
                     'modification',
-                    'modification.const = mod.const'
+                    'modification.const = mod.const',
                 );
         }
 
@@ -95,7 +95,7 @@ final class MaterialByModificationRepository implements MaterialByModificationIn
                 'modification',
                 MaterialVariation::class,
                 'variation',
-                'variation.id = modification.variation'
+                'variation.id = modification.variation',
             );
 
         $dbal
@@ -105,7 +105,7 @@ final class MaterialByModificationRepository implements MaterialByModificationIn
                 'variation',
                 MaterialOffer::class,
                 'offer',
-                'offer.id = variation.offer'
+                'offer.id = variation.offer',
             );
 
         $dbal
@@ -113,7 +113,7 @@ final class MaterialByModificationRepository implements MaterialByModificationIn
                 'offer',
                 MaterialEvent::class,
                 'event',
-                'event.id = offer.event'
+                'event.id = offer.event',
             );
 
         $dbal
@@ -123,7 +123,7 @@ final class MaterialByModificationRepository implements MaterialByModificationIn
                 'event',
                 Material::class,
                 'material',
-                'material.event = event.id'
+                'material.event = event.id',
             );
 
         $result = $dbal

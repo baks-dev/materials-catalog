@@ -64,8 +64,8 @@ final class MaterialOffersCollectionForm extends AbstractType
                 },
                 function($categoryOffer) {
                     return new CategoryMaterialOffersUid($categoryOffer);
-                }
-            )
+                },
+            ),
         );
 
 
@@ -78,8 +78,8 @@ final class MaterialOffersCollectionForm extends AbstractType
                 },
                 function($const) {
                     return new MaterialOfferConst($const);
-                }
-            )
+                },
+            ),
         );
 
 
@@ -142,7 +142,7 @@ final class MaterialOffersCollectionForm extends AbstractType
                                 [
                                     'label' => $offer?->name,
                                     'required' => false,
-                                ]
+                                ],
                             );
                         }
                     }
@@ -174,7 +174,7 @@ final class MaterialOffersCollectionForm extends AbstractType
                 }
 
 
-            }
+            },
         );
 
         if($variation)

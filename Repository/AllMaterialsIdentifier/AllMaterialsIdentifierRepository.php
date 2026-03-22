@@ -119,120 +119,9 @@ final class AllMaterialsIdentifierRepository implements AllMaterialsIdentifierIn
         return $this;
     }
 
-    private function builder(): DBALQueryBuilder
-    {
-        $dbal = $this->DBALQueryBuilder->createQueryBuilder(self::class);
-
-        $dbal
-            ->select('material.id AS material_id')
-            ->addSelect('material.event AS material_event')
-            ->from(Material::class, 'material');
-
-        if($this->material)
-        {
-            $dbal
-                ->where('material.id = :material')
-                ->setParameter(
-                    'material',
-                    $this->material,
-                    MaterialUid::TYPE
-                );
-        }
-
-
-        $dbal
-            ->addSelect('offer.id AS offer_id')
-            ->addSelect('offer.const AS offer_const');
-
-        if($this->offerConst)
-        {
-            $dbal->join(
-                'material',
-                MaterialOffer::class,
-                'offer',
-                'offer.event = material.event AND offer.const = :offer_const'
-            )
-                ->setParameter(
-                    'offer_const',
-                    $this->offerConst,
-                    MaterialOfferConst::TYPE
-                );
-        }
-        else
-        {
-            $dbal->leftJoin(
-                'material',
-                MaterialOffer::class,
-                'offer',
-                'offer.event = material.event'
-            );
-        }
-
-
-        $dbal
-            ->addSelect('variation.id AS variation_id')
-            ->addSelect('variation.const AS variation_const');
-
-        if($this->offerVariation)
-        {
-            $dbal->join(
-                'offer',
-                MaterialVariation::class,
-                'variation',
-                'variation.offer = offer.id AND variation.const = :variation_const'
-            )
-                ->setParameter(
-                    'variation_const',
-                    $this->offerVariation,
-                    MaterialVariationConst::TYPE
-                );
-        }
-        else
-        {
-            $dbal
-                ->leftJoin(
-                    'offer',
-                    MaterialVariation::class,
-                    'variation',
-                    'variation.offer = offer.id'
-                );
-        }
-
-        $dbal
-            ->addSelect('modification.id AS modification_id')
-            ->addSelect('modification.const AS modification_const');
-
-        if($this->offerModification)
-        {
-            $dbal
-                ->join(
-                    'variation',
-                    MaterialModification::class,
-                    'modification',
-                    'modification.variation = variation.id AND modification.const = :modification_const'
-                )
-                ->setParameter(
-                    'modification_const',
-                    $this->offerModification,
-                    MaterialModificationConst::TYPE
-                );
-        }
-        else
-        {
-            $dbal
-                ->leftJoin(
-                    'variation',
-                    MaterialModification::class,
-                    'modification',
-                    'modification.variation = variation.id'
-                );
-        }
-
-        return $dbal;
-    }
-
     /**
      * Метод возвращает все идентификаторы сырья с её торговыми предложениями
+     *
      * @return Generator<array{
      *  "material_id",
      *  "material_event" ,
@@ -251,8 +140,121 @@ final class AllMaterialsIdentifierRepository implements AllMaterialsIdentifierIn
         return $dbal->fetchAllGenerator();
     }
 
+    private function builder(): DBALQueryBuilder
+    {
+        $dbal = $this->DBALQueryBuilder->createQueryBuilder(self::class);
+
+        $dbal
+            ->select('material.id AS material_id')
+            ->addSelect('material.event AS material_event')
+            ->from(Material::class, 'material');
+
+        if($this->material)
+        {
+            $dbal
+                ->where('material.id = :material')
+                ->setParameter(
+                    'material',
+                    $this->material,
+                    MaterialUid::TYPE,
+                );
+        }
+
+
+        $dbal
+            ->addSelect('offer.id AS offer_id')
+            ->addSelect('offer.const AS offer_const');
+
+        if($this->offerConst)
+        {
+            $dbal->join(
+                'material',
+                MaterialOffer::class,
+                'offer',
+                'offer.event = material.event AND offer.const = :offer_const',
+            )
+                ->setParameter(
+                    'offer_const',
+                    $this->offerConst,
+                    MaterialOfferConst::TYPE,
+                );
+        }
+        else
+        {
+            $dbal->leftJoin(
+                'material',
+                MaterialOffer::class,
+                'offer',
+                'offer.event = material.event',
+            );
+        }
+
+
+        $dbal
+            ->addSelect('variation.id AS variation_id')
+            ->addSelect('variation.const AS variation_const');
+
+        if($this->offerVariation)
+        {
+            $dbal->join(
+                'offer',
+                MaterialVariation::class,
+                'variation',
+                'variation.offer = offer.id AND variation.const = :variation_const',
+            )
+                ->setParameter(
+                    'variation_const',
+                    $this->offerVariation,
+                    MaterialVariationConst::TYPE,
+                );
+        }
+        else
+        {
+            $dbal
+                ->leftJoin(
+                    'offer',
+                    MaterialVariation::class,
+                    'variation',
+                    'variation.offer = offer.id',
+                );
+        }
+
+        $dbal
+            ->addSelect('modification.id AS modification_id')
+            ->addSelect('modification.const AS modification_const');
+
+        if($this->offerModification)
+        {
+            $dbal
+                ->join(
+                    'variation',
+                    MaterialModification::class,
+                    'modification',
+                    'modification.variation = variation.id AND modification.const = :modification_const',
+                )
+                ->setParameter(
+                    'modification_const',
+                    $this->offerModification,
+                    MaterialModificationConst::TYPE,
+                );
+        }
+        else
+        {
+            $dbal
+                ->leftJoin(
+                    'variation',
+                    MaterialModification::class,
+                    'modification',
+                    'modification.variation = variation.id',
+                );
+        }
+
+        return $dbal;
+    }
+
     /**
      * Метод возвращает все идентификаторы сырья с её торговыми предложениями в виде резалта
+     *
      * @return Generator<AllMaterialsIdentifierResult>
      */
     public function findAllResult(): Generator

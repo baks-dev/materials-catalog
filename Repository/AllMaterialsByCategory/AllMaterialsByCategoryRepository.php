@@ -112,6 +112,10 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
         return $this;
     }
 
+    public function analyze(string $expr = 'AND'): void
+    {
+        $this->builder()->analyze();
+    }
 
     private function builder(string $expr = 'AND'): DBALQueryBuilder
     {
@@ -133,7 +137,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'category',
             CategoryMaterialEvent::class,
             'category_event',
-            'category_event.id = category.event OR category_event.parent = category.id'
+            'category_event.id = category.event OR category_event.parent = category.id',
         );
 
 
@@ -143,7 +147,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category_event',
                 CategoryMaterialInfo::class,
                 'category_info',
-                'category_info.event = category_event.id'
+                'category_info.event = category_event.id',
             );
 
 
@@ -153,7 +157,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category_event',
                 CategoryMaterialTrans::class,
                 'category_trans',
-                'category_trans.event = category_event.id AND category_trans.local = :local'
+                'category_trans.event = category_event.id AND category_trans.local = :local',
             );
 
         /** Категория сырья */
@@ -163,7 +167,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category',
                 MaterialCategory::class,
                 'material_category',
-                'material_category.category = category_event.category'
+                'material_category.category = category_event.category',
             );
 
 
@@ -174,7 +178,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_category',
                 Material::class,
                 'material',
-                'material.event = material_category.event'
+                'material.event = material_category.event',
             );
 
 
@@ -194,7 +198,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material',
             MaterialEvent::class,
             'material_event',
-            'material_event.id = material.event'
+            'material_event.id = material.event',
         );
 
         /** ФИЛЬТР СВОЙСТВ */
@@ -219,7 +223,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                     $dbal->setParameter(
                         $prepareKey,
                         $MaterialCategorySectionFieldUid,
-                        CategoryMaterialSectionFieldUid::TYPE
+                        CategoryMaterialSectionFieldUid::TYPE,
                     );
                     $dbal->setParameter($prepareValue, $item);
 
@@ -227,7 +231,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                         'material',
                         MaterialProperty::class,
                         $aliase,
-                        $aliase.'.event = material.event '.$expr.' '.$MaterialPropertyJoin
+                        $aliase.'.event = material.event '.$expr.' '.$MaterialPropertyJoin,
                     );
                 }
             }
@@ -250,7 +254,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                     $dbal->setParameter(
                         $prepareKey,
                         $MaterialCategorySectionFieldUid,
-                        CategoryMaterialSectionFieldUid::TYPE
+                        CategoryMaterialSectionFieldUid::TYPE,
                     );
                     $dbal->setParameter($prepareValue, $item);
 
@@ -260,7 +264,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                     'material',
                     MaterialProperty::class,
                     'material_property_filter',
-                    'material_property_filter.event = material.event AND '.implode(' '.$expr.' ', $MaterialPropertyJoin)
+                    'material_property_filter.event = material.event AND '.implode(' '.$expr.' ', $MaterialPropertyJoin),
                 );
             }
         }
@@ -272,7 +276,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material.event AND material_trans.local = :local'
+                'material_trans.event = material.event AND material_trans.local = :local',
             );
 
 
@@ -283,7 +287,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialDescription::class,
                 'material_desc',
-                'material_desc.event = material.event AND material_desc.device = :device '
+                'material_desc.event = material.event AND material_desc.device = :device ',
             )
             ->setParameter('device', 'pc');
 
@@ -293,7 +297,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material.event'
+            'material_price.event = material.event',
         )
             ->addGroupBy('material_price.price')
             ->addGroupBy('material_price.currency');
@@ -306,7 +310,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material.id'
+                'material_info.material = material.id',
             );
 
         /**
@@ -326,7 +330,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material',
             MaterialOffer::class,
             'material_offer',
-            'material_offer.event = material.event '.($this->filter?->getOffer() ? ' AND material_offer.value = :offer' : '').' '
+            'material_offer.event = material.event '.($this->filter?->getOffer() ? ' AND material_offer.value = :offer' : '').' ',
         );
 
         /*  тип торгового предложения */
@@ -334,7 +338,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_offer',
             CategoryMaterialOffers::class,
             'category_offer',
-            'category_offer.id = material_offer.category_offer'
+            'category_offer.id = material_offer.category_offer',
         );
 
 
@@ -344,7 +348,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_offer',
                 MaterialOfferPrice::class,
                 'material_offer_price',
-                'material_offer_price.offer = material_offer.id'
+                'material_offer_price.offer = material_offer.id',
             )
             ->addGroupBy('material_offer_price.currency');
 
@@ -355,7 +359,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_offer',
                 MaterialOfferQuantity::class,
                 'material_offer_quantity',
-                'material_offer_quantity.offer = material_offer.id'
+                'material_offer_quantity.offer = material_offer.id',
             );
 
 
@@ -374,7 +378,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_offer',
             MaterialVariation::class,
             'material_variation',
-            'material_variation.offer = material_offer.id '.($this->filter?->getVariation() ? ' AND material_variation.value = :variation' : '').' '
+            'material_variation.offer = material_offer.id '.($this->filter?->getVariation() ? ' AND material_variation.value = :variation' : '').' ',
         );
 
         /* тип множественного варианта */
@@ -383,7 +387,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_variation',
             CategoryMaterialVariation::class,
             'category_variation',
-            'category_variation.id = material_variation.category_variation'
+            'category_variation.id = material_variation.category_variation',
         );
 
 
@@ -393,7 +397,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'category_variation',
             MaterialVariationPrice::class,
             'material_variation_price',
-            'material_variation_price.variation = material_variation.id'
+            'material_variation_price.variation = material_variation.id',
         )
             ->addGroupBy('material_variation_price.currency');
 
@@ -406,7 +410,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category_variation',
                 MaterialsVariationQuantity::class,
                 'material_variation_quantity',
-                'material_variation_quantity.variation = material_variation.id'
+                'material_variation_quantity.variation = material_variation.id',
             );
 
 
@@ -425,7 +429,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_variation',
             MaterialModification::class,
             'material_modification',
-            'material_modification.variation = material_variation.id '.($this->filter?->getModification() ? ' AND material_modification.value = :modification' : '').' '
+            'material_modification.variation = material_variation.id '.($this->filter?->getModification() ? ' AND material_modification.value = :modification' : '').' ',
         );
 
         /* тип модификации множественного варианта */
@@ -434,7 +438,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_modification',
             CategoryMaterialModification::class,
             'category_modification',
-            'category_modification.id = material_modification.category_modification'
+            'category_modification.id = material_modification.category_modification',
         );
 
 
@@ -443,7 +447,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_modification',
             MaterialModificationPrice::class,
             'material_modification_price',
-            'material_modification_price.modification = material_modification.id'
+            'material_modification_price.modification = material_modification.id',
         )
             ->addGroupBy('material_modification_price.currency');
 
@@ -454,7 +458,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_modification',
                 MaterialModificationQuantity::class,
                 'material_modification_quantity',
-                'material_modification_quantity.modification = material_modification.id'
+                'material_modification_quantity.modification = material_modification.id',
             )
             ->addGroupBy('material_modification_price.currency');
 
@@ -488,7 +492,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 					)
 				
 			)
-			AS material_offers"
+			AS material_offers",
         );
 
 
@@ -501,7 +505,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             '
                 material_modification_image.modification = material_modification.id AND
                 material_modification_image.root = true
-			'
+			',
         );
 
 
@@ -555,7 +559,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			 ELSE NULL
 			 
 			END AS material_image
-		"
+		",
         );
 
         /** Расширение изображения */
@@ -672,7 +676,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			   ELSE NULL
 			   
 			END AS material_currency
-		"
+		",
         );
 
         /** Количественный учет */
@@ -701,11 +705,6 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
         $dbal->allGroupByExclude();
 
         return $dbal;
-    }
-
-    public function analyze(string $expr = 'AND'): void
-    {
-        $this->builder()->analyze();
     }
 
     public function find(string $expr = 'AND'): array|false
@@ -749,7 +748,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'category',
             CategoryMaterialEvent::class,
             'category_event',
-            'category_event.id = category.event OR category_event.parent = category.id'
+            'category_event.id = category.event OR category_event.parent = category.id',
         );
 
 
@@ -759,7 +758,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category_event',
                 CategoryMaterialInfo::class,
                 'category_info',
-                'category_info.event = category_event.id'
+                'category_info.event = category_event.id',
             );
 
 
@@ -769,7 +768,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category_event',
                 CategoryMaterialTrans::class,
                 'category_trans',
-                'category_trans.event = category_event.id AND category_trans.local = :local'
+                'category_trans.event = category_event.id AND category_trans.local = :local',
             );
 
 
@@ -780,7 +779,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category',
                 MaterialCategory::class,
                 'material_category',
-                'material_category.category = category_event.category'
+                'material_category.category = category_event.category',
             );
 
 
@@ -791,7 +790,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_category',
                 Material::class,
                 'material',
-                'material.event = material_category.event'
+                'material.event = material_category.event',
             );
 
         $dbal
@@ -810,7 +809,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material',
             MaterialEvent::class,
             'material_event',
-            'material_event.id = material.event'
+            'material_event.id = material.event',
         );
 
         /** ФИЛЬТР СВОЙСТВ */
@@ -835,7 +834,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                     $dbal->setParameter(
                         $prepareKey,
                         $MaterialCategorySectionFieldUid,
-                        CategoryMaterialSectionFieldUid::TYPE
+                        CategoryMaterialSectionFieldUid::TYPE,
                     );
                     $dbal->setParameter($prepareValue, $item);
 
@@ -843,7 +842,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                         'material',
                         MaterialProperty::class,
                         $aliase,
-                        $aliase.'.event = material.event '.$expr.' '.$MaterialPropertyJoin
+                        $aliase.'.event = material.event '.$expr.' '.$MaterialPropertyJoin,
                     );
                 }
             }
@@ -866,7 +865,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                     $dbal->setParameter(
                         $prepareKey,
                         $MaterialCategorySectionFieldUid,
-                        CategoryMaterialSectionFieldUid::TYPE
+                        CategoryMaterialSectionFieldUid::TYPE,
                     );
                     $dbal->setParameter($prepareValue, $item);
 
@@ -876,7 +875,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                     'material',
                     MaterialProperty::class,
                     'material_property_filter',
-                    'material_property_filter.event = material.event AND '.implode(' '.$expr.' ', $MaterialPropertyJoin)
+                    'material_property_filter.event = material.event AND '.implode(' '.$expr.' ', $MaterialPropertyJoin),
                 );
             }
         }
@@ -888,7 +887,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material.event AND material_trans.local = :local'
+                'material_trans.event = material.event AND material_trans.local = :local',
             );
 
 
@@ -899,7 +898,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialDescription::class,
                 'material_desc',
-                'material_desc.event = material.event AND material_desc.device = :device '
+                'material_desc.event = material.event AND material_desc.device = :device ',
             )->setParameter('device', 'pc');
 
         /** Цена товара */
@@ -907,7 +906,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material.event'
+            'material_price.event = material.event',
         )
             ->addGroupBy('material_price.price')
             ->addGroupBy('material_price.currency');
@@ -920,7 +919,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material.id'
+                'material_info.material = material.id',
             );
 
         /**
@@ -939,7 +938,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material',
             MaterialOffer::class,
             'material_offer',
-            'material_offer.event = material.event '.($this->filter?->getOffer() ? ' AND material_offer.value = :offer' : '').' '
+            'material_offer.event = material.event '.($this->filter?->getOffer() ? ' AND material_offer.value = :offer' : '').' ',
         );
 
         /*  тип торгового предложения */
@@ -947,7 +946,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_offer',
             CategoryMaterialOffers::class,
             'category_offer',
-            'category_offer.id = material_offer.category_offer'
+            'category_offer.id = material_offer.category_offer',
         );
 
 
@@ -957,7 +956,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_offer',
                 MaterialOfferPrice::class,
                 'material_offer_price',
-                'material_offer_price.offer = material_offer.id'
+                'material_offer_price.offer = material_offer.id',
             )
             ->addGroupBy('material_offer_price.currency');
 
@@ -968,7 +967,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_offer',
                 MaterialOfferQuantity::class,
                 'material_offer_quantity',
-                'material_offer_quantity.offer = material_offer.id'
+                'material_offer_quantity.offer = material_offer.id',
             );
 
 
@@ -988,7 +987,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_offer',
             MaterialVariation::class,
             'material_variation',
-            'material_variation.offer = material_offer.id '.($this->filter?->getVariation() ? ' AND material_variation.value = :variation' : '').' '
+            'material_variation.offer = material_offer.id '.($this->filter?->getVariation() ? ' AND material_variation.value = :variation' : '').' ',
         );
 
         /* тип множественного варианта */
@@ -997,7 +996,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_variation',
             CategoryMaterialVariation::class,
             'category_variation',
-            'category_variation.id = material_variation.category_variation'
+            'category_variation.id = material_variation.category_variation',
         );
 
         /* Цена множественного варианта */
@@ -1006,7 +1005,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'category_variation',
             MaterialVariationPrice::class,
             'material_variation_price',
-            'material_variation_price.variation = material_variation.id'
+            'material_variation_price.variation = material_variation.id',
         )
             ->addGroupBy('material_variation_price.currency');
 
@@ -1017,7 +1016,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category_variation',
                 MaterialsVariationQuantity::class,
                 'material_variation_quantity',
-                'material_variation_quantity.variation = material_variation.id'
+                'material_variation_quantity.variation = material_variation.id',
             );
 
 
@@ -1036,7 +1035,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_variation',
             MaterialModification::class,
             'material_modification',
-            'material_modification.variation = material_variation.id '.($this->filter?->getModification() ? ' AND material_modification.value = :modification' : '').' '
+            'material_modification.variation = material_variation.id '.($this->filter?->getModification() ? ' AND material_modification.value = :modification' : '').' ',
         );
 
         /* тип модификации множественного варианта */
@@ -1045,7 +1044,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_modification',
             CategoryMaterialModification::class,
             'category_modification',
-            'category_modification.id = material_modification.category_modification'
+            'category_modification.id = material_modification.category_modification',
         );
 
 
@@ -1054,7 +1053,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_modification',
             MaterialModificationPrice::class,
             'material_modification_price',
-            'material_modification_price.modification = material_modification.id'
+            'material_modification_price.modification = material_modification.id',
         )
             ->addGroupBy('material_modification_price.currency');
 
@@ -1065,7 +1064,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_modification',
                 MaterialModificationQuantity::class,
                 'material_modification_quantity',
-                'material_modification_quantity.modification = material_modification.id'
+                'material_modification_quantity.modification = material_modification.id',
             )
             ->addGroupBy('material_modification_price.currency');
 
@@ -1099,7 +1098,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 					)
 				
 			)
-			AS material_offers"
+			AS material_offers",
         );
 
 
@@ -1112,7 +1111,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             '
                 material_modification_image.modification = material_modification.id AND
                 material_modification_image.root = true
-			'
+			',
         );
 
 
@@ -1166,7 +1165,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			 ELSE NULL
 			 
 			END AS material_image
-		"
+		",
         );
 
         /** Флаг загрузки файла CDN */
@@ -1187,7 +1186,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 					
 			   ELSE NULL
 			END AS material_image_ext
-		"
+		",
         );
 
         /** Флаг загрузки файла CDN */
@@ -1205,7 +1204,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 					
 			   ELSE NULL
 			END AS material_image_cdn
-		"
+		",
         );
 
 
@@ -1302,7 +1301,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			   ELSE NULL
 			   
 			END AS material_currency
-		"
+		",
         );
 
         /** Количественный учет */
@@ -1357,7 +1356,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_category',
                 Material::class,
                 'material',
-                'material.event = material_category.event'
+                'material.event = material_category.event',
             );
         }
         else
@@ -1368,7 +1367,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialCategory::class,
                 'material_category',
-                'material_category.event = material.event AND material_category.root = true'
+                'material_category.event = material.event AND material_category.root = true',
             );
         }
 
@@ -1381,7 +1380,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialInfo::class,
                 'material_info',
-                'material_info.material = material.id'
+                'material_info.material = material.id',
             );
 
 
@@ -1391,7 +1390,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialTrans::class,
                 'material_trans',
-                'material_trans.event = material.event AND material_trans.local = :local'
+                'material_trans.event = material.event AND material_trans.local = :local',
             );
 
         $dbal
@@ -1400,7 +1399,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialDescription::class,
                 'material_desc',
-                'material_desc.event = material.event AND material_desc.local = :local AND material_desc.device = :device'
+                'material_desc.event = material.event AND material_desc.local = :local AND material_desc.device = :device',
             )->setParameter('device', new Device(Desktop::class), Device::TYPE);
 
         $dbal
@@ -1409,7 +1408,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialModify::class,
                 'material_modify',
-                'material_modify.event = material.event'
+                'material_modify.event = material.event',
             );
 
 
@@ -1420,7 +1419,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material',
                 MaterialOffer::class,
                 'material_offer',
-                'material_offer.event = material.event'
+                'material_offer.event = material.event',
             );
 
         /* Цена торгового предожения */
@@ -1428,14 +1427,14 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_offer',
             MaterialOfferPrice::class,
             'material_offer_price',
-            'material_offer_price.offer = material_offer.id'
+            'material_offer_price.offer = material_offer.id',
         );
 
         $dbal->leftJoin(
             'material_offer',
             MaterialOfferQuantity::class,
             'material_offer_quantity',
-            'material_offer_quantity.offer = material_offer.id'
+            'material_offer_quantity.offer = material_offer.id',
         );
 
         /* Получаем тип торгового предложения */
@@ -1445,7 +1444,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_offer',
                 CategoryMaterialOffers::class,
                 'category_offer',
-                'category_offer.id = material_offer.category_offer'
+                'category_offer.id = material_offer.category_offer',
             );
 
 
@@ -1456,7 +1455,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_offer',
                 MaterialVariation::class,
                 'material_variation',
-                'material_variation.offer = material_offer.id'
+                'material_variation.offer = material_offer.id',
             );
 
 
@@ -1464,14 +1463,14 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_variation',
             MaterialVariationPrice::class,
             'material_variation_price',
-            'material_variation_price.variation = material_variation.id'
+            'material_variation_price.variation = material_variation.id',
         );
 
         $dbal->leftJoin(
             'category_variation',
             MaterialsVariationQuantity::class,
             'material_variation_quantity',
-            'material_variation_quantity.variation = material_variation.id'
+            'material_variation_quantity.variation = material_variation.id',
         );
 
         $dbal
@@ -1480,7 +1479,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_variation',
                 CategoryMaterialVariation::class,
                 'category_variation',
-                'category_variation.id = material_variation.category_variation'
+                'category_variation.id = material_variation.category_variation',
             );
 
 
@@ -1491,7 +1490,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_variation',
                 MaterialModification::class,
                 'material_modification',
-                'material_modification.variation = material_variation.id'
+                'material_modification.variation = material_variation.id',
             );
 
         /** Цена множественного варианта */
@@ -1499,14 +1498,14 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_modification',
             MaterialModificationPrice::class,
             'material_modification_price',
-            'material_modification_price.modification = material_modification.id'
+            'material_modification_price.modification = material_modification.id',
         );
 
         $dbal->leftJoin(
             'category_modification',
             MaterialModificationQuantity::class,
             'material_modification_quantity',
-            'material_modification_quantity.modification = material_modification.id'
+            'material_modification_quantity.modification = material_modification.id',
         );
 
         /** Получаем тип модификации множественного варианта */
@@ -1516,7 +1515,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'material_modification',
                 CategoryMaterialModification::class,
                 'category_modification',
-                'category_modification.id = material_modification.category_modification'
+                'category_modification.id = material_modification.category_modification',
             );
 
 
@@ -1525,7 +1524,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material',
             MaterialPrice::class,
             'material_price',
-            'material_price.event = material.event'
+            'material_price.event = material.event',
         );
 
 
@@ -1544,7 +1543,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			   
 			   ELSE material.id
 			END AS material_id
-		"
+		",
         );
 
 
@@ -1578,7 +1577,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			   
 			   ELSE NULL
 			END AS material_currency
-		"
+		",
         )
             ->addGroupBy('material_modification_price.currency')
             ->addGroupBy('material_variation_price.currency')
@@ -1604,7 +1603,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 	
 			   ELSE 0
 			END AS material_quantity
-		'
+		',
         )
             ->addGroupBy('material_modification_quantity.reserve')
             ->addGroupBy('material_variation_quantity.reserve')
@@ -1620,7 +1619,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             '
 			material_modification_image.modification = material_modification.id AND
 			material_modification_image.root = true
-			'
+			',
         );
 
         $dbal->leftJoin(
@@ -1630,7 +1629,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             '
 			material_variation_image.variation = material_variation.id AND
 			material_variation_image.root = true
-			'
+			',
         );
 
         $dbal->leftJoin(
@@ -1641,7 +1640,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			material_variation_image.name IS NULL AND
 			material_offer_images.offer = material_offer.id AND
 			material_offer_images.root = true
-			'
+			',
         );
 
         $dbal->leftJoin(
@@ -1652,7 +1651,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			material_offer_images.name IS NULL AND
 			material_photo.event = material.event AND
 			material_photo.root = true
-			'
+			',
         );
 
         $dbal->addSelect(
@@ -1672,7 +1671,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 					
 			   ELSE NULL
 			END AS material_image
-		"
+		",
         );
 
         /** Расширение файла */
@@ -1693,7 +1692,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 					
 			   ELSE NULL
 			END AS material_image_ext
-		"
+		",
         );
 
         /** Флаг загрузки файла CDN */
@@ -1714,7 +1713,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 					
 			   ELSE NULL
 			END AS material_image_cdn
-		"
+		",
         );
 
 
@@ -1724,7 +1723,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
             'material_category',
             CategoryMaterial::class,
             'category',
-            'category.id = material_category.category'
+            'category.id = material_category.category',
         );
 
 
@@ -1733,7 +1732,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category',
                 CategoryMaterialInfo::class,
                 'category_info',
-                'category_info.event = category.event'
+                'category_info.event = category.event',
             );
 
         $dbal
@@ -1743,7 +1742,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
                 'category',
                 CategoryMaterialTrans::class,
                 'category_trans',
-                'category_trans.event = category.event AND category_trans.local = :local'
+                'category_trans.event = category.event AND category_trans.local = :local',
             );
 
 
@@ -1778,7 +1777,7 @@ final class AllMaterialsByCategoryRepository implements AllMaterialsByCategoryIn
 			   
 			   ELSE NULL
 			END AS material_barcode
-		'
+		',
         );
 
         $dbal->addOrderBy('material_info.sort', 'DESC');

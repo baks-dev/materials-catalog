@@ -121,7 +121,7 @@ final class CurrentIdentifierMaterialByValueRepository implements CurrentIdentif
             ->setParameter(
                 'material',
                 $this->material,
-                MaterialUid::TYPE
+                MaterialUid::TYPE,
             );
 
 
@@ -134,7 +134,7 @@ final class CurrentIdentifierMaterialByValueRepository implements CurrentIdentif
                     'material',
                     MaterialOffer::class,
                     'current_offer',
-                    'current_offer.value = :offer_value AND current_offer.event = material.event'
+                    'current_offer.value = :offer_value AND current_offer.event = material.event',
                 )
                 ->setParameter('offer_value', $this->offer);
 
@@ -148,7 +148,7 @@ final class CurrentIdentifierMaterialByValueRepository implements CurrentIdentif
                         'current_offer',
                         MaterialVariation::class,
                         'current_variation',
-                        'current_variation.value = :variation_value AND current_variation.offer = current_offer.id'
+                        'current_variation.value = :variation_value AND current_variation.offer = current_offer.id',
                     )
                     ->setParameter('variation_value', $this->variation);
 
@@ -162,7 +162,7 @@ final class CurrentIdentifierMaterialByValueRepository implements CurrentIdentif
                             'current_variation',
                             MaterialModification::class,
                             'current_modification',
-                            'current_modification.value = :modification_value AND current_modification.variation = current_variation.id'
+                            'current_modification.value = :modification_value AND current_modification.variation = current_variation.id',
                         )
                         ->setParameter('modification_value', $this->modification);
                 }
