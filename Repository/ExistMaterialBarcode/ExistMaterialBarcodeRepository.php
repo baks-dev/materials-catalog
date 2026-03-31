@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -19,6 +19,7 @@
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
+ *
  */
 
 declare(strict_types=1);
@@ -28,6 +29,7 @@ namespace BaksDev\Materials\Catalog\Repository\ExistMaterialBarcode;
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Materials\Catalog\Entity\Event\MaterialEvent;
 use BaksDev\Materials\Catalog\Entity\Info\MaterialInfo;
+use BaksDev\Materials\Catalog\Entity\Material;
 use BaksDev\Materials\Catalog\Entity\Offers\MaterialOffer;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\MaterialVariation;
 use BaksDev\Materials\Catalog\Entity\Offers\Variation\Modification\MaterialModification;
@@ -100,6 +102,14 @@ final class ExistMaterialBarcodeRepository implements ExistMaterialBarcodeInterf
             ->from(MaterialEvent::class, 'material_event')
             ->where('material_event.main = :material')
             ->setParameter('material', $this->material, MaterialUid::TYPE);
+
+        $dbal
+            ->join(
+                'material_event',
+                Material::class,
+                'material',
+                'material.event = material_event.id',
+            );
 
         if(false === ($this->offer instanceof MaterialOfferConst))
         {
@@ -183,7 +193,7 @@ final class ExistMaterialBarcodeRepository implements ExistMaterialBarcodeInterf
                     'material_modification',
                     'material_modification.variation = material_variation.id AND
                     material_modification.const = :modification AND
-                    material_variation.barcode = :barcode',
+                    material_modification.barcode = :barcode',
                 )
                 ->setParameter('modification', $this->modification, MaterialModificationConst::TYPE)
                 ->setParameter('barcode', $this->barcode, MaterialBarcode::TYPE);
