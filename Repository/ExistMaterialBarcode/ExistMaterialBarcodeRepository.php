@@ -44,11 +44,11 @@ final class ExistMaterialBarcodeRepository implements ExistMaterialBarcodeInterf
 
     private MaterialUid $material;
 
-    private ?MaterialOfferConst $offer = null;
+    private MaterialOfferConst|false $offer = false;
 
-    private ?MaterialVariationConst $variation = null;
+    private MaterialVariationConst|false $variation = false;
 
-    private ?MaterialModificationConst $modification = null;
+    private MaterialModificationConst|false $modification = false;
 
     public function __construct(private readonly DBALQueryBuilder $DBALQueryBuilder) {}
 
@@ -64,20 +64,38 @@ final class ExistMaterialBarcodeRepository implements ExistMaterialBarcodeInterf
         return $this;
     }
 
-    public function forOffer(?MaterialOfferConst $offer): self
+    public function forOffer(MaterialOfferConst|null|false $offer): self
     {
+        if(empty($offer))
+        {
+            $this->offer = false;
+            return $this;
+        }
+
         $this->offer = $offer;
         return $this;
     }
 
-    public function forVariation(?MaterialVariationConst $variation): self
+    public function forVariation(MaterialVariationConst|null|false $variation): self
     {
+        if(empty($variation))
+        {
+            $this->variation = false;
+            return $this;
+        }
+
         $this->variation = $variation;
         return $this;
     }
 
-    public function forModification(?MaterialModificationConst $modification): self
+    public function forModification(MaterialModificationConst|null|false $modification): self
     {
+        if(empty($modification))
+        {
+            $this->modification = false;
+            return $this;
+        }
+
         $this->modification = $modification;
         return $this;
     }

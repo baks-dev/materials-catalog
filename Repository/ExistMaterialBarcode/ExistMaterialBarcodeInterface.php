@@ -37,11 +37,11 @@ interface ExistMaterialBarcodeInterface
 
     public function forMaterial(MaterialUid $material): self;
 
-    public function forOffer(?MaterialOfferConst $offer): self;
+    public function forOffer(MaterialOfferConst|null|false $offer): self;
 
-    public function forVariation(?MaterialVariationConst $variation): self;
+    public function forVariation(MaterialVariationConst|null|false $variation): self;
 
-    public function forModification(?MaterialModificationConst $modification): self;
+    public function forModification(MaterialModificationConst|null|false $modification): self;
 
     /** Проверяем, существует ли продукт с данным баркодом и указанными идентификаторами */
     public function exist(): bool;
