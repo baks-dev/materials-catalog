@@ -77,17 +77,19 @@
 
                     </div>
 
+                    {# Штрихкод #}
+                    {% if (form.offer.children|first).barcode is defined %}
+
+                        <div class='w-50'>
+                            {{ form_row(form.offer.vars.prototype.barcode, { label : 'Штрихкод', attr:  { placeholder : 'Штрихкод' } }
+                            ) }}
+                        </div>
+
+                    {% endif %}
+
                 {% endif %}
 
-                {# Штрихкод #}
-                {% if (form.offer.children|first).barcode is defined %}
 
-                    <div class='w-50'>
-                        {{ form_row(form.offer.vars.prototype.barcode, { label : 'Штрихкод', attr:  { placeholder : 'Штрихкод' } }
-                        ) }}
-                    </div>
-
-                {% endif %}
 
                 {% if (form.offer.children|first).price is defined %}
 

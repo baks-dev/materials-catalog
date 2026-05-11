@@ -32,6 +32,7 @@
 
 
     {% if modification_first.article is defined %}
+
         <div class='w-100 d-flex align-items-end'>
 
             <div class="mb-3">
@@ -56,18 +57,21 @@
             {{ form_row(form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.article, { label : false, attr : { placeholder : 'Артикул' }}) }}
 
         </div>
+
+        {# Штрихкод #}
+        {% if modification_first.barcode is defined %}
+
+            <div class='w-50'>
+                {{ form_row(form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.barcode,
+                    { label : false, attr:  { placeholder : 'Штрихкод' } }
+                ) }}
+            </div>
+
+        {% endif %}
+
     {% endif %}
 
-    {# Штрихкод #}
-    {% if modification_first.barcode is defined %}
 
-        <div class='w-50'>
-            {{ form_row(form.offer.vars.prototype.variation.vars.prototype.modification.vars.prototype.barcode,
-                { label : false, attr:  { placeholder : 'Штрихкод' } }
-            ) }}
-        </div>
-
-    {% endif %}
 
     {% if modification_first.price is defined %}
         <div class="input-group mb-3 w-75">
