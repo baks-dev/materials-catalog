@@ -176,4 +176,9 @@ class MaterialModificationImage extends EntityEvent implements UploadEntityInter
         $this->root = true;
     }
 
+    public function isCdn(): bool
+    {
+        return $this->cdn === true;
+    }
+
 }

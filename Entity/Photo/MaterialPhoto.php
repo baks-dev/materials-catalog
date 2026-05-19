@@ -169,28 +169,14 @@ class MaterialPhoto extends EntityEvent implements UploadEntityInterface
         $this->root = true;
     }
 
-
     public function getPathDir(): string
     {
         return $this->name;
     }
 
-
-
-    //    public function getUploadDir(): object
-    //    {
-    //        return $this->event->getId();
-    //    }
-
-
-    //    public function getDir(): MaterialEventUid
-    //    {
-    //        return $this->dir;
-    //    }
-
-    //    public static function getDirName(): string
-    //    {
-    //        return MaterialEventUid::class;
-    //    }
+    public function isCdn(): bool
+    {
+        return $this->cdn === true;
+    }
 
 }

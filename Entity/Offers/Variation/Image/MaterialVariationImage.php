@@ -176,4 +176,9 @@ class MaterialVariationImage extends EntityEvent implements UploadEntityInterfac
         return $this->ext;
     }
 
+    public function isCdn(): bool
+    {
+        return $this->cdn === true;
+    }
+
 }

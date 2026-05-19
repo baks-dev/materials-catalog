@@ -172,4 +172,9 @@ class MaterialOfferImage extends EntityEvent implements UploadEntityInterface
         $this->root = true;
     }
 
+    public function isCdn(): bool
+    {
+        return $this->cdn === true;
+    }
+
 }
